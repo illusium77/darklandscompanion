@@ -1,5 +1,6 @@
 ﻿using DarklandsBusinessObjects.Save;
 using DarklandsUiCommon.ViewModels;
+using System.Collections.Generic;
 using System.Windows;
 
 namespace DarklandsSaveGameEditor.ViewModels
@@ -15,55 +16,25 @@ namespace DarklandsSaveGameEditor.ViewModels
                 m_saveGame = value;
                 NotifyPropertyChanged();
 
-                CharacterAVm = new CharacterTabViewModel(SaveGame.Party.Characters[0]);
-                CharacterBVm = new CharacterTabViewModel(SaveGame.Party.Characters[1]);
-                CharacterCVm = new CharacterTabViewModel(SaveGame.Party.Characters[2]);
-                CharacterDVm = new CharacterTabViewModel(SaveGame.Party.Characters[3]);
+                var tabs = new List<CharacterTabViewModel>();
+                foreach (var character in SaveGame.Party.Characters)
+                {
+                    tabs.Add(new CharacterTabViewModel(character));
+                }
+
+                CharacterTabVms = tabs;
 
                 NotifyPropertyChanged("Visibility");
             }
         }
 
-        private CharacterTabViewModel m_characterAVm;
-        public CharacterTabViewModel CharacterAVm
+        private IEnumerable<CharacterTabViewModel> m_characterTabVms;
+        public IEnumerable<CharacterTabViewModel> CharacterTabVms
         {
-            get { return m_characterAVm; }
+            get { return m_characterTabVms; }
             set
             {
-                m_characterAVm = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private CharacterTabViewModel m_characterBVm;
-        public CharacterTabViewModel CharacterBVm
-        {
-            get { return m_characterBVm; }
-            set
-            {
-                m_characterBVm = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private CharacterTabViewModel m_characterCVm;
-        public CharacterTabViewModel CharacterCVm
-        {
-            get { return m_characterCVm; }
-            set
-            {
-                m_characterCVm = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private CharacterTabViewModel m_characterDVm;
-        public CharacterTabViewModel CharacterDVm
-        {
-            get { return m_characterDVm; }
-            set
-            {
-                m_characterDVm = value;
+                m_characterTabVms = value;
                 NotifyPropertyChanged();
             }
         }

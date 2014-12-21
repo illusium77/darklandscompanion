@@ -131,8 +131,6 @@ namespace DarklandsCompanion
 
         private void UpdateSaints(IEnumerable<Saint> saints)
         {
-            return;
-
             var party = LiveDataService.ReadParty();
 
             if (saints.Any())

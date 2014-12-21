@@ -8,10 +8,10 @@
              d:DesignHeight="400" d:DesignWidth="500">
     <TabControl Visibility="{Binding Visibility}">
         <views:PartyTab DataContext="{Binding SaveGame.Header}" />
-        
-        <views:CharacterTab DataContext="{Binding CharacterAVm}" />
-        <views:CharacterTab DataContext="{Binding CharacterBVm}" />
-        <views:CharacterTab DataContext="{Binding CharacterCVm}" />
-        <views:CharacterTab DataContext="{Binding CharacterDVm}" />
+
+        <views:CharacterTab DataContext="{Binding CharacterTabVms[0]}" />
+        <views:CharacterTab DataContext="{Binding CharacterTabVms[1]}" />
+        <views:CharacterTab DataContext="{Binding CharacterTabVms[2]}" />
+        <views:CharacterTab DataContext="{Binding CharacterTabVms[3]}" />
     </TabControl>
 </UserControl>
