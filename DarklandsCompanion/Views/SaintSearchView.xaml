@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="DarklandsCompanion.Views.SaintSearchView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <TextBox Grid.Row="0" Text="{Binding Filter, UpdateSourceTrigger=PropertyChanged}" />
+        <TextBox Grid.Row="1" Text="{Binding Result}" AcceptsReturn="True" TextWrapping="Wrap" IsReadOnly="True" />
+    </Grid>
+</UserControl>

@@ -42,7 +42,7 @@ namespace DarklandsServices.Services
             {"alcem2", ScreenType.Alchemist}
         };
 
-        public static void Initialize()
+        public static void Connect()
         {
             if (s_baseAddress == 0)
             {

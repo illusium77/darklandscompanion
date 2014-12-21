@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace DarklandsConsoleApp
@@ -19,7 +20,8 @@ namespace DarklandsConsoleApp
             {"items", DoListItems},
             {"locations", DoListLocations},
             {"readsave", DoReadSave},
-            {"menu", DoListenMenu}
+            {"menu", DoListenMenu},
+            {"regex", DoRegex}
         };
 
         static void Main(string[] args)
@@ -31,6 +33,7 @@ namespace DarklandsConsoleApp
             }
             else
             {
+                StaticDataService.SetDarklandsPath(@"D:\Steam\SteamApps\common\Darklands");
                 s_actions[args.First()](args);
             }
 
@@ -196,8 +199,36 @@ namespace DarklandsConsoleApp
                 }
             };
 
-            LiveDataService.Initialize();
+            LiveDataService.Connect();
         }
+
+
+        private static void DoRegex(string[] args)
+        {
+            //var reg = new Regex(@"([a-zA-Z \&]+)\s?([+-])\((\d\d?)-(\d\d?)\)");
+            //var reg = new Regex(@"(St.[\w\s]+)\[(\d{1,2}v,\s\d{1,2}-\d{1,2}df,\s\d\d%)\]:\s([\w\s\&\(\)]+\s[+|-]\((\d{1,2}-\d{1,2}\))[\.,$])*");
+
+            var stat = "end";
+            var statRegex = new Regex(@"((" + stat + @")\s*\+(?<range>\(\d{1,2}-\d{1,2}\)))", RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture);
+            int i = 0;
+
+            var output = from s in StaticDataService.Saints
+                         let matches = statRegex.Matches(s.Clue)
+                         where matches.Count > 0
+                         select new
+                         {
+                             Name = s.ShortName,
+                             Ranges = string.Join(", ", from match in matches.Cast<Match>()
+                                                        select match.Groups["range"])
+                         };
+
+            foreach (var o in output)
+            {
+                i++;
+                Console.WriteLine(i + ". " + o.Name + ": " + o.Ranges);
+            }
+        }
+
 
         //static void Main(string[] args)
         //{

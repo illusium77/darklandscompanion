@@ -11,10 +11,8 @@
         </Grid.RowDefinitions>
 
         <ToolBarPanel Grid.Row="0" Orientation="Horizontal">
-            <!--<StackPanel>-->
-                <Button Content="Load" Command="{Binding LoadCommand}" />
-                <Button Content="Save" Command="{Binding SaveCommand}" />
-            <!--</StackPanel>-->
+            <Button Content="Load" Command="{Binding LoadCommand}" />
+            <Button Content="Save" Command="{Binding SaveCommand}" />
         </ToolBarPanel>
 
         <views:SaveGameView Grid.Row="2" DataContext="{Binding SaveGameVm}" />

@@ -10,20 +10,29 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="450" />
         </Grid.ColumnDefinitions>
-        
-        <Label Grid.Column="0" Grid.Row="0" Content="Please enter the folder where Darklands has been installed:" />
 
-        <TextBox Grid.Column="0" Grid.Row="1" Text="{Binding SelectedPath, UpdateSourceTrigger=PropertyChanged}"
-                 Margin="0,0,10,0"/>
-        <Button Grid.Column="1" Grid.Row="1" Content="..." Command="{Binding BrowseCommand}" MinWidth="20" />
+        <TextBlock Grid.Row="0" TextWrapping="Wrap" IsEnabled="False"
+                   Text="Darklands Companion needs to locate Darklands installation folder in order to show in game data like saint names and alchemy formulae." />
+        <TextBlock Grid.Row="1" IsEnabled="False" Margin="0,15,0,0" Text="Please enter the folder where Darklands has been installed:" />
 
-        <WrapPanel Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal"
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <TextBox Grid.Column="0" Text="{Binding SelectedPath, UpdateSourceTrigger=PropertyChanged}"  Margin="0,0,10,0" />
+            <Button Grid.Column="1" Content="..." Command="{Binding BrowseCommand}" Width="20" ToolTip="Browse for folder..." />
+        </Grid>
+
+        <WrapPanel Grid.Row="3" Orientation="Horizontal"
                    HorizontalAlignment="Right" Margin="0,15,0,0">
             <Button Content="Cancel" MinWidth="60" IsCancel="True" Margin="0,0,10,0" />
             <Button Content="Ok" MinWidth="60" IsDefault="true" Command="{Binding OkCommand}" />
