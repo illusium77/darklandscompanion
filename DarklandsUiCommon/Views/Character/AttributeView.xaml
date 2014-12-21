@@ -1,0 +1,45 @@
+﻿<Grid x:Class="DarklandsUiCommon.Views.Character.AttributeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+
+    <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="2*" />
+        <ColumnDefinition Width="*"/>
+    </Grid.ColumnDefinitions>
+
+    <Label Grid.Row="0" Grid.Column="0" Content="Endurance" />
+    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Endurance}" />
+
+    <Label Grid.Row="1" Grid.Column="0" Content="Strength" />
+    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Strength}" />
+
+    <Label Grid.Row="2" Grid.Column="0" Content="Agility" />
+    <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Agility}" />
+
+    <Label Grid.Row="3" Grid.Column="0" Content="Perception" />
+    <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Perception}" />
+
+    <Label Grid.Row="4" Grid.Column="0" Content="Intelligence" />
+    <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Intelligence}" />
+
+    <Label Grid.Row="5" Grid.Column="0" Content="Charisma" />
+    <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Charisma}" />
+
+    <Label Grid.Row="6" Grid.Column="0" Content="DivineFavor" />
+    <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding DivineFavor}" />
+
+</Grid>

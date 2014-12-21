@@ -1,0 +1,86 @@
+﻿<Grid x:Class="DarklandsUiCommon.Views.Character.SkillView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+
+    <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="2*" />
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="2*" />
+        <ColumnDefinition Width="*"/>
+    </Grid.ColumnDefinitions>
+
+    <Label Grid.Row="0" Grid.Column="0" Content="Edged Weapon" />
+    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding EdgedWeapon}" />
+
+    <Label Grid.Row="1" Grid.Column="0" Content="Impact Weapon" />
+    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding ImpactWeapon}" />
+
+    <Label Grid.Row="2" Grid.Column="0" Content="Flail Weapon" />
+    <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding FlailWeapon}" />
+
+    <Label Grid.Row="3" Grid.Column="0" Content="Polearms" />
+    <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Polearm}" />
+
+    <Label Grid.Row="4" Grid.Column="0" Content="Thrown" />
+    <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Thrown}" />
+
+    <Label Grid.Row="5" Grid.Column="0" Content="Bow" />
+    <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Bow}" />
+
+    <Label Grid.Row="6" Grid.Column="0" Content="MissileWeapon" />
+    <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding MissileWeapon}" />
+
+    <Label Grid.Row="7" Grid.Column="0" Content="Alchemy" />
+    <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding Alchemy}" />
+
+    <Label Grid.Row="8" Grid.Column="0" Content="Religion" />
+    <TextBox Grid.Row="8" Grid.Column="1" Text="{Binding Religion}" />
+
+    <Label Grid.Row="9" Grid.Column="0" Content="Virtue" />
+    <TextBox Grid.Row="9" Grid.Column="1" Text="{Binding Virtue}" />
+
+
+    <Label Grid.Row="0" Grid.Column="2" Content="Speak Common" />
+    <TextBox Grid.Row="0" Grid.Column="3" Text="{Binding SpeakCommon}" />
+
+    <Label Grid.Row="1" Grid.Column="2" Content="Speak Latin" />
+    <TextBox Grid.Row="1" Grid.Column="3" Text="{Binding SpeakLatin}" />
+
+    <Label Grid.Row="2" Grid.Column="2" Content="Read and Write" />
+    <TextBox Grid.Row="2" Grid.Column="3" Text="{Binding ReadAndWrite}" />
+
+    <Label Grid.Row="3" Grid.Column="2" Content="Healing" />
+    <TextBox Grid.Row="3" Grid.Column="3" Text="{Binding Healing}" />
+
+    <Label Grid.Row="4" Grid.Column="2" Content="Artifice" />
+    <TextBox Grid.Row="4" Grid.Column="3" Text="{Binding Artifice}" />
+
+    <Label Grid.Row="5" Grid.Column="2" Content="Stealth" />
+    <TextBox Grid.Row="5" Grid.Column="3" Text="{Binding Stealth}" />
+
+    <Label Grid.Row="6" Grid.Column="2" Content="Streetwise" />
+    <TextBox Grid.Row="6" Grid.Column="3" Text="{Binding Streetwise}" />
+
+    <Label Grid.Row="7" Grid.Column="2" Content="Riding" />
+    <TextBox Grid.Row="7" Grid.Column="3" Text="{Binding Riding}" />
+
+    <Label Grid.Row="8" Grid.Column="2" Content="Woodwise" />
+    <TextBox Grid.Row="8" Grid.Column="3" Text="{Binding Woodwise}" />
+</Grid>

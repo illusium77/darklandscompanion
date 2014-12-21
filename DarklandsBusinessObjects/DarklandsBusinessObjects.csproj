@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A43D6773-A9EE-4F8F-9CFE-3B2D001A7ED3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DarklandsBusinessObjects</RootNamespace>
+    <AssemblyName>DarklandsBusinessObjects</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Objects\AttributeSet.cs" />
+    <Compile Include="Objects\Bearing.cs" />
+    <Compile Include="Objects\FormulaeBitmask.cs" />
+    <Compile Include="Objects\FormulaQuality.cs" />
+    <Compile Include="Objects\FormulaRiskFactor.cs" />
+    <Compile Include="Objects\Item.cs" />
+    <Compile Include="Objects\ItemList.cs" />
+    <Compile Include="Objects\QuestGiver.cs" />
+    <Compile Include="Objects\SaintBitmask.cs" />
+    <Compile Include="Objects\ScreenType.cs" />
+    <Compile Include="Streaming\ByteStream.cs" />
+    <Compile Include="Streaming\StreamObject.cs" />
+    <Compile Include="Objects\Character.cs" />
+    <Compile Include="Objects\City.cs" />
+    <Compile Include="Objects\CityContent.cs" />
+    <Compile Include="Objects\CityData.cs" />
+    <Compile Include="Objects\CityType.cs" />
+    <Compile Include="Objects\Coordinate.cs" />
+    <Compile Include="Objects\Date.cs" />
+    <Compile Include="Objects\Event.cs" />
+    <Compile Include="Objects\Formula.cs" />
+    <Compile Include="Objects\Ingredient.cs" />
+    <Compile Include="Objects\ItemDefinition.cs" />
+    <Compile Include="Objects\ItemMasks.cs" />
+    <Compile Include="Objects\Location.cs" />
+    <Compile Include="Objects\LocationType.cs" />
+    <Compile Include="Objects\Money.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Objects\Saint.cs" />
+    <Compile Include="Save\SaveEvents.cs" />
+    <Compile Include="Save\SaveGame.cs" />
+    <Compile Include="Save\SaveHeader.cs" />
+    <Compile Include="Save\SaveParty.cs" />
+    <Compile Include="Objects\SkillSet.cs" />
+    <Compile Include="Utils\StringHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

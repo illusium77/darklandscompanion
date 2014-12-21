@@ -1,0 +1,23 @@
+﻿<TabItem x:Class="DarklandsSaveGameEditor.Views.CharacterTab"
+         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+         xmlns:views="clr-namespace:DarklandsUiCommon.Views.Character;assembly=DarklandsUiCommon"
+         mc:Ignorable="d" 
+         d:DesignHeight="300" d:DesignWidth="300"
+         
+         Header="{Binding CharacterVm.Character.ShortName, FallbackValue=None}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <views:CharacterView Grid.Column="0" Grid.Row="0" DataContext="{Binding CharacterVm}" />
+
+    </Grid>
+</TabItem>

@@ -1,0 +1,56 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Windows Desktop
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{EEFF87DF-A317-418F-93BE-0A35053F7F8F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DarklandsCompanion", "DarklandsCompanion\DarklandsCompanion.csproj", "{EFBFC6AA-A122-4154-BE17-439486080188}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DarklandsBusinessObjects", "DarklandsBusinessObjects\DarklandsBusinessObjects.csproj", "{A43D6773-A9EE-4F8F-9CFE-3B2D001A7ED3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DarklandsServices", "DarklandsServices\DarklandsServices.csproj", "{EFE604E0-295F-4EC6-9DA0-01A54EC9DE3F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DarklandsConsoleApp", "DarklandsConsoleApp\DarklandsConsoleApp.csproj", "{470E60B4-59B2-4FA6-B101-0747021D568B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DarklandsSaveGameEditor", "DarklandsSaveGameEditor\DarklandsSaveGameEditor.csproj", "{3A2B369A-88D3-4184-9B2E-702221F606EB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DarklandsUiCommon", "DarklandsUiCommon\DarklandsUiCommon.csproj", "{10074182-97F9-43D0-9379-FB15A44C48C4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EEFF87DF-A317-418F-93BE-0A35053F7F8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEFF87DF-A317-418F-93BE-0A35053F7F8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEFF87DF-A317-418F-93BE-0A35053F7F8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEFF87DF-A317-418F-93BE-0A35053F7F8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFBFC6AA-A122-4154-BE17-439486080188}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFBFC6AA-A122-4154-BE17-439486080188}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFBFC6AA-A122-4154-BE17-439486080188}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFBFC6AA-A122-4154-BE17-439486080188}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A43D6773-A9EE-4F8F-9CFE-3B2D001A7ED3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A43D6773-A9EE-4F8F-9CFE-3B2D001A7ED3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A43D6773-A9EE-4F8F-9CFE-3B2D001A7ED3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A43D6773-A9EE-4F8F-9CFE-3B2D001A7ED3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFE604E0-295F-4EC6-9DA0-01A54EC9DE3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFE604E0-295F-4EC6-9DA0-01A54EC9DE3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFE604E0-295F-4EC6-9DA0-01A54EC9DE3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFE604E0-295F-4EC6-9DA0-01A54EC9DE3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{470E60B4-59B2-4FA6-B101-0747021D568B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{470E60B4-59B2-4FA6-B101-0747021D568B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{470E60B4-59B2-4FA6-B101-0747021D568B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{470E60B4-59B2-4FA6-B101-0747021D568B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A2B369A-88D3-4184-9B2E-702221F606EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A2B369A-88D3-4184-9B2E-702221F606EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A2B369A-88D3-4184-9B2E-702221F606EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A2B369A-88D3-4184-9B2E-702221F606EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10074182-97F9-43D0-9379-FB15A44C48C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10074182-97F9-43D0-9379-FB15A44C48C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10074182-97F9-43D0-9379-FB15A44C48C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10074182-97F9-43D0-9379-FB15A44C48C4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
