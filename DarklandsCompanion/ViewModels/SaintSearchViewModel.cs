@@ -101,7 +101,7 @@ namespace DarklandsCompanion.ViewModels
                 {
                     var party = LiveDataService.ReadParty();
 
-                    sb.AppendLine("Known saints with '" + searchWord + "': ");
+                    sb.AppendLine("Known saints with bonus to '" + searchWord + "': ");
                     sb.AppendLine();
 
                     var groupName = "range";
