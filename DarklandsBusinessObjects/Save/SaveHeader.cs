@@ -2,6 +2,7 @@
 using DarklandsBusinessObjects.Streaming;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -59,6 +60,8 @@ namespace DarklandsBusinessObjects.Save
             }
         }
 
+        // I dont think negative numbers should be possible but lets allow it any away to some extent
+        [Range(-1000, 30000)]
         public int Reputation
         {
             get
@@ -94,6 +97,7 @@ namespace DarklandsBusinessObjects.Save
             }
         }
 
+        [Range(0, 30000)]
         public int PhilosopherStone
         {
             get
@@ -107,6 +111,7 @@ namespace DarklandsBusinessObjects.Save
             }
         }
 
+        [Range(0, 30000)]
         public int BankNotes
         {
             get

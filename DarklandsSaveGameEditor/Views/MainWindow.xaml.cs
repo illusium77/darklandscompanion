@@ -1,4 +1,5 @@
 ﻿using DarklandsSaveGameEditor.ViewModels;
+using DarklandsUiCommon.DataValidation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,11 @@ namespace DarklandsSaveGameEditor.Views
         {
             InitializeComponent();
             DataContext = new MainWindowViewModel();
+
+            Closing += (s, e) =>
+                {
+                    ErrorMonitor.ShutDown();
+                };
         }
     }
 }

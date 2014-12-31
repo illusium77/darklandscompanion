@@ -2,11 +2,21 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" Header="Party">
-    <TabItem.Content>
-        <Grid>
+
+    <AdornerDecorator>
+        <Grid Name="PartyGrid">
+    
+            <Grid.Resources>
+                <ResourceDictionary>
+                    <ResourceDictionary.MergedDictionaries>
+                        <ResourceDictionary Source="pack://application:,,,/DarklandsUiCommon;component/Views/SharedStyles.xaml"/>
+                    </ResourceDictionary.MergedDictionaries>
+                </ResourceDictionary>
+            </Grid.Resources>
+            
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -30,15 +40,15 @@
 
             <Label Grid.Row="2" Grid.Column="0" Content="Location" />
             <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding CurrentLocationName, Mode=OneWay}" IsEnabled="False" />
-            
+
             <Label Grid.Row="3" Grid.Column="0" Content="Global Reputation" />
-            <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Reputation}" />
+            <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Reputation, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" Style="{StaticResource errorTextBox}" />
 
             <Label Grid.Row="4" Grid.Column="0" Content="Philosopher's Stone" />
-            <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding PhilosopherStone}" />
+            <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding PhilosopherStone, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" Style="{StaticResource errorTextBox}" />
 
             <Label Grid.Row="5" Grid.Column="0" Content="Bank Notes" />
-            <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding BankNotes}" ToolTip="In florings" />
+            <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding BankNotes, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" Style="{StaticResource errorTextBox}" ToolTip="In florings" />
 
             <Label Grid.Row="6" Grid.Column="0">
                 <TextBlock>
@@ -47,7 +57,7 @@
                     <Run Text="{Binding Money.Pfenniges, Mode=OneWay}"/>pf)
                 </TextBlock>
             </Label>
-            <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding Money.TotalInPfenniges}" ToolTip="Money in pfenniges" />
+            <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding Money.TotalInPfenniges, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" Style="{StaticResource errorTextBox}" ToolTip="Money in pfenniges" />
         </Grid>
-    </TabItem.Content>
+    </AdornerDecorator>
 </TabItem>

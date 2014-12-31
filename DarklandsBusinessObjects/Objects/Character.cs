@@ -19,15 +19,15 @@ namespace DarklandsBusinessObjects.Objects
         public string FullName { get { return GetString(0x25, 25); } }
         public string ShortName { get { return GetString(0x3e, 11); } }
 
-        public byte EquippedVitalType { get { return this[0x4b]; } }
-        public byte EquippedLegType { get { return this[0x4c]; } }
-        public byte EquippedVitalQuality { get { return this[0x4f]; } }
-        public byte EquippedLegQuality { get { return this[0x50]; } }
-        public byte EquippedWeaponType { get { return this[0x51]; } }
-        public byte EquippedWeaponQuality { get { return this[0x58]; } }
-        public byte EquippedMissileQuality { get { return this[0x5a]; } }
-        public byte EquippedShieldQuality { get { return this[0x5b]; } }
-        public byte EquippedShieldType { get { return this[0x5c]; } }
+        public int EquippedVitalType { get { return this[0x4b]; } }
+        public int EquippedLegType { get { return this[0x4c]; } }
+        public int EquippedVitalQuality { get { return this[0x4f]; } }
+        public int EquippedLegQuality { get { return this[0x50]; } }
+        public int EquippedWeaponType { get { return this[0x51]; } }
+        public int EquippedWeaponQuality { get { return this[0x58]; } }
+        public int EquippedMissileQuality { get { return this[0x5a]; } }
+        public int EquippedShieldQuality { get { return this[0x5b]; } }
+        public int EquippedShieldType { get { return this[0x5c]; } }
         public int NumberOfItems { get { return GetWord(0x7e); } }
 
         private AttributeSet m_currentAttributes;

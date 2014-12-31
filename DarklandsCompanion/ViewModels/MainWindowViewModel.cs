@@ -1,4 +1,5 @@
 ﻿using DarklandsServices.Services;
+using DarklandsUiCommon.AppConfiguration;
 using DarklandsUiCommon.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -44,12 +45,23 @@ namespace DarklandsCompanion.ViewModels
             }
         }
 
+        private bool m_isConnected;
+        public bool IsConnected
+        {
+            get { return m_isConnected; }
+            set
+            {
+                m_isConnected = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         public IEnumerable<string> MissingFiles
         {
             get
             {
                 return StaticDataService.SetDarklandsPath(
-                    ConfigurationManager.AppSettings["darklandsPath"])
+                    AppConfig.ReadSetting<string>(AppConfig.SETTING_DARKLANDS_PATH))
                     ? Enumerable.Empty<string>()
                     : StaticDataService.RequiredFiles;
 
@@ -64,7 +76,7 @@ namespace DarklandsCompanion.ViewModels
 
         public void Start()
         {
-            var path = ConfigurationManager.AppSettings["darklandsPath"];
+            var path = AppConfig.ReadSetting<string>(AppConfig.SETTING_DARKLANDS_PATH);
             if (StaticDataService.SetDarklandsPath(path))
             {
                 LiveDataService.ConnectionMonitor += OnConnected;
@@ -85,6 +97,7 @@ namespace DarklandsCompanion.ViewModels
         {
             Title = "Darklands Companion - " +
                 (isConnected ? "Connected" : "Looking for Darklands process...");
+            IsConnected = isConnected;
 
             if (isConnected && !MessageVm.IsListening)
             {
@@ -95,31 +108,9 @@ namespace DarklandsCompanion.ViewModels
 
         public void SetDarklandPath(string path)
         {
-            AddUpdateAppSettings("darklandsPath", path);
+            AppConfig.AddUpdateAppSettings(
+                AppConfig.SETTING_DARKLANDS_PATH, path);
             Start();
-        }
-
-        private static void AddUpdateAppSettings(string key, string value)
-        {
-            try
-            {
-                var configFile = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-                var settings = configFile.AppSettings.Settings;
-                if (settings[key] == null)
-                {
-                    settings.Add(key, value);
-                }
-                else
-                {
-                    settings[key].Value = value;
-                }
-                configFile.Save(ConfigurationSaveMode.Modified);
-                ConfigurationManager.RefreshSection(configFile.AppSettings.SectionInformation.Name);
-            }
-            catch (ConfigurationErrorsException)
-            {
-                Console.WriteLine("Error writing app settings");
-            }
         }
     }
 }

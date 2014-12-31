@@ -1,4 +1,6 @@
-﻿using System.Windows.Controls;
+﻿using DarklandsUiCommon.DataValidation;
+using System.Linq;
+using System.Windows.Controls;
 
 namespace DarklandsUiCommon.Views.Character
 {
@@ -10,6 +12,11 @@ namespace DarklandsUiCommon.Views.Character
         public SkillView()
         {
             InitializeComponent();
+
+            Loaded += (s, e) =>
+            {
+                ErrorMonitor.Register(this);
+            };
         }
     }
 }

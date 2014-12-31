@@ -267,7 +267,6 @@ namespace DarklandsServices.Services
                     if (accessor.ReadMemory(
                         s_baseAddress + s_knownSaintsOffset + i * SaintBitmask.SAINT_BITMASK_SIZE, bytes))
                     {
-                        var saintIds = SaintBitmask.FromBytes(bytes).SaintIds;
                         saints.Add(SaintBitmask.FromBytes(bytes));
                     }
                 }

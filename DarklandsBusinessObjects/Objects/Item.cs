@@ -14,10 +14,10 @@ namespace DarklandsBusinessObjects.Objects
         public const int ITEM_SIZE = 0x06;
 
         public int Code { get { return GetWord(0x00); } }
-        public byte Type { get { return this[0x02]; } }
-        public byte Quality { get { return this[0x03]; } }
-        public byte Quantity { get { return this[0x04]; } }
-        public byte Weight { get { return this[0x05]; } }
+        public int Type { get { return this[0x02]; } }
+        public int Quality { get { return this[0x03]; } }
+        public int Quantity { get { return this[0x04]; } }
+        public int Weight { get { return this[0x05]; } }
 
         public bool IsEmpty
         {

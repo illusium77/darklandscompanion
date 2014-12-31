@@ -1,6 +1,7 @@
 ﻿using DarklandsBusinessObjects.Streaming;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,7 +37,8 @@ namespace DarklandsBusinessObjects.Objects
 
         public const int SKILL_SET_SIZE = 0x13;
 
-        public byte EdgedWeapon
+        [Range(1, 99)]
+        public int EdgedWeapon
         {
             get { return this[0x00]; }
             set
@@ -46,7 +48,8 @@ namespace DarklandsBusinessObjects.Objects
             }
         }
 
-        public byte ImpactWeapon
+        [Range(1, 99)]
+        public int ImpactWeapon
         {
             get { return this[0x01]; }
             set
@@ -56,7 +59,8 @@ namespace DarklandsBusinessObjects.Objects
             }
         }
 
-        public byte FlailWeapon
+        [Range(1, 99)]
+        public int FlailWeapon
         {
             get { return this[0x02]; }
             set
@@ -66,7 +70,8 @@ namespace DarklandsBusinessObjects.Objects
             }
         }
 
-        public byte Polearm
+        [Range(1, 99)]
+        public int Polearm
         {
             get { return this[0x03]; }
             set
@@ -76,7 +81,8 @@ namespace DarklandsBusinessObjects.Objects
             }
         }
 
-        public byte Thrown
+        [Range(1, 99)]
+        public int Thrown
         {
             get { return this[0x04]; }
             set
@@ -86,7 +92,8 @@ namespace DarklandsBusinessObjects.Objects
             }
         }
 
-        public byte Bow
+        [Range(1, 99)]
+        public int Bow
         {
             get { return this[0x05]; }
             set
@@ -96,7 +103,8 @@ namespace DarklandsBusinessObjects.Objects
             }
         }
 
-        public byte MissileWeapon
+        [Range(1, 99)]
+        public int MissileWeapon
         {
             get { return this[0x06]; }
             set
@@ -106,7 +114,8 @@ namespace DarklandsBusinessObjects.Objects
             }
         }
 
-        public byte Alchemy
+        [Range(1, 99)]
+        public int Alchemy
         {
             get { return this[0x07]; }
             set
@@ -116,7 +125,8 @@ namespace DarklandsBusinessObjects.Objects
             }
         }
 
-        public byte Religion
+        [Range(1, 99)]
+        public int Religion
         {
             get { return this[0x08]; }
             set
@@ -126,7 +136,8 @@ namespace DarklandsBusinessObjects.Objects
             }
         }
 
-        public byte Virtue
+        [Range(1, 99)]
+        public int Virtue
         {
             get { return this[0x09]; }
             set
@@ -136,7 +147,8 @@ namespace DarklandsBusinessObjects.Objects
             }
         }
 
-        public byte SpeakCommon
+        [Range(1, 99)]
+        public int SpeakCommon
         {
             get { return this[0x0a]; }
             set
@@ -146,7 +158,8 @@ namespace DarklandsBusinessObjects.Objects
             }
         }
 
-        public byte SpeakLatin
+        [Range(1, 99)]
+        public int SpeakLatin
         {
             get { return this[0x0b]; }
             set
@@ -156,7 +169,8 @@ namespace DarklandsBusinessObjects.Objects
             }
         }
 
-        public byte ReadAndWrite
+        [Range(1, 99)]
+        public int ReadAndWrite
         {
             get { return this[0x0c]; }
             set
@@ -166,7 +180,8 @@ namespace DarklandsBusinessObjects.Objects
             }
         }
 
-        public byte Healing
+        [Range(1, 99)]
+        public int Healing
         {
             get { return this[0x0d]; }
             set
@@ -176,7 +191,8 @@ namespace DarklandsBusinessObjects.Objects
             }
         }
 
-        public byte Artifice
+        [Range(1, 99)]
+        public int Artifice
         {
             get { return this[0x0e]; }
             set
@@ -186,7 +202,8 @@ namespace DarklandsBusinessObjects.Objects
             }
         }
 
-        public byte Stealth
+        [Range(1, 99)]
+        public int Stealth
         {
             get { return this[0x0f]; }
             set
@@ -196,7 +213,8 @@ namespace DarklandsBusinessObjects.Objects
             }
         }
 
-        public byte Streetwise
+        [Range(1, 99)]
+        public int Streetwise
         {
             get { return this[0x10]; }
             set
@@ -206,7 +224,8 @@ namespace DarklandsBusinessObjects.Objects
             }
         }
 
-        public byte Riding
+        [Range(1, 99)]
+        public int Riding
         {
             get { return this[0x11]; }
             set
@@ -216,7 +235,8 @@ namespace DarklandsBusinessObjects.Objects
             }
         }
 
-        public byte Woodwise
+        [Range(1, 99)]
+        public int Woodwise
         {
             get { return this[0x12]; }
             set

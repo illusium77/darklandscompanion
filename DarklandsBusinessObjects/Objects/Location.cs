@@ -21,26 +21,26 @@ namespace DarklandsBusinessObjects.Objects
         public int UnknownW0a { get { return GetWord(0x0a); } }
         public int Menu { get { return GetWord(0x0c); } }
         public int UnknownW0e { get { return GetWord(0x0e); } }
-        public byte ConstantFfB10 { get { return this[0x10]; } }
-        public byte CitySize { get { return this[0x11]; } }
+        public int ConstantFfB10 { get { return this[0x10]; } }
+        public int CitySize { get { return this[0x11]; } }
         public int LocalReputation { get { return GetWord(0x12); } }
-        public byte UnknownB14 { get { return this[0x14]; } }
-        public byte Constant0B15 { get { return this[0x15]; } }
-        public byte Constant19B16 { get { return this[0x16]; } }
-        public byte Constant19B17 { get { return this[0x17]; } }
-        public byte Constant19B18 { get { return this[0x18]; } }
+        public int UnknownB14 { get { return this[0x14]; } }
+        public int Constant0B15 { get { return this[0x15]; } }
+        public int Constant19B16 { get { return this[0x16]; } }
+        public int Constant19B17 { get { return this[0x17]; } }
+        public int Constant19B18 { get { return this[0x18]; } }
         public int InnCacheIndex { get { return GetWord(0x19); } }
         public int Constant0W1a { get { return GetWord(0x1a); } }
         public int UnknownW1c { get { return GetWord(0x1c); } }
 
-        public byte Constant0B1e { get { return this[0x1e]; } }
-        public byte Constant0B1f { get { return this[0x1f]; } }
-        public byte Constant0B20 { get { return this[0x20]; } }
-        public byte Constant0B21 { get { return this[0x21]; } }
-        public byte Constant0B22 { get { return this[0x22]; } }
-        public byte Constant0B23 { get { return this[0x23]; } }
-        public byte Constant0B24 { get { return this[0x24]; } }
-        public byte Constant0B25 { get { return this[0x25]; } }
+        public int Constant0B1e { get { return this[0x1e]; } }
+        public int Constant0B1f { get { return this[0x1f]; } }
+        public int Constant0B20 { get { return this[0x20]; } }
+        public int Constant0B21 { get { return this[0x21]; } }
+        public int Constant0B22 { get { return this[0x22]; } }
+        public int Constant0B23 { get { return this[0x23]; } }
+        public int Constant0B24 { get { return this[0x24]; } }
+        public int Constant0B25 { get { return this[0x25]; } }
         public string Name { get { return GetString(0x26, NAME_SIZE); } }
 
         private Coordinate m_coordinate;

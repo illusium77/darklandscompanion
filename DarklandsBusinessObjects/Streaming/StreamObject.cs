@@ -7,11 +7,13 @@ using System.Threading.Tasks;
 using DarklandsBusinessObjects.Utils;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Collections;
+using System.ComponentModel.DataAnnotations;
 
 namespace DarklandsBusinessObjects.Streaming
 {
 
-    public abstract class StreamObject : IDisposable, INotifyPropertyChanged
+    public abstract class StreamObject : IDisposable, INotifyPropertyChanged, IDataErrorInfo
     {
         // When spawning sub streams for the contained object, remember to add base offset!
         protected ByteStream DataStream { get; private set; }
@@ -37,7 +39,7 @@ namespace DarklandsBusinessObjects.Streaming
             m_writer = new BinaryWriter(DataStream);
         }
 
-        public byte this[int index]
+        public int this[int index]
         {
             get
             {
@@ -49,16 +51,28 @@ namespace DarklandsBusinessObjects.Streaming
             }
         }
 
-        public byte GetByte(int startIndex)
+        public int GetByte(int startIndex)
         {
             DataStream.Seek(BaseOffset + startIndex);
             return m_reader.ReadByte();
         }
 
-        public void SetByte(int startIndex, byte value)
+        public void SetByte(int startIndex, int value)
         {
             DataStream.Seek(BaseOffset + startIndex);
-            m_writer.Write(value);
+
+            if (value > byte.MaxValue)
+            {
+                m_writer.Write(byte.MaxValue);
+            }
+            else if (value < byte.MinValue)
+            {
+                m_writer.Write(byte.MinValue);
+            }
+            else
+            {
+                m_writer.Write((byte)value);
+            }
         }
 
         public int GetWord(int startIndex)
@@ -70,7 +84,19 @@ namespace DarklandsBusinessObjects.Streaming
         public void SetWord(int startIndex, int value)
         {
             DataStream.Seek(BaseOffset + startIndex);
-            m_writer.Write((short)value);
+
+            if (value > short.MaxValue)
+            {
+                m_writer.Write(short.MaxValue);
+            }
+            else if (value < short.MinValue)
+            {
+                m_writer.Write(short.MinValue);
+            }
+            else
+            {
+                m_writer.Write((short)value);
+            }
         }
 
         public string GetString(int startIndex, int length)
@@ -78,6 +104,13 @@ namespace DarklandsBusinessObjects.Streaming
             DataStream.Seek(BaseOffset + startIndex);
             return StringHelper.ConvertToString(m_reader.ReadBytes(length));
         }
+
+        public override string ToString()
+        {
+            return BitConverter.ToString(DataStream.GetBuffer(), BaseOffset, Length);
+        }
+
+        #region IDisposable
 
         public void Dispose()
         {
@@ -107,6 +140,10 @@ namespace DarklandsBusinessObjects.Streaming
             }
         }
 
+        #endregion
+
+        #region INotifyPropertyChanged
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         // This method is called by the Set accessor of each property. 
@@ -119,5 +156,43 @@ namespace DarklandsBusinessObjects.Streaming
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+
+        #endregion
+
+        #region IDataErrorInfo
+
+        public string Error
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public string this[string propertyName]
+        {
+            get
+            {
+                return ValidateProperty(propertyName);
+            }
+        }
+
+        private string ValidateProperty(string propertyName)
+        {
+            var info = this.GetType().GetProperty(propertyName);
+            var validators = info.GetCustomAttributes(true).OfType<ValidationAttribute>();
+
+            if (!validators.Any())
+            {
+                // property has no data annotation attibutes -> no validation required
+                return string.Empty;
+            }
+
+            var value = info.GetValue(this);
+            var errors = from va in validators
+                         where !va.IsValid(value)
+                         select va.FormatErrorMessage(propertyName);
+
+            return errors.Any() ? string.Join(", ", errors) : string.Empty;
+        }
+
+        #endregion
     }
 }

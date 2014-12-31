@@ -34,20 +34,6 @@ namespace DarklandsBusinessObjects.Save
                 Events = new SaveEvents(m_saveDataStream,
                     0x189 + Party.NumberOfCharacters * SaveParty.SAVE_CHARACTER_SIZE);
             }
-
-
-            //var data = File.ReadAllBytes(fileName);
-
-            //var dataStream = new MemoryStream(File.ReadAllBytes(fileName), true);
-
-            //Header = new SaveHeader(dataStream);
-            //Party = new SaveParty(dataStream);
-            //Events = new SaveEvents(dataStream, Party.EndOffset);
-
-
-            //Header = new SaveHeader(new BinaryReaderWriter(data.Take(HEADER_SIZE)));
-            //Party = new SaveParty(new BinaryReaderWriter(data.Skip(HEADER_SIZE).Take(PARTY_SIZE)));
-            //Events = new SaveEvents(new BinaryReaderWriter(data.Skip(HEADER_SIZE + PARTY_SIZE)));
         }
 
         public void Save(string fileName = null)

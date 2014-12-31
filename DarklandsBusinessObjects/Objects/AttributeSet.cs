@@ -1,6 +1,7 @@
 ﻿using DarklandsBusinessObjects.Streaming;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,7 +25,8 @@ namespace DarklandsBusinessObjects.Objects
 
         public const int ATTRIBUTE_SET_SIZE = 0x07;
 
-        public byte Endurance
+        [Range(1, 99, ErrorMessage="Enter value between 1 and 99.")]
+        public int Endurance
         {
             get { return this[0x00]; }
             set
@@ -34,7 +36,8 @@ namespace DarklandsBusinessObjects.Objects
             }
         }
 
-        public byte Strength
+        [Range(1, 99)]
+        public int Strength
         {
             get { return this[0x01]; }
             set
@@ -44,7 +47,8 @@ namespace DarklandsBusinessObjects.Objects
             }
         }
 
-        public byte Agility
+        [Range(1, 99)]
+        public int Agility
         {
             get { return this[0x02]; }
             set
@@ -54,7 +58,8 @@ namespace DarklandsBusinessObjects.Objects
             }
         }
 
-        public byte Perception
+        [Range(1, 99)]
+        public int Perception
         {
             get { return this[0x03]; }
             set
@@ -64,7 +69,8 @@ namespace DarklandsBusinessObjects.Objects
             }
         }
 
-        public byte Intelligence
+        [Range(1, 99)]
+        public int Intelligence
         {
             get { return this[0x04]; }
             set
@@ -74,13 +80,19 @@ namespace DarklandsBusinessObjects.Objects
             }
         }
 
-        public byte Charisma
+        [Range(1, 99)]
+        public int Charisma
         {
             get { return this[0x05]; }
-            set { this[0x05] = value; }
+            set
+            {
+                this[0x05] = value;
+                NotifyPropertyChanged();
+            }
         }
 
-        public byte DivineFavor
+        [Range(1, 99)]
+        public int DivineFavor
         {
             get { return this[0x06]; }
             set

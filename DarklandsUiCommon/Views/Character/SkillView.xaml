@@ -6,6 +6,14 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 
+    <Grid.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../SharedStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Grid.Resources>
+
     <Grid.RowDefinitions>
         <RowDefinition Height="Auto" />
         <RowDefinition Height="Auto" />
@@ -27,60 +35,60 @@
     </Grid.ColumnDefinitions>
 
     <Label Grid.Row="0" Grid.Column="0" Content="Edged Weapon" />
-    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding EdgedWeapon}" />
+    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding EdgedWeapon, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" Style="{StaticResource errorTextBox}" />
 
     <Label Grid.Row="1" Grid.Column="0" Content="Impact Weapon" />
-    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding ImpactWeapon}" />
+    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding ImpactWeapon, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" Style="{StaticResource errorTextBox}" />
 
     <Label Grid.Row="2" Grid.Column="0" Content="Flail Weapon" />
-    <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding FlailWeapon}" />
+    <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding FlailWeapon, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" Style="{StaticResource errorTextBox}" />
 
     <Label Grid.Row="3" Grid.Column="0" Content="Polearms" />
-    <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Polearm}" />
+    <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Polearm, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" Style="{StaticResource errorTextBox}" />
 
     <Label Grid.Row="4" Grid.Column="0" Content="Thrown" />
-    <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Thrown}" />
+    <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Thrown, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" Style="{StaticResource errorTextBox}" />
 
     <Label Grid.Row="5" Grid.Column="0" Content="Bow" />
-    <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Bow}" />
+    <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Bow, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" Style="{StaticResource errorTextBox}" />
 
     <Label Grid.Row="6" Grid.Column="0" Content="MissileWeapon" />
-    <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding MissileWeapon}" />
+    <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding MissileWeapon, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" Style="{StaticResource errorTextBox}" />
 
     <Label Grid.Row="7" Grid.Column="0" Content="Alchemy" />
-    <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding Alchemy}" />
+    <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding Alchemy, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" Style="{StaticResource errorTextBox}" />
 
     <Label Grid.Row="8" Grid.Column="0" Content="Religion" />
-    <TextBox Grid.Row="8" Grid.Column="1" Text="{Binding Religion}" />
+    <TextBox Grid.Row="8" Grid.Column="1" Text="{Binding Religion, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" Style="{StaticResource errorTextBox}" />
 
     <Label Grid.Row="9" Grid.Column="0" Content="Virtue" />
-    <TextBox Grid.Row="9" Grid.Column="1" Text="{Binding Virtue}" />
+    <TextBox Grid.Row="9" Grid.Column="1" Text="{Binding Virtue, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" Style="{StaticResource errorTextBox}" />
 
 
     <Label Grid.Row="0" Grid.Column="2" Content="Speak Common" />
-    <TextBox Grid.Row="0" Grid.Column="3" Text="{Binding SpeakCommon}" />
+    <TextBox Grid.Row="0" Grid.Column="3" Text="{Binding SpeakCommon, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" Style="{StaticResource errorTextBox}" />
 
     <Label Grid.Row="1" Grid.Column="2" Content="Speak Latin" />
-    <TextBox Grid.Row="1" Grid.Column="3" Text="{Binding SpeakLatin}" />
+    <TextBox Grid.Row="1" Grid.Column="3" Text="{Binding SpeakLatin, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" Style="{StaticResource errorTextBox}" />
 
     <Label Grid.Row="2" Grid.Column="2" Content="Read and Write" />
-    <TextBox Grid.Row="2" Grid.Column="3" Text="{Binding ReadAndWrite}" />
+    <TextBox Grid.Row="2" Grid.Column="3" Text="{Binding ReadAndWrite, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" Style="{StaticResource errorTextBox}" />
 
     <Label Grid.Row="3" Grid.Column="2" Content="Healing" />
-    <TextBox Grid.Row="3" Grid.Column="3" Text="{Binding Healing}" />
+    <TextBox Grid.Row="3" Grid.Column="3" Text="{Binding Healing, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" Style="{StaticResource errorTextBox}" />
 
     <Label Grid.Row="4" Grid.Column="2" Content="Artifice" />
-    <TextBox Grid.Row="4" Grid.Column="3" Text="{Binding Artifice}" />
+    <TextBox Grid.Row="4" Grid.Column="3" Text="{Binding Artifice, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" Style="{StaticResource errorTextBox}" />
 
     <Label Grid.Row="5" Grid.Column="2" Content="Stealth" />
-    <TextBox Grid.Row="5" Grid.Column="3" Text="{Binding Stealth}" />
+    <TextBox Grid.Row="5" Grid.Column="3" Text="{Binding Stealth, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" Style="{StaticResource errorTextBox}" />
 
     <Label Grid.Row="6" Grid.Column="2" Content="Streetwise" />
-    <TextBox Grid.Row="6" Grid.Column="3" Text="{Binding Streetwise}" />
+    <TextBox Grid.Row="6" Grid.Column="3" Text="{Binding Streetwise, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" Style="{StaticResource errorTextBox}" />
 
     <Label Grid.Row="7" Grid.Column="2" Content="Riding" />
-    <TextBox Grid.Row="7" Grid.Column="3" Text="{Binding Riding}" />
+    <TextBox Grid.Row="7" Grid.Column="3" Text="{Binding Riding, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" Style="{StaticResource errorTextBox}" />
 
     <Label Grid.Row="8" Grid.Column="2" Content="Woodwise" />
-    <TextBox Grid.Row="8" Grid.Column="3" Text="{Binding Woodwise}" />
+    <TextBox Grid.Row="8" Grid.Column="3" Text="{Binding Woodwise, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" Style="{StaticResource errorTextBox}" />
 </Grid>

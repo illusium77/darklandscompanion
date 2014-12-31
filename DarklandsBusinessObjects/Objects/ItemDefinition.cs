@@ -23,8 +23,8 @@ namespace DarklandsBusinessObjects.Objects
         public ItemMaskD MaskD { get { return (ItemMaskD) this[0x23]; } }
         public ItemMaskE MaskE { get { return (ItemMaskE) this[0x24]; } }
 
-        public byte Weight { get { return  this[0x25]; } }
-        public byte DefaultQualit { get { return  this[0x26]; } }
+        public int Weight { get { return  this[0x25]; } }
+        public int DefaultQualit { get { return  this[0x26]; } }
         public int UnknownW28 { get { return GetWord(0x28); } }
         public int UnknownW2a { get { return GetWord(0x2a); } }
         public int Value { get { return GetWord(0x2c); } }

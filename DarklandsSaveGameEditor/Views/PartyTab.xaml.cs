@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DarklandsUiCommon.DataValidation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,11 @@ namespace DarklandsSaveGameEditor.Views
         public PartyTab()
         {
             InitializeComponent();
+
+            Loaded += (s, e) =>
+            {
+                ErrorMonitor.Register(PartyGrid);
+            };
         }
     }
 }

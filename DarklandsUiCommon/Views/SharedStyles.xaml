@@ -1,0 +1,34 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style TargetType="{x:Type Button}">
+        <Setter Property="Margin" Value="2"/>
+    </Style>
+
+    <ControlTemplate x:Key="validationTemplate">
+        <DockPanel ToolTip="{Binding [0].ErrorContent}">
+            <Grid DockPanel.Dock="Left" Width="16" Height="16" Margin="0,0,3,0">
+                <Ellipse Width="16" Height="16" Fill="Red"/>
+                <TextBlock Text="!" HorizontalAlignment="Center" Foreground="White" FontWeight="ExtraBold" />
+            </Grid>
+            <Border BorderBrush="Red" BorderThickness="1" CornerRadius="2">
+                <AdornedElementPlaceholder/>
+            </Border>
+        </DockPanel>
+    </ControlTemplate>
+
+    <Style TargetType="TextBox" x:Key="errorTextBox">
+        <Style.Setters>
+            <Setter Property="Validation.ErrorTemplate" Value="{StaticResource validationTemplate}" />
+        </Style.Setters>
+        
+        <Style.Triggers>
+            <Trigger Property="Validation.HasError" Value="true">
+                <Setter Property="ToolTip" Value="{Binding RelativeSource=
+                    {x:Static RelativeSource.Self}, Path=(Validation.Errors)[0].ErrorContent}"/>
+                <Setter Property="BorderBrush" Value="Red" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+</ResourceDictionary>

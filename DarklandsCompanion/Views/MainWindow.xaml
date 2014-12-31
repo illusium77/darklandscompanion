@@ -5,13 +5,18 @@
         xmlns:views="clr-namespace:DarklandsCompanion.Views"
         WindowStyle="ToolWindow"
         Icon="./../Resources/gargoyle2.png">
-    
-    <TabControl>
+
+    <TabControl IsEnabled="{Binding IsConnected}">
         <TabItem Header="Messages">
-            <views:MessageView DataContext="{Binding MessageVm}" />
+            <!--http://karlshifflett.wordpress.com/2008/02/19/wpf-validation-errors-disappear-inside-tabcontrol-when-switching-tabitems/-->
+            <AdornerDecorator>
+                <views:MessageView DataContext="{Binding MessageVm}" />
+            </AdornerDecorator>
         </TabItem>
         <TabItem Header="Saints">
-            <views:SaintSearchView DataContext="{Binding SaintSearchVm}" />
+            <AdornerDecorator>
+                <views:SaintSearchView DataContext="{Binding SaintSearchVm}" />
+            </AdornerDecorator>
         </TabItem>
     </TabControl>
 </Window>

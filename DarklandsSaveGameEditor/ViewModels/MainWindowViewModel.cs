@@ -2,8 +2,12 @@
 using DarklandsUiCommon.Commands;
 using DarklandsUiCommon.ViewModels;
 using Microsoft.Win32;
+using System;
+using System.Linq;
 using System.IO;
 using System.Windows.Input;
+using DarklandsUiCommon.AppConfiguration;
+using DarklandsUiCommon.DataValidation;
 
 namespace DarklandsSaveGameEditor.ViewModels
 {
@@ -33,6 +37,22 @@ namespace DarklandsSaveGameEditor.ViewModels
             }
         }
 
+        public bool MakeBackup
+        {
+            get
+            {
+                return AppConfig.HasSetting(AppConfig.SETTING_BACKUP_SAVEGAME)
+                    ? AppConfig.ReadSetting<bool>(AppConfig.SETTING_BACKUP_SAVEGAME)
+                    : true;
+            }
+            set
+            {
+                AppConfig.AddUpdateAppSettings
+                    (AppConfig.SETTING_BACKUP_SAVEGAME, value.ToString());
+                NotifyPropertyChanged();
+            }
+        }
+
         public ICommand LoadCommand { get; private set; }
         public ICommand SaveCommand { get; private set; }
 
@@ -44,11 +64,17 @@ namespace DarklandsSaveGameEditor.ViewModels
 
             LoadCommand = new UiCommand(OnLoad);
             SaveCommand = new UiCommand(OnSave, CanSave);
+
+            var args = Environment.GetCommandLineArgs();
+            if (args.Length > 1)
+            {
+                LoadSave(args[1]);
+            }
         }
 
         private bool CanSave()
         {
-            return SaveGameVm.SaveGame != null;
+            return SaveGameVm.SaveGame != null && !ErrorMonitor.HasErrors;
         }
 
         private void OnSave()
@@ -56,8 +82,8 @@ namespace DarklandsSaveGameEditor.ViewModels
             foreach (var character in SaveGameVm.SaveGame.Party.Characters)
             {
                 // Copy modified max attributes to current so 
-                // user does not need to rest to gain missing points
-                // hopefully this does not mess things up if character has
+                // user does not need to rest to gain missing points.
+                // Hopefully this does not mess things up if character has
                 // active temporary buffs
                 var current = character.CurrentAttributes;
                 var max = character.MaxAttributes;
@@ -103,9 +129,22 @@ namespace DarklandsSaveGameEditor.ViewModels
 
             if (openFileDialog.ShowDialog() == true)
             {
-                SaveGameVm.SaveGame = new SaveGame(openFileDialog.FileName);
+                LoadSave(openFileDialog.FileName);
+            }
+        }
 
-                Title = DEFAULT_TITLE + " - " + Path.GetFileName(openFileDialog.FileName);
+        private void LoadSave(string fileName)
+        {
+            if (File.Exists(fileName))
+            {
+                SaveGameVm.SaveGame = new SaveGame(fileName);
+                Title = DEFAULT_TITLE + " - " + Path.GetFileName(fileName);
+
+                var backup = (fileName + ".backup").ToUpper();
+                if (MakeBackup && !File.Exists(backup))
+                {
+                    SaveGameVm.SaveGame.Save(backup);
+                }
             }
         }
     }

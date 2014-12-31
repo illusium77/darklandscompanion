@@ -2,6 +2,7 @@
 using DarklandsBusinessObjects.Utils;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -19,7 +20,7 @@ namespace DarklandsBusinessObjects.Objects
             {
                 return GetWord(0x00);
             }
-            set
+            private set
             {
                 SetWord(0x00, value);
                 NotifyPropertyChanged();
@@ -33,7 +34,7 @@ namespace DarklandsBusinessObjects.Objects
             {
                 return GetWord(0x02);
             }
-            set
+            private set
             {
                 SetWord(0x02, value);
                 NotifyPropertyChanged();
@@ -46,13 +47,14 @@ namespace DarklandsBusinessObjects.Objects
             {
                 return GetWord(0x04);
             }
-            set
+            private set
             {
                 SetWord(0x04, value);
                 NotifyPropertyChanged();
             }
         }
 
+        [Range(0, 7000000)]
         public int TotalInPfenniges
         {
             get

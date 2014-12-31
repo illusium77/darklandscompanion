@@ -8,16 +8,19 @@
          d:DesignHeight="300" d:DesignWidth="300"
          
          Header="{Binding CharacterVm.Character.ShortName, FallbackValue=None}">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
+    <AdornerDecorator>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
-        <views:CharacterView Grid.Column="0" Grid.Row="0" DataContext="{Binding CharacterVm}" />
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
 
-    </Grid>
+            <views:CharacterView Grid.Column="0" Grid.Row="0" DataContext="{Binding CharacterVm}" />
+
+        </Grid>
+    </AdornerDecorator>
 </TabItem>

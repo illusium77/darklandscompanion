@@ -26,18 +26,18 @@ namespace DarklandsBusinessObjects.Objects
         public int ConstantW01c { get { return GetWord(0x1c); } }
         public CityContent Content { get { return (CityContent)GetWord(0x1e); } }
         public int ConstantW020 { get { return GetWord(0x20); } }
-        public byte BlacksmithQuality { get { return this[0x22]; } }
-        public byte MerchantQuality { get { return this[0x23]; } }
-        public byte SwordsmithQuality { get { return this[0x24]; } }
-        public byte ArmorerQuality { get { return this[0x25]; } }
-        public byte UnknownQualityB26 { get { return this[0x26]; } }
-        public byte BowyerQuality { get { return this[0x27]; } }
-        public byte TinkerQuality { get { return this[0x28]; } }
-        public byte UnknownQualityB29 { get { return this[0x29]; } }
-        public byte ClothierQuality { get { return this[0x2a]; } }
-        public byte UnknownB2b { get { return this[0x2b]; } }
-        public byte UnknownB2c { get { return this[0x2c]; } }
-        public byte UnknownB2d { get { return this[0x2d]; } }
+        public int BlacksmithQuality { get { return this[0x22]; } }
+        public int MerchantQuality { get { return this[0x23]; } }
+        public int SwordsmithQuality { get { return this[0x24]; } }
+        public int ArmorerQuality { get { return this[0x25]; } }
+        public int UnknownQualityB26 { get { return this[0x26]; } }
+        public int BowyerQuality { get { return this[0x27]; } }
+        public int TinkerQuality { get { return this[0x28]; } }
+        public int UnknownQualityB29 { get { return this[0x29]; } }
+        public int ClothierQuality { get { return this[0x2a]; } }
+        public int UnknownB2b { get { return this[0x2b]; } }
+        public int UnknownB2c { get { return this[0x2c]; } }
+        public int UnknownB2d { get { return this[0x2d]; } }
 
         private Coordinate m_entryCoordinate;
         public Coordinate EntryCoordinate
