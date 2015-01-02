@@ -1,16 +1,11 @@
 ﻿using DarklandsServices.Services;
-using DarklandsUiCommon.AppConfiguration;
 using DarklandsUiCommon.ViewModels;
-using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DarklandsCompanion.ViewModels
 {
-    public class MainWindowViewModel : ViewModelBase
+    public class MainWindowViewModel : ModelBase
     {
         private MessageViewModel m_messageVm;
         public MessageViewModel MessageVm
@@ -56,35 +51,27 @@ namespace DarklandsCompanion.ViewModels
             }
         }
 
-        public IEnumerable<string> MissingFiles
-        {
-            get
-            {
-                return StaticDataService.SetDarklandsPath(
-                    AppConfig.ReadSetting<string>(AppConfig.SETTING_DARKLANDS_PATH))
-                    ? Enumerable.Empty<string>()
-                    : StaticDataService.RequiredFiles;
-
-            }
-        }
-
         public MainWindowViewModel()
         {
             MessageVm = new MessageViewModel();
             SaintSearchVm = new SaintSearchViewModel();
         }
 
-        public void Start()
+        public bool Start()
         {
-            var path = AppConfig.ReadSetting<string>(AppConfig.SETTING_DARKLANDS_PATH);
+            var path = ConfigurationService.GetDarklandsPath(ConfigType.DarklandsCompanion);
             if (StaticDataService.SetDarklandsPath(path))
             {
                 LiveDataService.ConnectionMonitor += OnConnected;
                 LiveDataService.Connect();
+
+                return true;
             }
             else
             {
                 MessageVm.Messages = "Error: Cannot find Darklands from the folder '" + path + "'";
+
+                return false;
             }
         }
 
@@ -106,11 +93,11 @@ namespace DarklandsCompanion.ViewModels
         }
 
 
-        public void SetDarklandPath(string path)
-        {
-            AppConfig.AddUpdateAppSettings(
-                AppConfig.SETTING_DARKLANDS_PATH, path);
-            Start();
-        }
+        //public void SetDarklandPath(string path)
+        //{
+        //    ConfigurationService.AddUpdateAppSettings(
+        //        ConfigType.Global, ConfigurationService.SETTING_DARKLANDS_PATH, path);
+        //    Start();
+        //}
     }
 }

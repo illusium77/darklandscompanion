@@ -10,12 +10,39 @@ namespace DarklandsBusinessObjects.Objects
 {
     public class Formula : StreamObject
     {
+        private static string[] s_formulaTypes = new string[]
+        {
+            "Noxious Aroma",
+            "Eyeburn",
+            "Black Cloud",
+            "Fleadust",
+            "Eater Water",
+            "Breath of Death",
+            "Sunburst",
+            "Thunderbolt",
+            "Arabian Fire",
+            "Stone-tar",
+            "Deadly Blade",
+            "Strongedge",
+            "Greatpower",
+            "Trueflight",
+            "Hardarmor",
+            "Transformation",
+            "Truesight",
+            "New-wind",
+            "Ironarm",
+            "Quickmove",
+            "Essence of Grace",
+            "Firewall"
+        };
+
         public const int FORMULA_SIZE = 0x68;
 
         private const int DESCRIPTION_SIZE = 80;
         private const int NUM_INGREDIENS = 5;
 
-        public FormulaQuality Quality { get { return (FormulaQuality) (Id % 3); } }
+        public FormulaQuality Quality { get { return (FormulaQuality)(Id % 3); } }
+        public string Type { get { return s_formulaTypes[Id / 3]; } }
 
         public int Id { get; private set; }
 
@@ -64,6 +91,7 @@ namespace DarklandsBusinessObjects.Objects
                 + "' '" + Quality
                 + "' '" + ShortName
                 + "' '" + FullName
+                + "' '" + Type
                 + "']";
         }
 

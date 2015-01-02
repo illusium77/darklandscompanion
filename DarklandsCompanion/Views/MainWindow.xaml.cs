@@ -1,4 +1,5 @@
 ﻿using DarklandsCompanion.ViewModels;
+using DarklandsServices.Services;
 using DarklandsUiCommon.Views;
 using System.ComponentModel;
 using System.Linq;
@@ -20,16 +21,18 @@ namespace DarklandsCompanion.Views
                     var model = new MainWindowViewModel();
                     DataContext = model;
 
-                    var missingFiles = model.MissingFiles;
-                    if (missingFiles.Any())
+                    if (!ConfigurationService.HasDarklandsPath(ConfigType.DarklandsCompanion)
+                        && !StaticDataService.SetDarklandsPath(ConfigurationService.GetDarklandsPath(ConfigType.DarklandsCompanion)))
                     {
-                        var dialog = new SelectDarklandFolderWindow();
-                        dialog.Owner = this;
-                        dialog.ViewModel.RequiredFiles = missingFiles;
+                        var dialog = new SelectFolderDialog
+                        {
+                            RequiredFiles = StaticDataService.RequiredFiles,
+                            Owner = this
+                        };
 
                         if (dialog.ShowDialog() == true)
                         {
-                            model.SetDarklandPath(dialog.ViewModel.SelectedPath);
+                            ConfigurationService.SetDarklandsPath(dialog.SelectedPath);
                         }
                         else
                         {
@@ -37,7 +40,10 @@ namespace DarklandsCompanion.Views
                         }
                     }
 
-                    model.Start();
+                    if (!model.Start())
+                    {
+                        Close();
+                    }
                 };
         }
 

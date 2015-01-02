@@ -10,7 +10,7 @@ using System.Windows.Input;
 
 namespace DarklandsUiCommon.ViewModels
 {
-    public class SelectFolderDialogModel : ViewModelBase
+    public class SelectFolderDialogModel : ModelBase
     {
         private Action m_onClose;
 

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DarklandsCompanion.ViewModels
 {
-    public class MessageViewModel : ViewModelBase
+    public class MessageViewModel : ModelBase
     {
         private ScreenType m_currentScreen;
 

@@ -30,6 +30,38 @@ namespace DarklandsBusinessObjects.Objects
         {
         }
 
+        public bool HasSaint(int id)
+        {
+            var maskByte = id / 8;
+            var mask = 0x80 >> (id % 8);
+
+            return (this[maskByte] & mask) == mask;
+        }
+
+        public void LearnSaint(int id)
+        {
+            var maskByte = id / 8;
+            var bitmask = 0x80 >> (id % 8);
+
+            this[maskByte] |= bitmask;
+        }
+
+        public void ForgetSaint(int id)
+        {
+            var maskByte = id / 8;
+            var bitmask = ~(0x80 >> (id % 8));
+
+            this[maskByte] &= bitmask;
+        }
+
+        //public void FlipSaint(int id)
+        //{
+        //    var maskByte = id / 8;
+        //    var bit = 0x80 >> (id % 8);
+
+        //    this[maskByte] ^= bit;
+        //}
+
         public override string ToString()
         {
             return "['#" + SaintIds.Count

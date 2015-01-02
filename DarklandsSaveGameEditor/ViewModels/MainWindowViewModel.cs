@@ -6,12 +6,12 @@ using System;
 using System.Linq;
 using System.IO;
 using System.Windows.Input;
-using DarklandsUiCommon.AppConfiguration;
 using DarklandsUiCommon.DataValidation;
+using DarklandsServices.Services;
 
 namespace DarklandsSaveGameEditor.ViewModels
 {
-    internal class MainWindowViewModel : ViewModelBase
+    internal class MainWindowViewModel : ModelBase
     {
         private const string DEFAULT_TITLE = "Darklands Save Game Editor";
 
@@ -41,14 +41,15 @@ namespace DarklandsSaveGameEditor.ViewModels
         {
             get
             {
-                return AppConfig.HasSetting(AppConfig.SETTING_BACKUP_SAVEGAME)
-                    ? AppConfig.ReadSetting<bool>(AppConfig.SETTING_BACKUP_SAVEGAME)
+                return ConfigurationService.HasSetting(ConfigType.DarklandsSaveGameEditor, ConfigurationService.SETTING_BACKUP_SAVEGAME)
+                    ? ConfigurationService.ReadSetting<bool>(ConfigType.DarklandsSaveGameEditor, ConfigurationService.SETTING_BACKUP_SAVEGAME)
                     : true;
             }
             set
             {
-                AppConfig.AddUpdateAppSettings
-                    (AppConfig.SETTING_BACKUP_SAVEGAME, value.ToString());
+                ConfigurationService.AddUpdateAppSettings(
+                    ConfigType.DarklandsSaveGameEditor, ConfigurationService.SETTING_BACKUP_SAVEGAME, value.ToString());
+
                 NotifyPropertyChanged();
             }
         }

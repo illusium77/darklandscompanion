@@ -1,5 +1,7 @@
 ﻿using DarklandsSaveGameEditor.ViewModels;
+using DarklandsServices.Services;
 using DarklandsUiCommon.DataValidation;
+using DarklandsUiCommon.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,8 +26,37 @@ namespace DarklandsSaveGameEditor.Views
     {
         public MainWindow()
         {
-            InitializeComponent();
-            DataContext = new MainWindowViewModel();
+            Loaded += (s, e) =>
+            {
+                if (!ConfigurationService.HasDarklandsPath(ConfigType.DarklandsSaveGameEditor)
+                    && !StaticDataService.SetDarklandsPath(ConfigurationService.GetDarklandsPath(ConfigType.DarklandsSaveGameEditor)))
+                {
+                    var dialog = new SelectFolderDialog
+                    {
+                        RequiredFiles = StaticDataService.RequiredFiles,
+                        Owner = this
+                    };
+
+                    if (dialog.ShowDialog() == true)
+                    {
+                        ConfigurationService.SetDarklandsPath(dialog.SelectedPath);
+                        if (!StaticDataService.SetDarklandsPath(dialog.SelectedPath))
+                        {
+                            Close();
+                        }
+                    }
+                    else
+                    {
+                        Close();
+                    }
+                }
+
+                StaticDataService.SetDarklandsPath(ConfigurationService.GetDarklandsPath(ConfigType.DarklandsSaveGameEditor));
+
+                var model = new MainWindowViewModel();
+                DataContext = model;
+
+            };
 
             Closing += (s, e) =>
                 {

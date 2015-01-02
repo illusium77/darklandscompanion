@@ -1,4 +1,5 @@
 ﻿using DarklandsBusinessObjects.Objects;
+using DarklandsServices.Services;
 using DarklandsUiCommon.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -8,22 +9,60 @@ using System.Threading.Tasks;
 
 namespace DarklandsSaveGameEditor.ViewModels
 {
-    public class CharacterTabViewModel : ViewModelBase
+    public class CharacterTabViewModel : ModelBase
     {
-        private CharacterViewModel m_characterVm;
-        public CharacterViewModel CharacterVm
+        private Character m_character;
+        public Character Character
         {
-            get { return m_characterVm; }
+            get { return m_character; }
             set
             {
-                m_characterVm = value;
+                m_character = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private StatViewModel m_statVm;
+        public StatViewModel StatVm
+        {
+            get { return m_statVm; }
+            set
+            {
+                m_statVm = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private SaintViewModel m_saintVm;
+        public SaintViewModel SaintVm
+        {
+            get { return m_saintVm; }
+            set
+            {
+                m_saintVm = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private FormulaeViewModel m_formulaeVm;
+        public FormulaeViewModel FormulaeVm
+        {
+            get { return m_formulaeVm; }
+            set
+            {
+                m_formulaeVm = value;
                 NotifyPropertyChanged();
             }
         }
 
         public CharacterTabViewModel(Character character)
         {
-            CharacterVm = new CharacterViewModel(character);
+            Character = character;
+
+            StatVm = new StatViewModel(Character);
+            SaintVm = new SaintViewModel(StaticDataService.Saints, Character.SaintBitmask);
+            FormulaeVm = new FormulaeViewModel(StaticDataService.Formulae, Character.FormulaeBitmask);
         }
+
     }
 }

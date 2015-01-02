@@ -23,16 +23,15 @@ namespace UnitTests.DarklandsBusinessObjectsTests
             Assert.IsTrue(knownSaintFromBytes.Count == 1);
             Assert.IsTrue(knownSaintFromBytes.First() == 159);
 
-            //knownSaintFromBytes = SaintBitmask.FromBytes(new byte[] { 0x00, 0x00, 0x00, 0x12, 0x00, 0x00, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }).Saints;
-            //var knownSaints = (from s in DarklandsService.Saints
-            //                  where s.FullName.ToLower().StartsWith("st.cosmas")
-            //                  || s.FullName.ToLower().StartsWith("st.damian")
-            //                  || s.FullName.ToLower().StartsWith("st.felix")
-            //                  || s.FullName.ToLower().StartsWith("st.polycarp")
-            //                  select s.Id).OrderBy(i => i).ToList();
-
-            //Assert.AreEqual(knownSaintFromBytes.Count, knownSaints.Count);
-            //Assert.IsTrue(knownSaints.SequenceEqual(knownSaintFromBytes));
+            var saints = SaintBitmask.FromBytes(new byte[] { 0x00, 0xFF, 0x00, 0x12, 0x00, 0x00, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
+            saints.ForgetSaint(10);
+            Assert.IsFalse(saints.HasSaint(10));
+            saints.ForgetSaint(10);
+            Assert.IsFalse(saints.HasSaint(10));
+            saints.LearnSaint(10);
+            Assert.IsTrue(saints.HasSaint(10));
+            saints.LearnSaint(10);
+            Assert.IsTrue(saints.HasSaint(10));
         }
     }
 }

@@ -11,6 +11,13 @@ namespace DarklandsBusinessObjects.Objects
     {
         public const int FORMULAE_BITMASK_SIZE = 22;
 
+        private static byte[] QL_MASKS = new byte[]
+        {
+            0x01, // QL25
+            0x02, // QL35
+            0x04, // QL45
+        };
+
         private IList<int> m_formulaeIds;
         public IList<int> FormulaeIds
         {
@@ -30,6 +37,29 @@ namespace DarklandsBusinessObjects.Objects
         {
         }
 
+        public bool HasFormula(int id)
+        {
+            var mask = QL_MASKS[id % 3];
+            return (this[id / 3] & mask) == mask;
+        }
+
+        public void LearnFormula(int id)
+        {
+            var mask = QL_MASKS[id % 3];
+
+            var b = this[id / 3];
+            var a = b | mask;
+
+            this[id / 3] |= mask;
+        }
+
+        public void ForgetFormula(int id)
+        {
+            var mask = ~QL_MASKS[id % 3];
+
+            this[id / 3] &= mask;
+        }
+
         public override string ToString()
         {
             return "['#" + FormulaeIds.Count
@@ -39,24 +69,16 @@ namespace DarklandsBusinessObjects.Objects
         
         private IList<int> FromBitmask()
         {
-            var maskQ25 = 0x01;
-            var maskQ35 = 0x02;
-            var maskQ45 = 0x04;
-
+            // each byte represent one type of formula (noxorious aroma, black cloud), masks will tell which QL recipe is known.
             var formulae = new List<int>();
             for (int i = 0; i < FORMULAE_BITMASK_SIZE; i++)
             {
-                if ((maskQ25 & this[i]) == maskQ25)
+                for (int j = 0; j < QL_MASKS.Length; j++)
                 {
-                    formulae.Add(i * 3);
-                }
-                if ((maskQ35 & this[i]) == maskQ35)
-                {
-                    formulae.Add(i * 3 + 1);
-                }
-                if ((maskQ45 & this[i]) == maskQ45)
-                {
-                    formulae.Add(i * 3 + 2);
+                    if ((QL_MASKS[j] & this[i]) == QL_MASKS[j])
+                    {
+                        formulae.Add(i * 3 + j);
+                    }
                 }
             }
 

@@ -38,7 +38,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -56,7 +55,8 @@
   <ItemGroup>
     <Compile Include="Commands\BaseCommand.cs" />
     <Compile Include="Commands\UiCommand.cs" />
-    <Compile Include="AppConfiguration\AppConfig.cs" />
+    <Compile Include="Models\FormulaModel.cs" />
+    <Compile Include="Models\SaintModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -71,14 +71,22 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="DataValidation\ErrorMonitor.cs" />
-    <Compile Include="ViewModels\CharacterViewModel.cs" />
+    <Compile Include="ViewModels\FormulaeViewModel.cs" />
+    <Compile Include="ViewModels\SaintViewModel.cs" />
+    <Compile Include="ViewModels\StatViewModel.cs" />
     <Compile Include="ViewModels\SelectFolderDialogModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\Character\AttributeView.xaml.cs">
       <DependentUpon>AttributeView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Character\CharacterView.xaml.cs">
-      <DependentUpon>CharacterView.xaml</DependentUpon>
+    <Compile Include="Views\Character\FormulaeView.xaml.cs">
+      <DependentUpon>FormulaeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Character\SaintView.xaml.cs">
+      <DependentUpon>SaintView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Character\StatView.xaml.cs">
+      <DependentUpon>StatView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Character\SkillView.xaml.cs">
       <DependentUpon>SkillView.xaml</DependentUpon>
@@ -108,7 +116,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Character\CharacterView.xaml">
+    <Page Include="Views\Character\FormulaeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Character\SaintView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Character\StatView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

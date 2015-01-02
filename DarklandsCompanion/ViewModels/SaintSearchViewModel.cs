@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 
 namespace DarklandsCompanion.ViewModels
 {
-    public class SaintSearchViewModel : ViewModelBase
+    public class SaintSearchViewModel : ModelBase
     {
         private string DEFAULT_TEXT = "Enter the search term to the field above. Type 'help' to see known search terms.";
 

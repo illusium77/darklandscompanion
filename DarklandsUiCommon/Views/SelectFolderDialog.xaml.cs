@@ -1,16 +1,15 @@
 ﻿using DarklandsUiCommon.ViewModels;
 using System.Windows;
+using System.Collections.Generic;
 
 namespace DarklandsUiCommon.Views
 {
     /// <summary>
     /// Interaction logic for SelectDarklandFolderWindow.xaml
     /// </summary>
-    public partial class SelectDarklandFolderWindow : Window
+    public partial class SelectFolderDialog : Window
     {
-
-
-        public SelectFolderDialogModel ViewModel
+        private SelectFolderDialogModel ViewModel
         {
             get
             {
@@ -18,7 +17,18 @@ namespace DarklandsUiCommon.Views
             }
         }
 
-        public SelectDarklandFolderWindow()
+        public IEnumerable<string> RequiredFiles
+        {
+            get { return ViewModel.RequiredFiles; }
+            set { ViewModel.RequiredFiles = value; }
+        }
+
+        public string SelectedPath
+        {
+            get { return ViewModel.SelectedPath; }
+        }
+
+        public SelectFolderDialog()
         {
             InitializeComponent();
             DataContext = new SelectFolderDialogModel(OnButtonOkClick);

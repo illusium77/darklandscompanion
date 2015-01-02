@@ -1,4 +1,4 @@
-﻿<Window x:Class="DarklandsUiCommon.Views.SelectDarklandFolderWindow"
+﻿<Window x:Class="DarklandsUiCommon.Views.SelectFolderDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Select Darklands Folder"
@@ -19,7 +19,7 @@
         </Grid.ColumnDefinitions>
 
         <TextBlock Grid.Row="0" TextWrapping="Wrap" IsEnabled="False"
-                   Text="Darklands Companion needs to locate Darklands installation folder in order to show in game data like saint names and alchemy formulae." />
+                   Text="Application has to locate Darklands installation folder in order to show in game data like saint names and alchemy formulae." />
         <TextBlock Grid.Row="1" IsEnabled="False" Margin="0,15,0,0" Text="Please enter the folder where Darklands has been installed:" />
 
         <Grid Grid.Row="2">

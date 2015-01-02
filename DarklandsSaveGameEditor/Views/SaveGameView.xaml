@@ -6,6 +6,7 @@
              xmlns:views="clr-namespace:DarklandsSaveGameEditor.Views"
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="500">
+    
     <TabControl Visibility="{Binding Visibility}">
         <views:PartyTab DataContext="{Binding SaveGame.Header}" />
 

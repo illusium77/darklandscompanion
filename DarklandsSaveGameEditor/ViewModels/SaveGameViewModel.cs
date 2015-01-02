@@ -5,7 +5,7 @@ using System.Windows;
 
 namespace DarklandsSaveGameEditor.ViewModels
 {
-    internal class SaveGameViewModel : ViewModelBase
+    internal class SaveGameViewModel : ModelBase
     {
         private SaveGame m_saveGame;
         public SaveGame SaveGame

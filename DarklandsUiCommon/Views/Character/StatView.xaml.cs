@@ -5,9 +5,9 @@ namespace DarklandsUiCommon.Views.Character
     /// <summary>
     /// Interaction logic for CharacterView.xaml
     /// </summary>
-    public partial class CharacterView : UserControl
+    public partial class StatView : UserControl
     {
-        public CharacterView()
+        public StatView()
         {
             InitializeComponent();
         }
