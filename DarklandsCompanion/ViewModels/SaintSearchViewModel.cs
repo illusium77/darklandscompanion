@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using DarklandsServices.Saints;
 
 namespace DarklandsCompanion.ViewModels
 {
@@ -14,34 +15,7 @@ namespace DarklandsCompanion.ViewModels
     {
         private string DEFAULT_TEXT = "Enter the search term to the field above. Type 'help' to see known search terms.";
 
-        private static IReadOnlyDictionary<string, string[]> s_searchTerms = new Dictionary<string, string[]>
-        {
-        { "End", new string[] {"end"}},
-        { "Str", new string[] {"str"}},
-        { "Agl", new string [] {"agi"}},
-        { "Per", new string [] {"per"}},
-        { "Int", new string [] {"int"}},
-        { "Chr", new string [] {"cha"}},
-		{ "wEdg", new string [] {"edg"}},
-        { "wImp", new string [] {"imp"}},
-        { "wFll", new string [] {"fla"}},
-        { "wPol", new string [] {"pol"}},
-        { "wThr", new string [] {"thr"}},
-        { "wBow", new string [] {"bow"}},
-        { "wMsD", new string [] {"mis"}},
-        { "Alch", new string [] {"alc"}},
-        { "Relg", new string [] {"rel"}},
-        { "Virt", new string [] {"vir"}},
-        { "SpkC", new string [] {"speak c", "com"}},
-        { "SpkL", new string [] {"speak l", "lat"}},
-        { "R&W", new string [] {"rea"}},
-        { "Heal", new string [] {"hea"}},
-        { "Artf", new string [] {"art"}},
-        { "Stlh", new string [] {"ste"}},
-        { "StrW", new string [] {"stre"}},
-        { "Ride", new string [] {"rid"}},
-        { "WdWs", new string [] {"woo"}}
-        };
+        private string m_helpText;
 
         private string m_filter;
         public string Filter
@@ -67,9 +41,32 @@ namespace DarklandsCompanion.ViewModels
             }
         }
 
+        private bool m_knownOnly;
+        public bool KnownOnly
+        {
+            get { return m_knownOnly; }
+            set
+            {
+                m_knownOnly = value;
+                UpdateResults();
+                NotifyPropertyChanged();
+            }
+        }
+
         public SaintSearchViewModel()
         {
             Result = DEFAULT_TEXT;
+            KnownOnly = true;
+
+            var helpBuilder = new StringBuilder();
+            helpBuilder.AppendLine("Enter one of the following search terms:");
+
+            foreach (var type in SaintBuffManager.SaintBuffTypes)
+            {
+                helpBuilder.AppendLine(type.SearchWords.Last() + " (" + type.Name + ")" );
+            }
+
+            m_helpText = helpBuilder.ToString();
         }
 
         private void UpdateResults()
@@ -82,57 +79,56 @@ namespace DarklandsCompanion.ViewModels
             }
             else if (Filter.ToLower().StartsWith("help"))
             {
-                sb.AppendLine("Enter one of the following search terms:");
-                sb.AppendLine(string.Join(", ", s_searchTerms.Keys));
+                sb.AppendLine(m_helpText);
             }
             else
             {
-                var filter = Filter.ToLower();
-
-                // maybe the user used correct word directly
-                var searchWord = s_searchTerms.Keys.FirstOrDefault(k => k.ToLower() == filter);
-                if (searchWord == null)
+                var buffFilter = SaintBuffManager.FindFilter(Filter);
+                if (buffFilter == null)
                 {
-                    searchWord = (from term in s_searchTerms
-                                 where term.Value.Any(word => filter.StartsWith(word))
-                                 select term.Key).FirstOrDefault();
+                    return;
                 }
-                if (searchWord != null)
-                {
-                    var party = LiveDataService.ReadParty();
 
-                    sb.AppendLine("Known saints with bonus to '" + searchWord + "': ");
+                var party = LiveDataService.ReadParty();
+
+                IEnumerable<int> knownSaintIds = null;
+                if (KnownOnly)
+                {
+                    knownSaintIds = (from c in party
+                                     select c.SaintBitmask.SaintIds).SelectMany(s => s).Distinct();
+                }
+
+                var matchingSaints = StaticDataService.FilterSaints(buffFilter, knownSaintIds);
+                if (matchingSaints.Any())
+                {
+                    sb.AppendLine("Known saints with bonus to '" + buffFilter.Name + "': ");
                     sb.AppendLine();
 
-                    var groupName = "range";
-                    var statRegex = new Regex(@"((" + searchWord + @")\s*\+(?<" + groupName + @">\(\d{1,2}-\d{1,2}\)))",
-                        RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture);
-
-                    foreach (var character in party)
+                    foreach (var saint in matchingSaints)
                     {
-                        var saints = StaticDataService.FindSaints(character.SaintBitmask.SaintIds);
+                        sb.AppendFormat("{0}: {1}", saint.ShortName, saint.GetBuff(buffFilter.Name));
 
-                        var regexMatches = from s in saints
-                                           let matches = statRegex.Matches(s.Clue)
-                                           where matches.Count > 0
-                                           select new
-                                           {
-                                               Name = s.ShortName,
-                                               Ranges = string.Join(", ", from match in matches.Cast<Match>()
-                                                                          select match.Groups[groupName])
-                                           };
-
-                        if (regexMatches.Any())
+                        var knownBy = from c in party
+                                      where c.SaintBitmask.HasSaint(saint.Id)
+                                      select c.ShortName;
+                        if (knownBy.Any())
                         {
-
-                            sb.AppendLine(character.ShortName + ": " + string.Join(", ", regexMatches.Select(s => s.Name + ": " + s.Ranges)));
-                            sb.AppendLine();
+                            sb.AppendFormat(" ({0})", string.Join(", ", knownBy));
                         }
+
+                        sb.AppendLine();
                     }
+                }
+                else
+                {
+                    sb.AppendLine("No one in the party knows saints with buff to '" + buffFilter.Name + "'.");
                 }
             }
 
-            Result = sb.ToString();
+            if (sb.Length > 0)
+            {
+                Result = sb.ToString();
+            }
         }
     }
 }

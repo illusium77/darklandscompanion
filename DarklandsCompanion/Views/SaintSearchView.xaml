@@ -11,11 +11,15 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
+        <Grid Grid.Row="0" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
 
-        <TextBox Grid.Row="0" Text="{Binding Filter, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBox Grid.Column="0" Text="{Binding Filter, UpdateSourceTrigger=PropertyChanged}" />
+            <CheckBox Grid.Column="1" Content="Known only" IsChecked="{Binding KnownOnly}" VerticalAlignment="Center" />
+        </Grid>
         <TextBox Grid.Row="1" Text="{Binding Result}" AcceptsReturn="True" TextWrapping="Wrap" IsReadOnly="True" />
     </Grid>
 </UserControl>

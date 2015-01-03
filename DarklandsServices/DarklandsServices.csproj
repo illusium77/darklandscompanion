@@ -45,6 +45,9 @@
     <Compile Include="Memory\MemoryMonitorBase.cs" />
     <Compile Include="Memory\MemorySectionMonitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Saints\SaintBuffFilter.cs" />
+    <Compile Include="Saints\SaintBuffManager.cs" />
+    <Compile Include="Saints\SaintClues.cs" />
     <Compile Include="Services\ConfigurationService.cs" />
     <Compile Include="Services\ConfigType.cs" />
     <Compile Include="Services\LiveDataService.cs" />

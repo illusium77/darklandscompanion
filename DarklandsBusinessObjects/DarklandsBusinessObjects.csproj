@@ -49,6 +49,7 @@
     <Compile Include="Objects\ItemList.cs" />
     <Compile Include="Objects\QuestGiver.cs" />
     <Compile Include="Objects\SaintBitmask.cs" />
+    <Compile Include="Objects\SaintBuff.cs" />
     <Compile Include="Objects\ScreenType.cs" />
     <Compile Include="Streaming\ByteStream.cs" />
     <Compile Include="Streaming\StreamObject.cs" />

@@ -21,10 +21,6 @@ namespace DarklandsServices.Services
         private static long s_baseAddress = 0;
 
         private static List<IMemoryWorker> s_memoryWorkers = new List<IMemoryWorker>();
-        //private static BaseAddressResolver s_resolver;
-        //private static MemorySectionMonitor s_saintMonitor;
-        //private static MemorySectionMonitor s_formulaMonitor;
-        //private static MemorySectionMonitor s_screenMonitor;
 
         public static Action<bool> ConnectionMonitor;
 
@@ -36,6 +32,7 @@ namespace DarklandsServices.Services
         private static long s_partyOffset = 0x3BDF5;
         private static long s_currentScreenOffset = 0x40FFB; // alternative: 0x40583
 
+        // incomplete list of known screen ids (current screen shown to player)
         private static IReadOnlyDictionary<string, ScreenType> s_screenMap
             = new Dictionary<string, ScreenType>
         {

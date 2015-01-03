@@ -1,6 +1,7 @@
 ﻿using DarklandsBusinessObjects.Objects;
 using DarklandsBusinessObjects.Streaming;
 using DarklandsBusinessObjects.Utils;
+using DarklandsServices.Saints;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -96,6 +97,17 @@ namespace DarklandsServices.Services
             return (from s in Saints
                     where ids.Contains(s.Id)
                     select s).ToList();
+        }
+
+        public static IEnumerable<Saint> FilterSaints(SaintBuffFilter buffFilter, IEnumerable<int> idFilter)
+        {
+            var saints = idFilter == null ? Saints : from s in Saints
+                                                     where idFilter.Contains(s.Id)
+                                                     select s;
+
+            return from s in saints
+                   where s.HasBuff(buffFilter.Name)
+                   select s;
         }
 
         public static IReadOnlyList<ItemDefinition> ItemDefinitions
@@ -295,8 +307,11 @@ namespace DarklandsServices.Services
                     var desc = StringHelper.ConvertToString(
                         file.ReadBytes(Saint.DESCRIPTION_SIZE));
 
+                    var clue = SaintClues.GetClueById(i);
+                    var buffs = SaintBuffManager.GenerateBuffsFromClue(clue);
+                    
                     s_saints.Add(new Saint(
-                        i, saintLongNames[i], saintShortNames[i], desc));
+                        i, saintLongNames[i], saintShortNames[i], desc, clue, buffs));
                 }
             }
         }
