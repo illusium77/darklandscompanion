@@ -24,6 +24,7 @@ namespace DarklandsServices.Services
         private const long KnownFormulaeOffset = 0x2EB3E;
         private const long KnownSaintsOffset = 0x2EBAC;
         private const long PartyOffset = 0x3BDF5;
+        private const long DateOffset = 0x32280;
         private const long CurrentScreenOffset = 0x40FFB; // alternative: 0x40583
         private const int NumberofCharacters = 4;
 
@@ -201,6 +202,35 @@ namespace DarklandsServices.Services
                 var menu = StringHelper.ConvertToString(bytes);
 
                 callback(menu);
+            });
+        }
+
+        public static void MonitorDate(Action<Date> callback)
+        {
+            CreateAndStartNewMonitor(DateOffset, Date.DateSize, bytes =>
+            {
+                if (bytes == null || bytes.All(b => b == 0))
+                {
+                    return;
+                }
+
+                var date = new Date(new ByteStream(bytes), 0, false);
+                callback(date);
+            });
+        }
+
+        public static void MonitorMemory(long address, int length, Action<byte[]> callback)
+        {
+            var offset = address - _baseAddress;
+
+            CreateAndStartNewMonitor(offset, length, bytes =>
+            {
+                if (bytes == null || bytes.All(b => b == 0))
+                {
+                    return;
+                }
+
+                callback(bytes);
             });
         }
 

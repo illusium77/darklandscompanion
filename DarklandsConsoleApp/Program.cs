@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using DarklandsBusinessObjects.Objects;
 using DarklandsBusinessObjects.Save;
+using DarklandsBusinessObjects.Streaming;
 using DarklandsServices.Services;
 using DarklandsUiCommon.Models;
 
@@ -214,6 +216,19 @@ namespace DarklandsConsoleApp
             }
         }
 
+        private static void DoMonitorMemory(string[] args)
+        {
+            StartLiveDataService(() =>
+            {
+                LiveDataService.MonitorMemory(0x08713B70, Date.DateSize, bytes =>
+                {
+                    var date = new Date(new ByteStream(bytes), 0, false);
+                    Console.WriteLine(date);
+                });
+            });
+            
+        }
+
         private static readonly IReadOnlyDictionary<string, Action<string[]>> Actions = new Dictionary
             <string, Action<string[]>>
         {
@@ -224,7 +239,8 @@ namespace DarklandsConsoleApp
             {"locations", DoListLocations},
             {"readsave", DoReadSave},
             {"menu", DoListenMenu},
-            {"regex", DoRegex}
+            {"regex", DoRegex},
+            {"memory", DoMonitorMemory}
         };
     }
 }

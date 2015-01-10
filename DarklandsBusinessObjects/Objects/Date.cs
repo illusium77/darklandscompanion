@@ -7,7 +7,7 @@ namespace DarklandsBusinessObjects.Objects
     {
         // https://web.archive.org/web/20091112194440/http://wallace.net/darklands/formats/structures.html#structdef-date
 
-        private const int DateSize = 0x08;
+        public const int DateSize = 0x08;
         private readonly bool _isReversed;
 
         public Date(ByteStream dataStream, int offset, bool isReversed)

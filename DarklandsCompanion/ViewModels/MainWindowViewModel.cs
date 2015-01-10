@@ -1,4 +1,5 @@
-﻿using DarklandsServices.Services;
+﻿using DarklandsBusinessObjects.Objects;
+using DarklandsServices.Services;
 using DarklandsUiCommon.ViewModels;
 
 namespace DarklandsCompanion.ViewModels
@@ -85,7 +86,14 @@ namespace DarklandsCompanion.ViewModels
             if (isConnected && !MessageVm.IsListening)
             {
                 MessageVm.Start();
+
+                LiveDataService.MonitorDate(OnDateChanged);
             }
+        }
+
+        private void OnDateChanged(Date date)
+        {
+            Title = string.Format("Darklands Companion - Connected - {0} {1:00}h", date, date.Hour);
         }
     }
 }
