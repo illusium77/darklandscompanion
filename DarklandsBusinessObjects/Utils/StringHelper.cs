@@ -2,17 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace DarklandsBusinessObjects.Utils
 {
     public static class StringHelper
     {
-        public static string ConvertToString(IEnumerable<byte> bytes)
+        public static string ConvertToString(byte[] bytes)
         {
             var trimmed = bytes.TakeWhile(b => b != '\0').ToArray();
 
-            for (int i = 0; i < trimmed.Length; i++)
+            for (var i = 0; i < trimmed.Length; i++)
             {
                 if (trimmed[i] == 0x7b)
                 {
@@ -31,13 +30,13 @@ namespace DarklandsBusinessObjects.Utils
             return Encoding.UTF7.GetString(trimmed).Trim();
         }
 
-        public static string[] GetNullDelimitedStrings(IEnumerable<byte> bytes, int numberOfStrings, ref int startIndex)
+        public static string[] GetNullDelimitedStrings(byte[] bytes, int numberOfStrings, ref int startIndex)
         {
             var strings = new List<string>(numberOfStrings);
 
-            for (int i = 0; i < numberOfStrings; i++)
+            for (var i = 0; i < numberOfStrings; i++)
             {
-                var str = ConvertToString(bytes.Skip(startIndex));
+                var str = ConvertToString(bytes.Skip(startIndex).ToArray());
                 strings.Add(str);
 
                 startIndex += str.Length + 1;
@@ -47,17 +46,19 @@ namespace DarklandsBusinessObjects.Utils
         }
 
         /// <summary>
-        /// Word wraps the given text to fit within the specified width.
+        ///     Word wraps the given text to fit within the specified width.
         /// </summary>
         /// <param name="text">Text to be word wrapped</param>
-        /// <param name="width">Width, in characters, to which the text
-        /// should be word wrapped</param>
+        /// <param name="width">
+        ///     Width, in characters, to which the text
+        ///     should be word wrapped
+        /// </param>
         /// <returns>The modified text</returns>
         public static string WordWrap(string text, int width)
         {
             // Credit http://www.codeproject.com/Articles/51488/Implementing-Word-Wrap-in-C
             int pos, next;
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
 
             // Lucidity check
             if (width < 1)
@@ -67,7 +68,7 @@ namespace DarklandsBusinessObjects.Utils
             for (pos = 0; pos < text.Length; pos = next)
             {
                 // Find end of line
-                int eol = text.IndexOf(Environment.NewLine, pos);
+                var eol = text.IndexOf(Environment.NewLine, pos, StringComparison.Ordinal);
                 if (eol == -1)
                     next = eol = text.Length;
                 else
@@ -78,7 +79,7 @@ namespace DarklandsBusinessObjects.Utils
                 {
                     do
                     {
-                        int len = eol - pos;
+                        var len = eol - pos;
                         if (len > width)
                             len = BreakLine(text, pos, width);
                         sb.Append(text, pos, len);
@@ -96,8 +97,8 @@ namespace DarklandsBusinessObjects.Utils
         }
 
         /// <summary>
-        /// Locates position to break the given line so as to avoid
-        /// breaking words.
+        ///     Locates position to break the given line so as to avoid
+        ///     breaking words.
         /// </summary>
         /// <param name="text">String that contains line of text</param>
         /// <param name="pos">Index where line of text starts</param>
@@ -106,7 +107,7 @@ namespace DarklandsBusinessObjects.Utils
         private static int BreakLine(string text, int pos, int max)
         {
             // Find last whitespace in line
-            int i = max;
+            var i = max;
             while (i >= 0 && !Char.IsWhiteSpace(text[pos + i]))
                 i--;
 

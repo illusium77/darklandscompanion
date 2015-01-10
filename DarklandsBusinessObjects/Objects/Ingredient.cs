@@ -1,31 +1,31 @@
 ﻿using DarklandsBusinessObjects.Streaming;
-using DarklandsBusinessObjects.Utils;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DarklandsBusinessObjects.Objects
 {
-
     public class Ingredient : StreamObject
     {
-        public const int INGREDIENT_SIZE = 4;
-
-        public int Quantity { get { return GetWord(0x00); } }
-        public int ItemCode { get { return GetWord(0x02); } }
+        public const int IngredientSize = 4;
 
         public Ingredient(ByteStream dataStream, int offset)
-            : base(dataStream, offset, INGREDIENT_SIZE)
+            : base(dataStream, offset, IngredientSize)
         {
+        }
+
+        public int Quantity
+        {
+            get { return GetWord(0x00); }
+        }
+
+        public int ItemCode
+        {
+            get { return GetWord(0x02); }
         }
 
         public override string ToString()
         {
             return "[#: " + Quantity
-                + " Code: " + ItemCode
-                + "]";
+                   + " Code: " + ItemCode
+                   + "]";
         }
     }
 

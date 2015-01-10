@@ -1,53 +1,47 @@
-﻿using DarklandsBusinessObjects.Streaming;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DarklandsBusinessObjects.Streaming;
 
 namespace DarklandsBusinessObjects.Objects
 {
     public class ItemList : StreamObject
     {
-        private const int NUMBER_OF_ITEMS = 64;
-        public const int ITEM_LIST_SIZE = NUMBER_OF_ITEMS * Item.ITEM_SIZE;
+        private const int NumberOfItems = 64;
+        private const int ItemListSize = NumberOfItems * Item.ItemSize;
+        private IReadOnlyList<Item> _items;
 
-        private IReadOnlyList<Item> m_items;
+        public ItemList(ByteStream dataStream, int offset)
+            : base(dataStream, offset, ItemListSize)
+        {
+        }
+
         public IReadOnlyList<Item> Items
         {
             get
             {
-                if (m_items == null)
+                if (_items == null)
                 {
                     var items = new List<Item>();
-                    for (int i = 0; i < NUMBER_OF_ITEMS; i++)
+                    for (var i = 0; i < NumberOfItems; i++)
                     {
-                        items.Add(new Item(DataStream, BaseOffset + i * Item.ITEM_SIZE));
+                        items.Add(new Item(DataStream, BaseOffset + i*Item.ItemSize));
                     }
 
-                    m_items = items;
+                    _items = items;
                 }
-                return m_items;
+                return _items;
             }
         }
 
         public int Count
         {
-            get
-            {
-                return Items.Count(i => !i.IsEmpty);
-            }
-        }
-
-        public ItemList(ByteStream dataStream, int offset)
-            : base(dataStream, offset, ITEM_LIST_SIZE)
-        {
+            get { return Items.Count(i => !i.IsEmpty); }
         }
 
         public override string ToString()
         {
             return "['#" + Count
-                + "']";
+                   + "']";
         }
 
         protected override void Dispose(bool disposing)
@@ -56,17 +50,16 @@ namespace DarklandsBusinessObjects.Objects
 
             if (disposing)
             {
-                if (m_items != null)
+                if (_items != null)
                 {
-                    foreach (var item in m_items)
+                    foreach (var item in _items)
                     {
                         item.Dispose();
                     }
 
-                    m_items = null;
+                    _items = null;
                 }
             }
         }
-
     }
 }

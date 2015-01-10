@@ -1,76 +1,97 @@
 ﻿using DarklandsBusinessObjects.Streaming;
-using DarklandsBusinessObjects.Utils;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DarklandsBusinessObjects.Objects
 {
     public class Event : StreamObject
     {
-        public const int EVENT_SIZE = 0x30;
+        public const int EventSize = 0x30;
+        private Date _createDate;
+        private Date _expireDate;
+        private Date _unknownDate;
 
-        public int UnknownW00 { get { return GetWord(0x00); } }
-        public QuestGiver QuestGiver { get { return (QuestGiver)GetWord(0x1a); } }
-        public int DestinationLocationId { get { return GetWord(0x1c); } }
-        public int SourceLocationId { get { return GetWord(0x1e); } } // invalid after RB has been killed, value copied to destinatioId
-        public int UnknownW20 { get { return GetWord(0x20); } }
-        public int UnknownW22 { get { return GetWord(0x22); } }
-        public int UnknownW24 { get { return GetWord(0x24); } }
-        public int UnknownW26 { get { return GetWord(0x26); } }
-        public int UnknownW28 { get { return GetWord(0x28); } }
-        public int UnknownW2a { get { return GetWord(0x2a); } }
-        public int UnknownW2c { get { return GetWord(0x2c); } }
-        public int ItemId { get { return GetWord(0x2e); } }
+        public Event(ByteStream dataStream, int offset)
+            : base(dataStream, offset, EventSize)
+        {
+        }
 
-        private Date m_createDate;
+        public int UnknownW00
+        {
+            get { return GetWord(0x00); }
+        }
+
+        public QuestGiver QuestGiver
+        {
+            get { return (QuestGiver) GetWord(0x1a); }
+        }
+
+        public int DestinationLocationId
+        {
+            get { return GetWord(0x1c); }
+        }
+
+        public int SourceLocationId
+        {
+            get { return GetWord(0x1e); }
+        } // invalid after RB has been killed, value copied to destinatioId
+
+        public int UnknownW20
+        {
+            get { return GetWord(0x20); }
+        }
+
+        public int UnknownW22
+        {
+            get { return GetWord(0x22); }
+        }
+
+        public int UnknownW24
+        {
+            get { return GetWord(0x24); }
+        }
+
+        public int UnknownW26
+        {
+            get { return GetWord(0x26); }
+        }
+
+        public int UnknownW28
+        {
+            get { return GetWord(0x28); }
+        }
+
+        public int UnknownW2A
+        {
+            get { return GetWord(0x2a); }
+        }
+
+        public int UnknownW2C
+        {
+            get { return GetWord(0x2c); }
+        }
+
+        public int ItemId
+        {
+            get { return GetWord(0x2e); }
+        }
+
         public Date CreateDate
         {
-            get
-            {
-                if (m_createDate == null)
-                {
-                    m_createDate = new Date(DataStream, BaseOffset + 0x02, false);
-                }
-
-                return m_createDate;
-            }
+            get { return _createDate ?? (_createDate = new Date(DataStream, BaseOffset + 0x02, false)); }
         }
 
-        private Date m_unknownDate;
         public Date UnknownDate
         {
-            get
-            {
-                if (m_unknownDate == null)
-                {
-                    m_unknownDate = new Date(DataStream, BaseOffset + 0x0a, false);
-                }
-
-                return m_unknownDate;
-            }
+            get { return _unknownDate ?? (_unknownDate = new Date(DataStream, BaseOffset + 0x0a, false)); }
         }
 
-        private Date m_expireDate;
         public Date ExpireDate
         {
-            get
-            {
-                if (m_expireDate == null)
-                {
-                    m_expireDate = new Date(DataStream, BaseOffset + 0x12, false);
-                }
-
-                return m_expireDate;
-            }
+            get { return _expireDate ?? (_expireDate = new Date(DataStream, BaseOffset + 0x12, false)); }
         }
 
         public bool IsQuest
         {
-            get { return QuestGiver != Objects.QuestGiver.NA; }
+            get { return QuestGiver != QuestGiver.Na; }
         }
 
         public bool IsActiveQuest
@@ -93,12 +114,6 @@ namespace DarklandsBusinessObjects.Objects
 
                 return true;
             }
-
-        }
-
-        public Event(ByteStream dataStream, int offset)
-            : base(dataStream, offset, EVENT_SIZE)
-        {
         }
 
         protected override void Dispose(bool disposing)
@@ -107,17 +122,17 @@ namespace DarklandsBusinessObjects.Objects
 
             if (disposing)
             {
-                if (m_createDate != null)
+                if (_createDate != null)
                 {
-                    m_createDate.Dispose();
+                    _createDate.Dispose();
                 }
-                if (m_unknownDate != null)
+                if (_unknownDate != null)
                 {
-                    m_unknownDate.Dispose();
+                    _unknownDate.Dispose();
                 }
-                if (m_expireDate != null)
+                if (_expireDate != null)
                 {
-                    m_expireDate.Dispose();
+                    _expireDate.Dispose();
                 }
             }
         }

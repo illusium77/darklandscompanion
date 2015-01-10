@@ -166,7 +166,7 @@ namespace DarklandsServices.Services
             for (int i = 0; i < FORMULAE_SIZE * CHARACTER_COUNT; i += FORMULAE_SIZE)
             {
                 var name = StringHelper.ConvertToString(
-                    bytes.Skip(i).Take(FORMULAE_SIZE));
+                    bytes.Skip(i).Take(FORMULAE_SIZE).ToArray());
 
                 var formula = StaticDataService.Formulae.FirstOrDefault(f =>
                     f.FullName == name);
@@ -234,9 +234,9 @@ namespace DarklandsServices.Services
             {
                 for (int i = 0; i < numChar; i++)
                 {
-                    var bytes = new byte[FormulaeBitmask.FORMULAE_BITMASK_SIZE];
+                    var bytes = new byte[FormulaeBitmask.FormulaeBitmaskSize];
                     if (accessor.ReadMemory(
-                        s_baseAddress + s_knownFormulaeOffset + i * FormulaeBitmask.FORMULAE_BITMASK_SIZE, bytes))
+                        s_baseAddress + s_knownFormulaeOffset + i * FormulaeBitmask.FormulaeBitmaskSize, bytes))
                     {
                         formulae.Add(FormulaeBitmask.FromBytes(bytes));
                     }
@@ -260,9 +260,9 @@ namespace DarklandsServices.Services
             {
                 for (int i = 0; i < numChar; i++)
                 {
-                    var bytes = new byte[SaintBitmask.SAINT_BITMASK_SIZE];
+                    var bytes = new byte[SaintBitmask.SaintBitmaskSize];
                     if (accessor.ReadMemory(
-                        s_baseAddress + s_knownSaintsOffset + i * SaintBitmask.SAINT_BITMASK_SIZE, bytes))
+                        s_baseAddress + s_knownSaintsOffset + i * SaintBitmask.SaintBitmaskSize, bytes))
                     {
                         saints.Add(SaintBitmask.FromBytes(bytes));
                     }
@@ -290,8 +290,8 @@ namespace DarklandsServices.Services
             {
                 for (int i = 0; i < numChar; i++)
                 {
-                    var bytes = new byte[Character.CHARACTER_SIZE];
-                    if (accessor.ReadMemory(s_baseAddress + s_partyOffset + i * Character.CHARACTER_SIZE, bytes))
+                    var bytes = new byte[Character.CharacterSize];
+                    if (accessor.ReadMemory(s_baseAddress + s_partyOffset + i * Character.CharacterSize, bytes))
                     {
                         var character = new Character(new ByteStream(bytes), 0, i);
                         if (knownFormulae.Count() > i)

@@ -1,29 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DarklandsBusinessObjects.Utils;
-using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Collections;
-using System.ComponentModel.DataAnnotations;
+using DarklandsBusinessObjects.Utils;
 
 namespace DarklandsBusinessObjects.Streaming
 {
-
     public abstract class StreamObject : IDisposable, INotifyPropertyChanged, IDataErrorInfo
     {
-        // When spawning sub streams for the contained object, remember to add base offset!
-        protected ByteStream DataStream { get; private set; }
-        protected int BaseOffset { get; private set; }
-        protected int Length { get; private set; }
+        private BinaryReader _reader;
+        private BinaryWriter _writer;
 
-        private BinaryReader m_reader;
-        private BinaryWriter m_writer;
-
-        public StreamObject(ByteStream dataStream, int offset, int length = 0)
+        protected StreamObject(ByteStream dataStream, int offset, int length = 0)
         {
             // zero length means that length is initially unknown
             if (length != 0 && dataStream.Length < offset + length)
@@ -35,50 +25,49 @@ namespace DarklandsBusinessObjects.Streaming
             BaseOffset = offset;
             Length = length;
 
-            m_reader = new BinaryReader(DataStream);
-            m_writer = new BinaryWriter(DataStream);
+            _reader = new BinaryReader(DataStream);
+            _writer = new BinaryWriter(DataStream);
         }
+
+        // When spawning sub streams for the contained object, remember to add base offset!
+        protected ByteStream DataStream { get; private set; }
+        protected int BaseOffset { get; private set; }
+        protected int Length { get; private set; }
 
         public int this[int index]
         {
-            get
-            {
-                return GetByte(index);
-            }
-            set
-            {
-                SetByte(index, value);
-            }
+            get { return GetByte(index); }
+            set { SetByte(index, value); }
         }
 
-        public int GetByte(int startIndex)
+        private int GetByte(int startIndex)
         {
             DataStream.Seek(BaseOffset + startIndex);
-            return m_reader.ReadByte();
+            return _reader.ReadByte();
         }
 
-        public void SetByte(int startIndex, int value)
+        private void SetByte(int startIndex, int value)
         {
             DataStream.Seek(BaseOffset + startIndex);
 
             if (value > byte.MaxValue)
             {
-                m_writer.Write(byte.MaxValue);
+                _writer.Write(byte.MaxValue);
             }
             else if (value < byte.MinValue)
             {
-                m_writer.Write(byte.MinValue);
+                _writer.Write(byte.MinValue);
             }
             else
             {
-                m_writer.Write((byte)value);
+                _writer.Write((byte) value);
             }
         }
 
         public int GetWord(int startIndex)
         {
             DataStream.Seek(BaseOffset + startIndex);
-            return m_reader.ReadInt16();
+            return _reader.ReadInt16();
         }
 
         public void SetWord(int startIndex, int value)
@@ -87,22 +76,22 @@ namespace DarklandsBusinessObjects.Streaming
 
             if (value > short.MaxValue)
             {
-                m_writer.Write(short.MaxValue);
+                _writer.Write(short.MaxValue);
             }
             else if (value < short.MinValue)
             {
-                m_writer.Write(short.MinValue);
+                _writer.Write(short.MinValue);
             }
             else
             {
-                m_writer.Write((short)value);
+                _writer.Write((short) value);
             }
         }
 
         public string GetString(int startIndex, int length)
         {
             DataStream.Seek(BaseOffset + startIndex);
-            return StringHelper.ConvertToString(m_reader.ReadBytes(length));
+            return StringHelper.ConvertToString(_reader.ReadBytes(length));
         }
 
         public override string ToString()
@@ -122,15 +111,15 @@ namespace DarklandsBusinessObjects.Streaming
         {
             if (disposing)
             {
-                if (m_reader != null)
+                if (_reader != null)
                 {
-                    m_reader.Dispose();
-                    m_reader = null;
+                    _reader.Dispose();
+                    _reader = null;
                 }
-                if (m_writer != null)
+                if (_writer != null)
                 {
-                    m_writer.Dispose();
-                    m_writer = null;
+                    _writer.Dispose();
+                    _writer = null;
                 }
                 if (DataStream != null)
                 {
@@ -168,16 +157,13 @@ namespace DarklandsBusinessObjects.Streaming
 
         public string this[string propertyName]
         {
-            get
-            {
-                return ValidateProperty(propertyName);
-            }
+            get { return ValidateProperty(propertyName); }
         }
 
         private string ValidateProperty(string propertyName)
         {
-            var info = this.GetType().GetProperty(propertyName);
-            var validators = info.GetCustomAttributes(true).OfType<ValidationAttribute>();
+            var info = GetType().GetProperty(propertyName);
+            var validators = info.GetCustomAttributes(true).OfType<ValidationAttribute>().ToList();
 
             if (!validators.Any())
             {
@@ -186,9 +172,9 @@ namespace DarklandsBusinessObjects.Streaming
             }
 
             var value = info.GetValue(this);
-            var errors = from va in validators
-                         where !va.IsValid(value)
-                         select va.FormatErrorMessage(propertyName);
+            var errors = (from va in validators
+                where !va.IsValid(value)
+                select va.FormatErrorMessage(propertyName)).ToList();
 
             return errors.Any() ? string.Join(", ", errors) : string.Empty;
         }

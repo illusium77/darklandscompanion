@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DarklandsBusinessObjects.Objects
+﻿namespace DarklandsBusinessObjects.Objects
 {
     public enum LocationType
     {
@@ -33,34 +27,34 @@ namespace DarklandsBusinessObjects.Objects
         RaubritterRuins = 0x1a
     }
 
-        //Enumeration: location_icon
+    //Enumeration: location_icon
 
-        //Map image for the location.
+    //Map image for the location.
 
-        //Darklands keeps the images and the menu options tied together, so the 'image' for a location is pretty much the indicator of the 'type' of location.
-        //Any unlisted values are displayed as the standard 'castle' style image.
-        //Data Value	Meaning
-        //0x00	city
-        //0x01	castle (lord or evil lord variety)
-        //0x02	castle (Raubritter variety)
-        //0x03	monastery
-        //0x04	(looks like tomb or pagan altar) TODO: Teufelstein is one
-        //0x05	cave (TODO: what kind?)
-        //0x06	mines
-        //0x08	village
-        //0x09	ruins of a village
-        //0x0a	village (more square than 0x08, and unused?)
-        //0x0d	tomb
-        //0x0f	dragon's lair (invisible; cannot interact?)
-        //0x10	spring
-        //0x11	lake
-        //0x12	shrine
-        //0x13	cave (TODO: what kind?)
-        //0x14	pagan altar
-        //0x15	witch sabbat
-        //0x16	Templar castle (has a black top)
-        //0x17	Hockkonig (the Baphomet castle; all gray)
-        //0x18	alpine cave
-        //0x19	lady of the lake (magician/astrologer)
-        //0x1a	ruins of a Raubritter's castle
+    //Darklands keeps the images and the menu options tied together, so the 'image' for a location is pretty much the indicator of the 'type' of location.
+    //Any unlisted values are displayed as the standard 'castle' style image.
+    //Data Value	Meaning
+    //0x00	city
+    //0x01	castle (lord or evil lord variety)
+    //0x02	castle (Raubritter variety)
+    //0x03	monastery
+    //0x04	(looks like tomb or pagan altar) TODO: Teufelstein is one
+    //0x05	cave (TODO: what kind?)
+    //0x06	mines
+    //0x08	village
+    //0x09	ruins of a village
+    //0x0a	village (more square than 0x08, and unused?)
+    //0x0d	tomb
+    //0x0f	dragon's lair (invisible; cannot interact?)
+    //0x10	spring
+    //0x11	lake
+    //0x12	shrine
+    //0x13	cave (TODO: what kind?)
+    //0x14	pagan altar
+    //0x15	witch sabbat
+    //0x16	Templar castle (has a black top)
+    //0x17	Hockkonig (the Baphomet castle; all gray)
+    //0x18	alpine cave
+    //0x19	lady of the lake (magician/astrologer)
+    //0x1a	ruins of a Raubritter's castle
 }

@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DarklandsBusinessObjects.Objects
+﻿namespace DarklandsBusinessObjects.Objects
 {
     public enum Bearing
     {
         E,
-        NE,
+        Ne,
         N,
-        NW,
+        Nw,
         W,
-        SW,
+        Sw,
         S,
-        SE
+        Se
     }
 }

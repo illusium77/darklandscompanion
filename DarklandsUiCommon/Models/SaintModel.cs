@@ -37,7 +37,7 @@ namespace DarklandsUiCommon.Models
         public SaintModel(Saint saint, SaintBitmask bitmask)
         {
             Name = saint.ShortName;
-            Tip = StringHelper.WordWrap(saint.Clue, 70);
+            Tip = StringHelper.WordWrap(saint.Description + Environment.NewLine  + Environment.NewLine + saint.Clue, 70);
 
             m_id = saint.Id;
             m_bitmask = bitmask;

@@ -1,25 +1,20 @@
-﻿using DarklandsBusinessObjects.Streaming;
-using DarklandsBusinessObjects.Utils;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
+using DarklandsBusinessObjects.Streaming;
 
 namespace DarklandsBusinessObjects.Objects
 {
     public class Money : StreamObject
     {
-        public const int MONEY_SIZE = 0x06;
+        private const int MoneySize = 0x06;
+
+        public Money(ByteStream data, int offset)
+            : base(data, offset, MoneySize)
+        {
+        }
 
         public int Florings
         {
-            get
-            {
-                return GetWord(0x00);
-            }
+            get { return GetWord(0x00); }
             private set
             {
                 SetWord(0x00, value);
@@ -27,13 +22,9 @@ namespace DarklandsBusinessObjects.Objects
             }
         }
 
-
         public int Groschen
         {
-            get
-            {
-                return GetWord(0x02);
-            }
+            get { return GetWord(0x02); }
             private set
             {
                 SetWord(0x02, value);
@@ -43,10 +34,7 @@ namespace DarklandsBusinessObjects.Objects
 
         public int Pfenniges
         {
-            get
-            {
-                return GetWord(0x04);
-            }
+            get { return GetWord(0x04); }
             private set
             {
                 SetWord(0x04, value);
@@ -57,15 +45,12 @@ namespace DarklandsBusinessObjects.Objects
         [Range(0, 7000000)]
         public int TotalInPfenniges
         {
-            get
-            {
-                return Florings * 240 + Groschen * 12 + Pfenniges;
-            }
+            get { return Florings*240 + Groschen*12 + Pfenniges; }
             set
             {
-                var fl = value / 240;
-                var gr = (value % 240) / 12;
-                var pf = (value % 240) % 12;
+                var fl = value/240;
+                var gr = (value%240)/12;
+                var pf = (value%240)%12;
 
                 Florings = fl;
                 Groschen = gr;
@@ -73,15 +58,10 @@ namespace DarklandsBusinessObjects.Objects
             }
         }
 
-        public Money(ByteStream data, int offset)
-            : base(data, offset, MONEY_SIZE)
-        {
-        }
-
         public override string ToString()
         {
             return "[" + Florings + "fl " + Groschen + "gr " + Pfenniges + "pf ("
-                + (TotalInPfenniges) + "pf)]";
+                   + (TotalInPfenniges) + "pf)]";
         }
     }
 

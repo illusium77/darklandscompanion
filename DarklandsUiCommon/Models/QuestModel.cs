@@ -123,7 +123,7 @@ namespace DarklandsUiCommon.Models
         {
             switch (m_event.QuestGiver)
             {
-                case QuestGiver.NA:
+                case QuestGiver.Na:
                     return INVALID;
                 case QuestGiver.ForeignTrader:
                     return "Foreign Trader";

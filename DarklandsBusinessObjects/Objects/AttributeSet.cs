@@ -1,10 +1,5 @@
-﻿using DarklandsBusinessObjects.Streaming;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
+using DarklandsBusinessObjects.Streaming;
 
 namespace DarklandsBusinessObjects.Objects
 {
@@ -23,9 +18,14 @@ namespace DarklandsBusinessObjects.Objects
     {
         // https://web.archive.org/web/20091112194440/http://wallace.net/darklands/formats/structures.html#structdef-attribute_set
 
-        public const int ATTRIBUTE_SET_SIZE = 0x07;
+        private const int AttributeSetSize = 0x07;
 
-        [Range(1, 99, ErrorMessage="Enter value between 1 and 99.")]
+        public AttributeSet(ByteStream data, int offset)
+            : base(data, offset, AttributeSetSize)
+        {
+        }
+
+        [Range(1, 99, ErrorMessage = "Enter value between 1 and 99.")]
         public int Endurance
         {
             get { return this[0x00]; }
@@ -101,11 +101,5 @@ namespace DarklandsBusinessObjects.Objects
                 NotifyPropertyChanged();
             }
         }
-
-        public AttributeSet(ByteStream data, int offset)
-            : base(data, offset, ATTRIBUTE_SET_SIZE)
-        {
-        }
     }
-
 }

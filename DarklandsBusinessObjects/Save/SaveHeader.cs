@@ -1,12 +1,6 @@
-﻿using DarklandsBusinessObjects.Objects;
+﻿using System.ComponentModel.DataAnnotations;
+using DarklandsBusinessObjects.Objects;
 using DarklandsBusinessObjects.Streaming;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DarklandsBusinessObjects.Save
 {
@@ -14,60 +8,41 @@ namespace DarklandsBusinessObjects.Save
     {
         // https://web.archive.org/web/20091112110231/http://wallace.net/darklands/formats/dksaveXX.sav.html#offset-0x00
 
-        const int SAVE_HEADER_SIZE = 0x188;
+        private const int SaveHeaderSize = 0x188;
+        private Coordinate _coordinate;
+        private Date _date;
+        private Money _money;
+
+        public SaveHeader(ByteStream data, int offset)
+            : base(data, offset, SaveHeaderSize)
+        {
+        }
 
         public string CurrentLocationName
         {
-            get
-            {
-                return GetString(0, 12);
-            }
+            get { return GetString(0, 12); }
         }
 
         public string Label
         {
-            get
-            {
-                return GetString(0x15, 23);
-            }
+            get { return GetString(0x15, 23); }
         }
 
-        private Date m_date;
         public Date Date
         {
-            get
-            {
-                if (m_date == null)
-                {
-                    m_date = new Date(DataStream, BaseOffset + 0x68, true);
-                }
-
-                return m_date;
-            }
+            get { return _date ?? (_date = new Date(DataStream, BaseOffset + 0x68, true)); }
         }
 
-        private Money m_money;
         public Money Money
         {
-            get
-            {
-                if (m_money == null)
-                {
-                    m_money = new Money(DataStream, BaseOffset + 0x70);
-                }
-
-                return m_money;
-            }
+            get { return _money ?? (_money = new Money(DataStream, BaseOffset + 0x70)); }
         }
 
         // I dont think negative numbers should be possible but lets allow it any away to some extent
         [Range(-1000, 30000)]
         public int Reputation
         {
-            get
-            {
-                return GetWord(0x7a);
-            }
+            get { return GetWord(0x7a); }
             set
             {
                 SetWord(0x7a, value);
@@ -77,33 +52,18 @@ namespace DarklandsBusinessObjects.Save
 
         public int LocationId
         {
-            get
-            {
-                return GetWord(0x7c);
-            }
+            get { return GetWord(0x7c); }
         }
 
-        private Coordinate m_coordinate;
         public Coordinate Coordinate
         {
-            get
-            {
-                if (m_coordinate == null)
-                {
-                    m_coordinate = new Coordinate(DataStream, BaseOffset + 0x7e);
-                }
-
-                return m_coordinate;
-            }
+            get { return _coordinate ?? (_coordinate = new Coordinate(DataStream, BaseOffset + 0x7e)); }
         }
 
         [Range(0, 30000)]
         public int PhilosopherStone
         {
-            get
-            {
-                return GetWord(0x92);
-            }
+            get { return GetWord(0x92); }
             set
             {
                 SetWord(0x92, value);
@@ -114,10 +74,7 @@ namespace DarklandsBusinessObjects.Save
         [Range(0, 30000)]
         public int BankNotes
         {
-            get
-            {
-                return GetWord(0x8c);
-            }
+            get { return GetWord(0x8c); }
             set
             {
                 SetWord(0x8c, value);
@@ -125,22 +82,17 @@ namespace DarklandsBusinessObjects.Save
             }
         }
 
-        public SaveHeader(ByteStream data, int offset)
-            : base(data, offset, SAVE_HEADER_SIZE)
-        {
-        }
-
         public override string ToString()
         {
             return "['" + Date
-                + "' '" + Label
-                + "' '" + CurrentLocationName
-                + "' '" + Coordinate
-                + "' '" + Money
-                + "' Notes: '" + BankNotes
-                + "' PhStone: '" + PhilosopherStone
-                + "' Reputation: '" + Reputation
-                + "']";
+                   + "' '" + Label
+                   + "' '" + CurrentLocationName
+                   + "' '" + Coordinate
+                   + "' '" + Money
+                   + "' Notes: '" + BankNotes
+                   + "' PhStone: '" + PhilosopherStone
+                   + "' Reputation: '" + Reputation
+                   + "']";
         }
     }
 }

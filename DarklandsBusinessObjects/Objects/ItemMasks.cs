@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DarklandsBusinessObjects.Objects
 {
@@ -29,7 +25,7 @@ namespace DarklandsBusinessObjects.Objects
         IsRelic = 1 << 4,
         IsHorse = 1 << 5,
         IsQuestIndoor = 1 << 6,
-        Constant0a = 1 << 7
+        Constant0A = 1 << 7
     }
 
     [Flags]
@@ -38,10 +34,10 @@ namespace DarklandsBusinessObjects.Objects
         IsLockpicks = 1 << 0,
         IsLight = 1 << 1,
         IsArrow = 1 << 2,
-        Constant0b = 1 << 3,
+        Constant0B = 1 << 3,
         IsQuarrel = 1 << 4,
         IsBall = 1 << 5,
-        Constant0c = 1 << 6,
+        Constant0C = 1 << 6,
         IsQuestOutdoor = 1 << 7
     }
 
@@ -49,13 +45,13 @@ namespace DarklandsBusinessObjects.Objects
     public enum ItemMaskD
     {
         IsThrowPotion = 1 << 0,
-        Constant0d = 1 << 1,
+        Constant0D = 1 << 1,
         IsNoMetalArmor = 1 << 2,
         IsMissileWeapon = 1 << 3,
-        Constant0e = 1 << 4,
+        Constant0E = 1 << 4,
         UnknownC = 1 << 5,
         IsMusic = 1 << 6,
-        Constant0f = 1 << 7
+        Constant0F = 1 << 7
     }
 
     [Flags]
@@ -63,11 +59,11 @@ namespace DarklandsBusinessObjects.Objects
     {
         UnknownD = 1 << 0,
         UnknownE = 1 << 1,
-        Constant0g = 1 << 2,
-        Constant0h = 1 << 3,
-        Constant0i = 1 << 4,
-        Constant0j = 1 << 5,
-        Constant0k = 1 << 6,
+        Constant0G = 1 << 2,
+        Constant0H = 1 << 3,
+        Constant0I = 1 << 4,
+        Constant0J = 1 << 5,
+        Constant0K = 1 << 6,
         UnknownF = 1 << 7
     }
 
@@ -78,7 +74,7 @@ namespace DarklandsBusinessObjects.Objects
     //bit 4:	is_flail:	Item is a flail.
     //bit 5:	is_thrown:	Item is a thrown weapon.
     //bit 6:	is_bow:	Item is a bow.
-    //bit 7:	is_metal_armor:	Item is metal armor.
+    //bit 7:	is_etal_armor:	Item is metal armor.
     //bit 8:	is_shield:	Item is a shield.
     //0x21: bitmask[1]
     //bit 1:	unknown	
@@ -109,12 +105,12 @@ namespace DarklandsBusinessObjects.Objects
     //bit 1:	is_throw_potion:	Item is a throwable potion.
     //bit 2:	[constant: 0]	
     //bit 3:	is_nonmetal_armor:	Item is a non-metal armor.
-    //bit 4:	is_missile_weapon:	Item is a missile weapon.
+    //bit 4:	is_issile_weapon:	Item is a missile weapon.
     //bit 5:	[constant: 0]	
     //bit 6:	is_unknown_1: unknown	
     //Set only for: great hammer, maul, military hammer, leather armor, pure gold, manganes, zincblende, antimoni, orpiment, white cinnibar, nikel, pitchblende, zinken, and brimstone.
     //Best guess is "items found in chests in the mines", but it's a wild guess.
-    //bit 7:	is_music:	Item is a musical instrument.
+    //bit 7:	is_usic:	Item is a musical instrument.
     //Harp and flute.
     //bit 8:	[constant: 0]	
     //0x24: bitmask[1]

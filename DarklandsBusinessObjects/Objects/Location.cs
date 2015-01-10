@@ -1,74 +1,165 @@
-﻿using DarklandsBusinessObjects.Streaming;
-using DarklandsBusinessObjects.Utils;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DarklandsBusinessObjects.Streaming;
 
 namespace DarklandsBusinessObjects.Objects
 {
     public class Location : StreamObject
     {
-        public static int LOCATION_SIZE = 0x3a;
-        private static int NAME_SIZE = 20;
+        public const int LocationSize = 0x3a;
+        private const int NameSize = 20;
+        private Coordinate _coordinate;
+
+        public Location(ByteStream dataStream, int offset, int id)
+            : base(dataStream, offset, LocationSize)
+        {
+            Id = id;
+        }
 
         public int Id { get; private set; }
 
-        public LocationType Type { get { return (LocationType)GetWord(0x00); } }
-        public int UnknownW02 { get { return GetWord(0x02); } }
-        public int UnknownW08 { get { return GetWord(0x08); } }
-        public int UnknownW0a { get { return GetWord(0x0a); } }
-        public int Menu { get { return GetWord(0x0c); } }
-        public int UnknownW0e { get { return GetWord(0x0e); } }
-        public int ConstantFfB10 { get { return this[0x10]; } }
-        public int CitySize { get { return this[0x11]; } }
-        public int LocalReputation { get { return GetWord(0x12); } }
-        public int UnknownB14 { get { return this[0x14]; } }
-        public int Constant0B15 { get { return this[0x15]; } }
-        public int Constant19B16 { get { return this[0x16]; } }
-        public int Constant19B17 { get { return this[0x17]; } }
-        public int Constant19B18 { get { return this[0x18]; } }
-        public int InnCacheIndex { get { return GetWord(0x19); } }
-        public int Constant0W1a { get { return GetWord(0x1a); } }
-        public int UnknownW1c { get { return GetWord(0x1c); } }
-
-        public int Constant0B1e { get { return this[0x1e]; } }
-        public int Constant0B1f { get { return this[0x1f]; } }
-        public int Constant0B20 { get { return this[0x20]; } }
-        public int Constant0B21 { get { return this[0x21]; } }
-        public int Constant0B22 { get { return this[0x22]; } }
-        public int Constant0B23 { get { return this[0x23]; } }
-        public int Constant0B24 { get { return this[0x24]; } }
-        public int Constant0B25 { get { return this[0x25]; } }
-        public string Name { get { return GetString(0x26, NAME_SIZE); } }
-
-        private Coordinate m_coordinate;
-        public Coordinate Coordinate
+        public LocationType Type
         {
-            get
-            {
-                if (m_coordinate == null)
-                {
-                    m_coordinate = new Coordinate(DataStream, BaseOffset + 0x04);
-                }
-                return m_coordinate;
-            }
+            get { return (LocationType) GetWord(0x00); }
         }
 
-        public Location(ByteStream dataStream, int offset, int id)
-            : base(dataStream, offset, LOCATION_SIZE)
+        public int UnknownW02
         {
-            Id = id;
+            get { return GetWord(0x02); }
+        }
+
+        public int UnknownW08
+        {
+            get { return GetWord(0x08); }
+        }
+
+        public int UnknownW0A
+        {
+            get { return GetWord(0x0a); }
+        }
+
+        public int Menu
+        {
+            get { return GetWord(0x0c); }
+        }
+
+        public int UnknownW0E
+        {
+            get { return GetWord(0x0e); }
+        }
+
+        public int ConstantFfB10
+        {
+            get { return this[0x10]; }
+        }
+
+        public int CitySize
+        {
+            get { return this[0x11]; }
+        }
+
+        public int LocalReputation
+        {
+            get { return GetWord(0x12); }
+        }
+
+        public int UnknownB14
+        {
+            get { return this[0x14]; }
+        }
+
+        public int Constant0B15
+        {
+            get { return this[0x15]; }
+        }
+
+        public int Constant19B16
+        {
+            get { return this[0x16]; }
+        }
+
+        public int Constant19B17
+        {
+            get { return this[0x17]; }
+        }
+
+        public int Constant19B18
+        {
+            get { return this[0x18]; }
+        }
+
+        public int InnCacheIndex
+        {
+            get { return GetWord(0x19); }
+        }
+
+        public int Constant0W1A
+        {
+            get { return GetWord(0x1a); }
+        }
+
+        public int UnknownW1C
+        {
+            get { return GetWord(0x1c); }
+        }
+
+        public int Constant0B1E
+        {
+            get { return this[0x1e]; }
+        }
+
+        public int Constant0B1F
+        {
+            get { return this[0x1f]; }
+        }
+
+        public int Constant0B20
+        {
+            get { return this[0x20]; }
+        }
+
+        public int Constant0B21
+        {
+            get { return this[0x21]; }
+        }
+
+        public int Constant0B22
+        {
+            get { return this[0x22]; }
+        }
+
+        public int Constant0B23
+        {
+            get { return this[0x23]; }
+        }
+
+        public int Constant0B24
+        {
+            get { return this[0x24]; }
+        }
+
+        public int Constant0B25
+        {
+            get { return this[0x25]; }
+        }
+
+        public string Name
+        {
+            get { return GetString(0x26, NameSize); }
+        }
+
+        public Coordinate Coordinate
+        {
+            get { return _coordinate ?? (_coordinate = new Coordinate(DataStream, BaseOffset + 0x04)); }
         }
 
         public override string ToString()
         {
             return "['0x" + Id.ToString("x")
-                + "' '" + Type
-                + "' '" + Name
-                + "' '" + Coordinate
-                + "']";
+                   + "' '" + Type
+                   + "' '" + Name
+                   + "' '" + Coordinate
+                   + "']";
         }
 
         protected override void Dispose(bool disposing)
@@ -77,9 +168,9 @@ namespace DarklandsBusinessObjects.Objects
 
             if (disposing)
             {
-                if (m_coordinate != null)
+                if (_coordinate != null)
                 {
-                    m_coordinate.Dispose();
+                    _coordinate.Dispose();
                 }
             }
         }
@@ -87,14 +178,13 @@ namespace DarklandsBusinessObjects.Objects
         public string GetDirections(IEnumerable<Location> locations)
         {
             var nearestCity = (from l in locations
-                               where l.Type == LocationType.City
-                               orderby l.Coordinate.DistanceTo(Coordinate)
-                               select l);
+                where l.Type == LocationType.City
+                orderby l.Coordinate.DistanceTo(Coordinate)
+                select l);
 
             var n = nearestCity.First();
 
             return n.Coordinate.BearingTo(Coordinate) + " from " + n.Name;
-
         }
     }
 

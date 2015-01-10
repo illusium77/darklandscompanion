@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 
 namespace DarklandsBusinessObjects.Streaming
 {
@@ -18,6 +13,5 @@ namespace DarklandsBusinessObjects.Streaming
         {
             Seek(startIndex, SeekOrigin.Begin);
         }
-
     }
 }

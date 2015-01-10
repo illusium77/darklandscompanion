@@ -1,10 +1,5 @@
-﻿using DarklandsBusinessObjects.Streaming;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
+using DarklandsBusinessObjects.Streaming;
 
 namespace DarklandsBusinessObjects.Objects
 {
@@ -35,7 +30,12 @@ namespace DarklandsBusinessObjects.Objects
     {
         // https://web.archive.org/web/20091112194440/http://wallace.net/darklands/formats/structures.html#structdef-skill_set
 
-        public const int SKILL_SET_SIZE = 0x13;
+        private const int SkillSetSize = 0x13;
+
+        public SkillSet(ByteStream data, int offset)
+            : base(data, offset, SkillSetSize)
+        {
+        }
 
         [Range(1, 99)]
         public int EdgedWeapon
@@ -245,11 +245,5 @@ namespace DarklandsBusinessObjects.Objects
                 NotifyPropertyChanged();
             }
         }
-
-        public SkillSet(ByteStream data, int offset)
-            : base(data, offset, SKILL_SET_SIZE)
-        {
-        }
     }
-
 }

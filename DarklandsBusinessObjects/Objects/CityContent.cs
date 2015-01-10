@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DarklandsBusinessObjects.Objects
 {
@@ -24,7 +20,7 @@ namespace DarklandsBusinessObjects.Objects
         IsDocks = 1 << 12,
         Unknown3 = 1 << 13,
         IsPawnShop = 1 << 14,
-        IsUniversity = 1 << 15,
+        IsUniversity = 1 << 15
     }
 
     //https://web.archive.org/web/20091111161830/http://wallace.net/darklands/formats/darkland.cty.html#structdef-city_data

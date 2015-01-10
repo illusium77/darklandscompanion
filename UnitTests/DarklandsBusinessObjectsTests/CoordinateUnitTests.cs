@@ -12,7 +12,7 @@ namespace UnitTests.DarklandsBusinessObjectsTests
     {
         private static Coordinate GetCoordinate(short x, short y)
         {
-            var bytes = new List<byte>(Coordinate.COORDINATE_SIZE);
+            var bytes = new List<byte>(Coordinate.CoordinateSize);
             bytes.AddRange(BitConverter.GetBytes(x));
             bytes.AddRange(BitConverter.GetBytes(y));
 
@@ -89,13 +89,13 @@ namespace UnitTests.DarklandsBusinessObjectsTests
             var nw = GetCoordinate(0, 0);
 
             Assert.AreEqual(Bearing.N, o.BearingTo(n));
-            Assert.AreEqual(Bearing.NE, o.BearingTo(ne));
+            Assert.AreEqual(Bearing.Ne, o.BearingTo(ne));
             Assert.AreEqual(Bearing.E, o.BearingTo(e));
-            Assert.AreEqual(Bearing.SE, o.BearingTo(se));
+            Assert.AreEqual(Bearing.Se, o.BearingTo(se));
             Assert.AreEqual(Bearing.S, o.BearingTo(s));
-            Assert.AreEqual(Bearing.SW, o.BearingTo(sw));
+            Assert.AreEqual(Bearing.Sw, o.BearingTo(sw));
             Assert.AreEqual(Bearing.W, o.BearingTo(w));
-            Assert.AreEqual(Bearing.NW, o.BearingTo(nw));
+            Assert.AreEqual(Bearing.Nw, o.BearingTo(nw));
 
         }
     }

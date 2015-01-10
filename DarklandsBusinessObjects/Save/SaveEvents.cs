@@ -1,48 +1,47 @@
-﻿using DarklandsBusinessObjects.Objects;
+﻿using System.Collections.Generic;
+using DarklandsBusinessObjects.Objects;
 using DarklandsBusinessObjects.Streaming;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DarklandsBusinessObjects.Save
 {
     public class SaveEvents : StreamObject
     {
+        private IReadOnlyList<Event> _events;
+        private IReadOnlyList<Location> _locations;
+
+        public SaveEvents(ByteStream data, int offset)
+            : base(data, offset, 0) // size is unknown initially
+        {
+        }
+
         // https://web.archive.org/web/20091112110231/http://wallace.net/darklands/formats/dksaveXX.sav.html#offset-0x189
 
         // TODO: add inn caches etc.
 
         public int NumberOfEvents
         {
-            get
-            {
-                return GetWord(0x00);
-            }
+            get { return GetWord(0x00); }
         }
 
-        private IReadOnlyList<Event> m_events;
         public IReadOnlyList<Event> Events
         {
             get
             {
-                if (m_events == null)
+                if (_events == null)
                 {
                     var count = NumberOfEvents;
                     var events = new List<Event>(count);
 
-                    for (int i = 0; i < count; i++)
+                    for (var i = 0; i < count; i++)
                     {
-                        var offset = 0x02 + i * Event.EVENT_SIZE;
+                        var offset = 0x02 + i*Event.EventSize;
                         events.Add(new Event(DataStream, BaseOffset + offset));
                     }
 
-                    m_events = events;
+                    _events = events;
                 }
 
-                return m_events;
+                return _events;
             }
         }
 
@@ -51,44 +50,38 @@ namespace DarklandsBusinessObjects.Save
             get
             {
                 // 0x02 is for size of number of events word
-                return GetWord(0x02 + NumberOfEvents * Event.EVENT_SIZE);
+                return GetWord(0x02 + NumberOfEvents*Event.EventSize);
             }
         }
 
-        private IReadOnlyList<Location> m_locations;
         public IReadOnlyList<Location> Locations
         {
             get
             {
-                if (m_locations == null)
+                if (_locations == null)
                 {
                     var count = NumberOfLocations;
                     // four bytes for sizes of event- and location numbers (two bytes each)
-                    var startOffset = 0x04 + NumberOfEvents * Event.EVENT_SIZE;
+                    var startOffset = 0x04 + NumberOfEvents*Event.EventSize;
 
                     var locations = new List<Location>(count);
-                    for (int i = 0; i < count; i++)
+                    for (var i = 0; i < count; i++)
                     {
-                        locations.Add(new Location(DataStream, 
-                            BaseOffset + startOffset + i * Location.LOCATION_SIZE, i));
+                        locations.Add(new Location(DataStream,
+                            BaseOffset + startOffset + i*Location.LocationSize, i));
                     }
 
-                    m_locations = locations;
+                    _locations = locations;
                 }
 
-                return m_locations;
+                return _locations;
             }
-        }
-
-        public SaveEvents(ByteStream data, int offset)
-            : base(data, offset, 0) // size is unknown initially
-        {
         }
 
         public override string ToString()
         {
             return "['" + NumberOfEvents
-                + "']";
+                   + "']";
         }
     }
 }

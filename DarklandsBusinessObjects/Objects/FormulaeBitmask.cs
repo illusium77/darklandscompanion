@@ -1,83 +1,69 @@
-﻿using DarklandsBusinessObjects.Streaming;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DarklandsBusinessObjects.Streaming;
 
 namespace DarklandsBusinessObjects.Objects
 {
     public class FormulaeBitmask : StreamObject
     {
-        public const int FORMULAE_BITMASK_SIZE = 22;
+        public const int FormulaeBitmaskSize = 22;
 
-        private static byte[] QL_MASKS = new byte[]
+        private static readonly byte[] QlMasks =
         {
             0x01, // QL25
             0x02, // QL35
-            0x04, // QL45
+            0x04 // QL45
         };
 
-        private IList<int> m_formulaeIds;
-        public IList<int> FormulaeIds
-        {
-            get
-            {
-                if (m_formulaeIds == null)
-                {
-                    m_formulaeIds = FromBitmask();
-
-                }
-                return m_formulaeIds;
-            }
-        }
+        private IList<int> _formulaeIds;
 
         public FormulaeBitmask(ByteStream dataStream, int offset)
-            : base(dataStream, offset, FORMULAE_BITMASK_SIZE)
+            : base(dataStream, offset, FormulaeBitmaskSize)
         {
+        }
+
+        public IList<int> FormulaeIds
+        {
+            get { return _formulaeIds ?? (_formulaeIds = FromBitmask()); }
         }
 
         public bool HasFormula(int id)
         {
-            var mask = QL_MASKS[id % 3];
-            return (this[id / 3] & mask) == mask;
+            var mask = QlMasks[id%3];
+            return (this[id/3] & mask) == mask;
         }
 
         public void LearnFormula(int id)
         {
-            var mask = QL_MASKS[id % 3];
-
-            var b = this[id / 3];
-            var a = b | mask;
-
-            this[id / 3] |= mask;
+            var mask = QlMasks[id%3];
+            this[id/3] |= mask;
         }
 
         public void ForgetFormula(int id)
         {
-            var mask = ~QL_MASKS[id % 3];
+            var mask = ~QlMasks[id%3];
 
-            this[id / 3] &= mask;
+            this[id/3] &= mask;
         }
 
         public override string ToString()
         {
             return "['#" + FormulaeIds.Count
-                +  "' '" + string.Join(", ", FormulaeIds)
-                + "']";
+                   + "' '" + string.Join(", ", FormulaeIds)
+                   + "']";
         }
-        
+
         private IList<int> FromBitmask()
         {
             // each byte represent one type of formula (noxorious aroma, black cloud), masks will tell which QL recipe is known.
             var formulae = new List<int>();
-            for (int i = 0; i < FORMULAE_BITMASK_SIZE; i++)
+            for (var i = 0; i < FormulaeBitmaskSize; i++)
             {
-                for (int j = 0; j < QL_MASKS.Length; j++)
+                for (var j = 0; j < QlMasks.Length; j++)
                 {
-                    if ((QL_MASKS[j] & this[i]) == QL_MASKS[j])
+                    if ((QlMasks[j] & this[i]) == QlMasks[j])
                     {
-                        formulae.Add(i * 3 + j);
+                        formulae.Add(i*3 + j);
                     }
                 }
             }
@@ -87,9 +73,9 @@ namespace DarklandsBusinessObjects.Objects
 
         public static FormulaeBitmask FromBytes(byte[] bytes, int offset = 0)
         {
-            if (bytes == null || bytes.Length - offset < FORMULAE_BITMASK_SIZE)
+            if (bytes == null || bytes.Length - offset < FormulaeBitmaskSize)
             {
-                throw new ArgumentException("Invalid bitmask", "bitmask");
+                throw new ArgumentException("Invalid bitmask", "bytes");
             }
 
             return new FormulaeBitmask(new ByteStream(bytes), offset);

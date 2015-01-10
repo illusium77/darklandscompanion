@@ -1,11 +1,5 @@
-﻿using DarklandsBusinessObjects.Streaming;
-using DarklandsBusinessObjects.Utils;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
+using DarklandsBusinessObjects.Streaming;
 
 namespace DarklandsBusinessObjects.Objects
 {
@@ -13,29 +7,34 @@ namespace DarklandsBusinessObjects.Objects
     {
         // https://web.archive.org/web/20091112194440/http://wallace.net/darklands/formats/structures.html#structdef-date
 
-        public const int DATE_SIZE = 0x08;
+        private const int DateSize = 0x08;
+        private readonly bool _isReversed;
 
-        private bool m_isReversed;
+        public Date(ByteStream dataStream, int offset, bool isReversed)
+            : base(dataStream, offset, DateSize)
+        {
+            _isReversed = isReversed;
+        }
 
         public int Year
         {
-            get { return m_isReversed ? GetWord(0x00) : GetWord(0x06); }
+            get { return _isReversed ? GetWord(0x00) : GetWord(0x06); }
         }
 
         // Zero based
         public int Month
         {
-            get { return m_isReversed ? GetWord(0x02) + 1 : GetWord(0x04) + 1; }
+            get { return _isReversed ? GetWord(0x02) + 1 : GetWord(0x04) + 1; }
         }
 
         public int Day
         {
-            get { return m_isReversed ? GetWord(0x04) : GetWord(0x02); }
+            get { return _isReversed ? GetWord(0x04) : GetWord(0x02); }
         }
 
         public int Hour
         {
-            get { return m_isReversed ? GetWord(0x06) : GetWord(0x00); }
+            get { return _isReversed ? GetWord(0x06) : GetWord(0x00); }
         }
 
         // quests etc. maybe have infinite date (1499/13/31) when there
@@ -47,26 +46,20 @@ namespace DarklandsBusinessObjects.Objects
 
         public int DayDifference(Date other)
         {
-            var dateA = new DateTime(this.Year, this.Month, this.Day);
+            var dateA = new DateTime(Year, Month, Day);
             var dateB = new DateTime(other.Year, other.Month, other.Day);
 
             return dateA < dateB
-                ? (dateB - dateA).Days 
+                ? (dateB - dateA).Days
                 : (dateA - dateB).Days;
         }
 
         public int MonthDifference(Date other)
         {
-            var dateA = new DateTime(this.Year, this.Month, this.Day);
+            var dateA = new DateTime(Year, Month, Day);
             var dateB = new DateTime(other.Year, other.Month, other.Day);
 
-            return Math.Abs((dateA.Month - dateB.Month) + 12 * (dateA.Year - dateB.Year));
-        }
-
-        public Date(ByteStream dataStream, int offset, bool isReversed)
-            : base(dataStream, offset, DATE_SIZE)
-        {
-            m_isReversed = isReversed;
+            return Math.Abs((dateA.Month - dateB.Month) + 12*(dateA.Year - dateB.Year));
         }
 
         public override string ToString()
@@ -86,7 +79,7 @@ namespace DarklandsBusinessObjects.Objects
 
             // If parameter cannot be cast to type return false.
             var t = obj as Date;
-            if ((Object)t == null)
+            if ((Object) t == null)
             {
                 return false;
             }
@@ -98,9 +91,9 @@ namespace DarklandsBusinessObjects.Objects
         public static bool operator ==(Date lhs, Date rhs)
         {
             // Check for null on left side. 
-            if (Object.ReferenceEquals(lhs, null))
+            if (ReferenceEquals(lhs, null))
             {
-                if (Object.ReferenceEquals(rhs, null))
+                if (ReferenceEquals(rhs, null))
                 {
                     // null == null = true. 
                     return true;

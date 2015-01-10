@@ -228,7 +228,7 @@ namespace DarklandsServices.Services
 
                 for (int i = 0; i < numCities; i++)
                 {
-                    var data = new ByteStream(file.ReadBytes(City.CITY_SIZE));
+                    var data = new ByteStream(file.ReadBytes(City.CitySize));
                     s_cities.Add(new City(data, 0, i));
                 }
             }
@@ -241,7 +241,7 @@ namespace DarklandsServices.Services
 
                 for (int i = 0; i < numCities; i++)
                 {
-                    var desc = file.ReadBytes(City.DESCRIPTION_SIZE);
+                    var desc = file.ReadBytes(City.DescriptionSize);
                     s_cities[i].Description = StringHelper.ConvertToString(desc);
                 }
             }
@@ -259,7 +259,7 @@ namespace DarklandsServices.Services
 
                 for (int i = 0; i < numItems; i++)
                 {
-                    var stream = new ByteStream(file.ReadBytes(ItemDefinition.ITEM_DEFINITION_SIZE));
+                    var stream = new ByteStream(file.ReadBytes(ItemDefinition.ItemDefinitionSize));
                     s_items.Add(new ItemDefinition(stream, 0, i));
                 }
 
@@ -289,7 +289,7 @@ namespace DarklandsServices.Services
 
                 for (int i = 0; i < numFormulae; i++)
                 {
-                    var stream = new ByteStream(file.ReadBytes(Formula.FORMULA_SIZE));
+                    var stream = new ByteStream(file.ReadBytes(Formula.FormulaSize));
                     s_formulae.Add(new Formula(stream, 0, i, formulaeLongNames[i], formulaeShortNames[i]));
                 }
             }
@@ -305,7 +305,7 @@ namespace DarklandsServices.Services
                 for (int i = 0; i < numSaints; i++)
                 {
                     var desc = StringHelper.ConvertToString(
-                        file.ReadBytes(Saint.DESCRIPTION_SIZE));
+                        file.ReadBytes(Saint.DescriptionSize));
 
                     var clue = SaintClues.GetClueById(i);
                     var buffs = SaintBuffManager.GenerateBuffsFromClue(clue);
@@ -325,7 +325,7 @@ namespace DarklandsServices.Services
 
                 for (int i = 0; i < numLocs; i++)
                 {
-                    var stream = new ByteStream(file.ReadBytes(Location.LOCATION_SIZE));
+                    var stream = new ByteStream(file.ReadBytes(Location.LocationSize));
                     s_locations.Add(new Location(stream, 0, i));
                 }
             }
