@@ -62,12 +62,16 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ViewModels\CharacterTabViewModel.cs" />
+    <Compile Include="ViewModels\QuestTabVm.cs" />
     <Compile Include="ViewModels\SaveGameViewModel.cs" />
     <Compile Include="Views\CharacterTab.xaml.cs">
       <DependentUpon>CharacterTab.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PartyTab.xaml.cs">
       <DependentUpon>PartyTab.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\QuestTab.xaml.cs">
+      <DependentUpon>QuestTab.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SaveGameView.xaml.cs">
       <DependentUpon>SaveGameView.xaml</DependentUpon>
@@ -90,6 +94,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\PartyTab.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\QuestTab.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

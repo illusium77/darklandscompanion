@@ -1,0 +1,89 @@
+﻿<UserControl x:Class="DarklandsUiCommon.Views.Quest.QuestListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:views="clr-namespace:DarklandsUiCommon.Views.Quest"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+
+    <UserControl.Resources>
+        <Style TargetType="GroupItem">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type GroupItem}">
+                        <Expander>
+                            <Expander.Header>
+                                <TextBlock FontWeight="Bold">
+                                    <Run Text="{Binding Path=Name, Mode=OneWay}" />
+                                    (<Run Text="{Binding Path=ItemCount, Mode=OneWay}" />)
+                                </TextBlock>
+                            </Expander.Header>
+                            <Expander.Content>
+                                <ItemsPresenter />
+                            </Expander.Content>
+                        </Expander>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!--<Style TargetType="Expander">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Name}" Value="KillRaubritter">
+                    <Setter Property="IsExpanded" Value="True"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>-->
+    </UserControl.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+
+        <DataGrid ItemsSource="{Binding Quests}" CanUserAddRows="False" CanUserDeleteRows="False" AutoGenerateColumns="False" SelectionMode="Single">
+            <DataGrid.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.ContainerStyle>
+                        <Style TargetType="GroupItem">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type GroupItem}">
+                                        <Expander IsExpanded="True">
+                                            <Expander.Header>
+                                                <TextBlock FontWeight="Bold">
+                                                    <Run Text="{Binding Path=Name, Mode=OneWay}" />
+                                                    (<Run Text="{Binding Path=ItemCount, Mode=OneWay}" />)
+                                                </TextBlock>
+                                            </Expander.Header>
+                                            <Expander.Content>
+                                                <ItemsPresenter />
+                                            </Expander.Content>
+                                        </Expander>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </GroupStyle.ContainerStyle>
+                </GroupStyle>
+            </DataGrid.GroupStyle>
+
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=DataContext.Tooltip}" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
+
+            <DataGrid.Columns>
+                <DataGridCheckBoxColumn Header="Done" Binding="{Binding IsCompleted, Mode=OneWay}" />
+                <DataGridTextColumn Header="Deadline" Binding="{Binding DeliverByDate, Mode=OneWay}" />
+                <DataGridTextColumn Header="Destination" Binding="{Binding Destination, Mode=OneWay}" />
+                <DataGridTextColumn Header="Description" Binding="{Binding Description, Mode=OneWay}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+    </ScrollViewer>
+
+</UserControl>

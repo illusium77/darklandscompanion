@@ -22,9 +22,10 @@ namespace DarklandsBusinessObjects.Objects
             get { return m_isReversed ? GetWord(0x00) : GetWord(0x06); }
         }
 
+        // Zero based
         public int Month
         {
-            get { return m_isReversed ? GetWord(0x02) : GetWord(0x04); }
+            get { return m_isReversed ? GetWord(0x02) + 1 : GetWord(0x04) + 1; }
         }
 
         public int Day
@@ -36,6 +37,10 @@ namespace DarklandsBusinessObjects.Objects
         {
             get { return m_isReversed ? GetWord(0x06) : GetWord(0x00); }
         }
+
+        // quests etc. maybe have infinite date (1499/13/31) when there
+        // is not time limit for delivery
+        public bool IsInfinite { get { return Year == 1499 && Month == 13 && Day == 31; } }
 
         public Date(ByteStream dataStream, int offset, bool isReversed)
             : base(dataStream, offset, DATE_SIZE)

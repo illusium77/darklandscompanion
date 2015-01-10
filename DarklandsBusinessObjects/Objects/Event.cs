@@ -9,26 +9,14 @@ using System.Threading.Tasks;
 
 namespace DarklandsBusinessObjects.Objects
 {
-    //public enum QuestType
-    //{
-    //    NA,
-    //    Raubritter,
-    //    FindItem
-    //}
-
     public class Event : StreamObject
     {
-        // TODO fix this
-
         public const int EVENT_SIZE = 0x30;
-
-        //public int Id { get; private set; }
-        //public QuestType Type { get; set; }
 
         public int UnknownW00 { get { return GetWord(0x00); } }
         public QuestGiver QuestGiver { get { return (QuestGiver)GetWord(0x1a); } }
-        public int DestinationId { get { return GetWord(0x1c); } }
-        public int UnknownW1e { get { return GetWord(0x1e); } }
+        public int DestinationLocationId { get { return GetWord(0x1c); } }
+        public int SourceLocationId { get { return GetWord(0x1e); } } // invalid after RB has been killed, value copied to destinatioId
         public int UnknownW20 { get { return GetWord(0x20); } }
         public int UnknownW22 { get { return GetWord(0x22); } }
         public int UnknownW24 { get { return GetWord(0x24); } }
@@ -80,6 +68,11 @@ namespace DarklandsBusinessObjects.Objects
             }
         }
 
+        public bool IsQuest
+        {
+            get { return QuestGiver != Objects.QuestGiver.NA; }
+        }
+
         public Event(ByteStream dataStream, int offset)
             : base(dataStream, offset, EVENT_SIZE)
         {
@@ -104,86 +97,6 @@ namespace DarklandsBusinessObjects.Objects
                     m_expireDate.Dispose();
                 }
             }
-        }
-
-        public override string ToString()
-        {
-        //    StringBuilder sb = new StringBuilder();
-        //    sb.Append(CreateDate);
-        //    if (UnknownDate != CreateDate)
-        //    {
-        //        sb.Append("(" + UnknownDate + ")");
-        //    }
-        //    sb.Append("-" + ExpireDate);
-
-        //    sb.Append(string.Format("[{0:X2} {1:X2} {2:X2} {3:X2} {4:X2} {5:X2} {6:X2} {7:X2} {8:X2}]", UnknownW00, UnknownW1e, UnknownW20, UnknownW22, UnknownW24, UnknownW26, UnknownW28, UnknownW2a, UnknownW2c));
-
-        //    if (Type == QuestType.FindItem)
-        //    {
-        //        sb.Append(" Find " + Item.Name + " from " + Destination.Name);
-        //        if (Destination.Icon != LocationIcon.City)
-        //        {
-        //            var nearestCity = (from l in DarklandsService.Locations
-        //                              where l.Icon == LocationIcon.City
-        //                              let dist = l.Coordinate.DistanceTo(Destination.Coordinate)
-        //                              orderby dist
-        //                              select l).First();
-
-        //            sb.Append(" (" + nearestCity.Coordinate.BearingTo(Destination.Coordinate)
-        //                + " of " + nearestCity.Name + ")" );
-        //        }
-        //        sb.Append(" for " + QuestGiver + " in " + DarklandsService.Locations[UnknownW1e].Name);
-        //    }
-        //    else
-        //    {
-
-        //        //sb.Append(string.Format(" {0,-10}", Type));
-
-        //        sb.Append(string.Format(" {0,-15}", QuestGiver.ToString()));
-
-        //        //if (Destination.Icon == LocationIcon.City)
-        //        //{
-        //        sb.Append(string.Format(" from {0}", (Destination != null ? (Destination.Name + "(" + Destination.Icon + ")" ) : "No destination")));
-        //        if (Destination != null && Destination.Icon != LocationIcon.City)
-        //        {
-        //            var nearestCity = (from l in DarklandsService.Locations
-        //                               where l.Icon == LocationIcon.City
-        //                               let dist = l.Coordinate.DistanceTo(Destination.Coordinate)
-        //                               orderby dist
-        //                               select l).First();
-
-        //            sb.Append(" (" + nearestCity.Coordinate.BearingTo(Destination.Coordinate)
-        //                + " of " + nearestCity.Name + ")");
-        //        }
-        //        //}
-        //        //else
-        //        //{
-        //        //    DarklandsService.
-        //        //}
-
-        //        sb.Append(string.Format(" item {0}", (Item != null ? Item.ToString() : "No item")));
-
-
-        //        //if (Source == EventSource.NA)
-        //        //{
-        //        //    sb.Append(" Unknown event
-        //        //}
-        //        //else
-        //        //{
-        //        //}
-        //    }
-
-        //    return sb.ToString();
-
-            return "['" + CreateDate
-                + "' '" + UnknownW00
-                //+ "' '" + UnknownDate
-                + "' '" + ExpireDate
-                + "' '" + QuestGiver
-                //+ "' '" + (Item != null ? Item.Name : "No item")
-                //+ "' '" + (Destination != null ? Destination.Name : "No destination")
-                //+ "' '" + (Destination >= 0 && Destination < locs.Count ? locs[Destination].Name : Destination.ToString())
-                + "']";
         }
     }
 

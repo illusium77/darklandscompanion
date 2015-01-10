@@ -1,5 +1,6 @@
 ﻿using DarklandsBusinessObjects.Save;
 using DarklandsServices.Services;
+using DarklandsUiCommon.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -152,17 +153,16 @@ namespace DarklandsConsoleApp
                                                      "#:" + item.Quantity,
                                                      "Weight:" + item.Weight,
                                                       StaticDataService.ItemDefinitions.First(i => i.Id == item.Code).Name);
-
-                                                     //select new
-                                                     //{
-                                                     //    Type = item.Type,
-                                                     //    Qual = item.Quality,
-                                                     //    Quan = item.Quantity,
-                                                     //    Weight = item.Weight,
-                                                     //    Name = StaticDataService.Items.First(i => i.Id == item.Code).Name
-                                                     //};
                                 Console.WriteLine(string.Join("\n", itemsWithNames));
                             }
+                            break;
+                        case "events":
+                            foreach (var q in QuestModel.FromEvents(
+                                save.Events.Events, save.Events.Locations, StaticDataService.ItemDefinitions))
+                            {
+                                Console.WriteLine(q);                                
+                            }
+
                             break;
                         default:
                             Console.WriteLine(save);

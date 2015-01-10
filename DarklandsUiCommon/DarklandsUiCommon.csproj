@@ -56,6 +56,7 @@
     <Compile Include="Commands\BaseCommand.cs" />
     <Compile Include="Commands\UiCommand.cs" />
     <Compile Include="Models\FormulaModel.cs" />
+    <Compile Include="Models\QuestModel.cs" />
     <Compile Include="Models\SaintModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -72,6 +73,7 @@
     </Compile>
     <Compile Include="DataValidation\ErrorMonitor.cs" />
     <Compile Include="ViewModels\FormulaeViewModel.cs" />
+    <Compile Include="ViewModels\QuestListViewModel.cs" />
     <Compile Include="ViewModels\SaintViewModel.cs" />
     <Compile Include="ViewModels\StatViewModel.cs" />
     <Compile Include="ViewModels\SelectFolderDialogModel.cs" />
@@ -90,6 +92,12 @@
     </Compile>
     <Compile Include="Views\Character\SkillView.xaml.cs">
       <DependentUpon>SkillView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Quest\QuestView.xaml.cs">
+      <DependentUpon>QuestView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Quest\QuestListView.xaml.cs">
+      <DependentUpon>QuestListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SelectFolderDialog.xaml.cs">
       <DependentUpon>SelectFolderDialog.xaml</DependentUpon>
@@ -131,6 +139,14 @@
     <Page Include="Views\Character\SkillView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Quest\QuestView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Quest\QuestListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SelectFolderDialog.xaml">
       <SubType>Designer</SubType>

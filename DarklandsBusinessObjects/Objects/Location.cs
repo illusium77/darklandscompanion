@@ -83,6 +83,19 @@ namespace DarklandsBusinessObjects.Objects
                 }
             }
         }
+
+        public string GetDirections(IEnumerable<Location> locations)
+        {
+            var nearestCity = (from l in locations
+                               where l.Type == LocationType.City
+                               orderby l.Coordinate.DistanceTo(Coordinate)
+                               select l);
+
+            var n = nearestCity.First();
+
+            return n.Coordinate.BearingTo(Coordinate) + " from " + n.Name;
+
+        }
     }
 
     //https://web.archive.org/web/20091112194333/http://wallace.net/darklands/formats/darkland.loc.html#structdef-location

@@ -31,6 +31,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -55,6 +58,10 @@
     <ProjectReference Include="..\DarklandsServices\DarklandsServices.csproj">
       <Project>{efe604e0-295f-4ec6-9da0-01a54ec9de3f}</Project>
       <Name>DarklandsServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DarklandsUiCommon\DarklandsUiCommon.csproj">
+      <Project>{10074182-97f9-43d0-9379-fb15a44c48c4}</Project>
+      <Name>DarklandsUiCommon</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -15,7 +15,7 @@ namespace DarklandsServices.Saints
             "St.ADRIAN [43v, 15-99df, 15%]: End +(7-15),Chr +(6-11), each weapon skill +(15-29).",
             "St.AGATHA [24v, 20-80df, 25%]: If praying for a man, End +(6-11). If praying for a woman, End +(12-23), Chr +(6-11).",
             "St.AGNES [19v, 10-99df, 25%]: Party must include at least one female for this prayer to succeed (even if none are involved in the prayer). Chr +(10-29), Local Rep at nearest city +(10-20).",
-            "St.AIDAN [23v, 15-99df, 25%]: Woodwise +(25-29). In interactions with animals, this saint may prevent attacks.",
+            "St.AIDAN [23v, 15-99df, 25%]: WdWs +(25-29). In interactions with animals, this saint may prevent attacks.",
             "St.ALBERT THE GREAT [39v, 25-99df, 60%]: Int +(8-15), Per +(6-11), Alch +(30-44), SpkL +(15-29), R&W +(15-29).",
             "St.ALCUIN [39v, 15-99df, 60%]: Int +(6-11), SpkL +(20-39), R&W +(20-39). Prayers in encounters with government and/or nobles can improve chances of success.",
             "St.ALEXIS [28v, 10-99df, 40%]: Chr +(6-11), Local Rep at nearest city +(10-20). If party has less than 12pf, it receives 36-108pf.",

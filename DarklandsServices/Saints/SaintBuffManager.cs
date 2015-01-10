@@ -18,7 +18,7 @@ namespace DarklandsServices.Saints
             { new SaintBuffFilter ("Perception", "Per") },
             { new SaintBuffFilter ("Intelligence", "Int") },
             { new SaintBuffFilter ("Charisma", "Chr") },
-		    { new SaintBuffFilter ("Edged Weapons", "wEdg", "edg") },
+            { new SaintBuffFilter ("Edged Weapons", "wEdg", "edg") },
             { new SaintBuffFilter ("Impact Weapons", "wImp","imp") },
             { new SaintBuffFilter ("Flail Weapons", "wFll", "fla") },
             { new SaintBuffFilter ("Pole Weapons", "wPol", "pol") },

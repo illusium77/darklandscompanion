@@ -8,6 +8,8 @@ using System.IO;
 using System.Windows.Input;
 using DarklandsUiCommon.DataValidation;
 using DarklandsServices.Services;
+using System.Collections.Generic;
+using DarklandsUiCommon.Models;
 
 namespace DarklandsSaveGameEditor.ViewModels
 {
@@ -138,8 +140,9 @@ namespace DarklandsSaveGameEditor.ViewModels
         {
             if (File.Exists(fileName))
             {
-                SaveGameVm.SaveGame = new SaveGame(fileName);
-                Title = DEFAULT_TITLE + " - " + Path.GetFileName(fileName);
+                var save = new SaveGame(fileName);
+                SaveGameVm.SetSave(save);
+                Title = DEFAULT_TITLE + " - " + Path.GetFileName(fileName) + " " + save.Header.Date;
 
                 var backup = (fileName + ".backup").ToUpper();
                 if (MakeBackup && !File.Exists(backup))

@@ -11,20 +11,10 @@ namespace DarklandsSaveGameEditor.ViewModels
         public SaveGame SaveGame
         {
             get { return m_saveGame; }
-            set
+            private set
             {
                 m_saveGame = value;
                 NotifyPropertyChanged();
-
-                var tabs = new List<CharacterTabViewModel>();
-                foreach (var character in SaveGame.Party.Characters)
-                {
-                    tabs.Add(new CharacterTabViewModel(character));
-                }
-
-                CharacterTabVms = tabs;
-
-                NotifyPropertyChanged("Visibility");
             }
         }
 
@@ -32,9 +22,20 @@ namespace DarklandsSaveGameEditor.ViewModels
         public IEnumerable<CharacterTabViewModel> CharacterTabVms
         {
             get { return m_characterTabVms; }
-            set
+            private set
             {
                 m_characterTabVms = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private QuestTabVm m_questTabVm;
+        public QuestTabVm QuestTabVm
+        {
+            get { return m_questTabVm; }
+            private set
+            {
+                m_questTabVm = value;
                 NotifyPropertyChanged();
             }
         }
@@ -45,6 +46,27 @@ namespace DarklandsSaveGameEditor.ViewModels
             {
                 return SaveGame == null ? Visibility.Hidden : Visibility.Visible;
             }
+        }
+
+        public void SetSave(SaveGame saveGame)
+        {
+            SaveGame = saveGame;
+            CharacterTabVms = null;
+            QuestTabVm = null;
+
+            if (saveGame != null)
+            {
+                var tabs = new List<CharacterTabViewModel>();
+                foreach (var character in SaveGame.Party.Characters)
+                {
+                    tabs.Add(new CharacterTabViewModel(character));
+                }
+                CharacterTabVms = tabs;
+
+                QuestTabVm = new QuestTabVm(SaveGame.Events);
+            }
+
+            NotifyPropertyChanged("Visibility");
         }
     }
 }

@@ -6,7 +6,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <!--<DataGrid ItemsSource="{Binding Formulae}"></DataGrid>-->
         <ListView ItemsSource="{Binding Formulae}">
             <ListView.View>
                 <GridView>
@@ -42,7 +41,7 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
-                    <GridViewColumn Header="Desciption">
+                    <GridViewColumn Header="Description">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Margin="-6 -3 -6 -3" Text="{Binding Description}" FontWeight="Light" />

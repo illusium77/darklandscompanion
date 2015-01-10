@@ -9,6 +9,7 @@
     
     <TabControl Visibility="{Binding Visibility, FallbackValue=Collapsed}">
         <views:PartyTab DataContext="{Binding SaveGame.Header}" />
+        <views:QuestTab DataContext="{Binding QuestTabVm}" />
 
         <views:CharacterTab DataContext="{Binding CharacterTabVms[0]}" />
         <views:CharacterTab DataContext="{Binding CharacterTabVms[1]}" />

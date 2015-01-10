@@ -1,0 +1,13 @@
+﻿<TabItem x:Class="DarklandsSaveGameEditor.Views.QuestTab"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:quest="clr-namespace:DarklandsUiCommon.Views.Quest;assembly=DarklandsUiCommon"
+             xmlns:views="clr-namespace:DarklandsUiCommon.Views.Character;assembly=DarklandsUiCommon"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300" Header="{Binding Header, FallbackValue=Quests}">
+    <AdornerDecorator>
+        <quest:QuestListView DataContext="{Binding QuestVm}"  />
+    </AdornerDecorator>
+</TabItem>
