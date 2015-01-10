@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DarklandsServices.Saints
+﻿namespace DarklandsServices.Saints
 {
     internal static class SaintClues
     {
         #region Clues
 
-        private static string[] s_clueBookDescriptions =
+        private static readonly string[] ClueBookDescriptions =
         {
             "St.ADRIAN [43v, 15-99df, 15%]: End +(7-15),Chr +(6-11), each weapon skill +(15-29).",
             "St.AGATHA [24v, 20-80df, 25%]: If praying for a man, End +(6-11). If praying for a woman, End +(12-23), Chr +(6-11).",
@@ -20,7 +14,7 @@ namespace DarklandsServices.Saints
             "St.ALCUIN [39v, 15-99df, 60%]: Int +(6-11), SpkL +(20-39), R&W +(20-39). Prayers in encounters with government and/or nobles can improve chances of success.",
             "St.ALEXIS [28v, 10-99df, 40%]: Chr +(6-11), Local Rep at nearest city +(10-20). If party has less than 12pf, it receives 36-108pf.",
             "St.ANDREW [14v, 5-50df, 20%]: End +(6-11), Chr +(8-15).",
-            "St.ANDREW THE TRIBUNE [37v, 20-99df, 15%]: wEdg +(15-29), wImp +(15-29), wPol +(15-29), wThr +(15-29), wBow +(15-29).", 
+            "St.ANDREW THE TRIBUNE [37v, 20-99df, 15%]: wEdg +(15-29), wImp +(15-29), wPol +(15-29), wThr +(15-29), wBow +(15-29).",
             "St.ANTHONY [37v, 20-99df, 15%]: End +(4-9), Str +(5-10), Chr +(1-10), SpkL +(10-19), R&W +(20-39). The saint can sometimes weaken demons, but only during interactions before battle.",
             "St.ANTHONY OF PADUA [59v, 10-99df, 65%]: Str +(4-7), Per +(6-11), Chr +(15-24), wImp +(10-19), SpkC +(20-29), SpkL +(10-19).",
             "St.ARNULF [65v, 15-99df, 65%]: Str +(4-7), Per +(6-11), Int +(4-7), each weapon skill +(10-19), SpkL +(6-11), R&W +(8-15), StrW +(6-11), Ride +(8-15).",
@@ -157,7 +151,7 @@ namespace DarklandsServices.Saints
 
         public static string GetClueById(int id)
         {
-            return s_clueBookDescriptions[id];
+            return ClueBookDescriptions[id];
         }
     }
 }

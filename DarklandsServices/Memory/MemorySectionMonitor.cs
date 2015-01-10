@@ -1,30 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DarklandsServices.Memory
 {
-    class MemorySectionMonitor : MemoryWorker<byte[]>
+    internal class MemorySectionMonitor : MemoryWorker<byte[]>
     {
-        private long m_address;
-        private int m_dataSize;
+        private readonly long _address;
+        private readonly int _dataSize;
 
         public MemorySectionMonitor(long address, int dataSize, Action<byte[]> callback)
             : base(callback, true)
         {
-            m_address = address;
-            m_dataSize = dataSize;
+            _address = address;
+            _dataSize = dataSize;
         }
 
         protected override void OnStart(object sender, DoWorkEventArgs e)
         {
-            m_accessor.StartPolling(m_address, m_dataSize, 1000, bytes =>
-            {
-                m_worker.ReportProgress(0, bytes);
-            });
+            Accessor.StartPolling(_address, _dataSize, 1000, bytes => { Worker.ReportProgress(0, bytes); });
         }
     }
 }

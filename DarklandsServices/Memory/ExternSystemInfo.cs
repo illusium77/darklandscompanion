@@ -1,23 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DarklandsServices.Memory
 {
     internal struct ExternSystemInfo
     {
-        public ushort processorArchitecture;
-        ushort reserved;
-        public uint pageSize;
-        public IntPtr minimumApplicationAddress;  // minimum address
-        public IntPtr maximumApplicationAddress;  // maximum address
-        public IntPtr activeProcessorMask;
-        public uint numberOfProcessors;
-        public uint processorType;
-        public uint allocationGranularity;
-        public ushort processorLevel;
-        public ushort processorRevision;
+        // disable reshaper warnings - stuct used in native code must remain as they are
+#pragma warning disable 649
+#pragma warning disable 169
+        public ushort ProcessorArchitecture;
+        ushort _reserved;
+        public uint PageSize;
+        public IntPtr MinimumApplicationAddress;  // minimum address
+        public IntPtr MaximumApplicationAddress;  // maximum address
+        public IntPtr ActiveProcessorMask;
+        public uint NumberOfProcessors;
+        public uint ProcessorType;
+        public uint AllocationGranularity;
+        public ushort ProcessorLevel;
+        public ushort ProcessorRevision;
+#pragma warning restore 169
+#pragma warning restore 649
     }
 }

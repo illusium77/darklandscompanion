@@ -3,31 +3,30 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DarklandsServices.Services
 {
     public static class ConfigurationService
     {
-        public const string SETTING_DARKLANDS_PATH = "darklandsPath";
-        public const string SETTING_BACKUP_SAVEGAME = "backupSaveGame";
-
+        private const string SettingDarklandsPath = "darklandsPath";
+        public const string SettingBackupSavegame = "backupSaveGame";
         private const string DarklandsCompanionFileName = "DarklandsCompanion.exe";
         private const string DarklandsSaveGameEditorFileName = "DarklandsSaveGameEditor.exe";
 
-        private static Dictionary<ConfigType, Configuration> s_configFiles = new Dictionary<ConfigType, Configuration>();
+        private static readonly Dictionary<ConfigType, Configuration> ConfigFiles =
+            new Dictionary<ConfigType, Configuration>();
 
         static ConfigurationService()
         {
             if (File.Exists(DarklandsCompanionFileName))
             {
-                s_configFiles.Add(ConfigType.DarklandsCompanion, ConfigurationManager.OpenExeConfiguration(DarklandsCompanionFileName));               
+                ConfigFiles.Add(ConfigType.DarklandsCompanion,
+                    ConfigurationManager.OpenExeConfiguration(DarklandsCompanionFileName));
             }
             if (File.Exists(DarklandsSaveGameEditorFileName))
             {
-                s_configFiles.Add(ConfigType.DarklandsSaveGameEditor, ConfigurationManager.OpenExeConfiguration(DarklandsSaveGameEditorFileName));
+                ConfigFiles.Add(ConfigType.DarklandsSaveGameEditor,
+                    ConfigurationManager.OpenExeConfiguration(DarklandsSaveGameEditorFileName));
             }
         }
 
@@ -38,12 +37,13 @@ namespace DarklandsServices.Services
                 throw new ArgumentException("Cannot use Global as a configuration type when reading settings!", "type");
             }
 
-            if (!s_configFiles.ContainsKey(type))
+            if (!ConfigFiles.ContainsKey(type))
             {
                 return false;
             }
 
-            return s_configFiles[type].AppSettings.Settings[key] != null && !string.IsNullOrWhiteSpace(s_configFiles[type].AppSettings.Settings[key].Value);
+            return ConfigFiles[type].AppSettings.Settings[key] != null &&
+                   !string.IsNullOrWhiteSpace(ConfigFiles[type].AppSettings.Settings[key].Value);
         }
 
         public static T ReadSetting<T>(ConfigType type, string key)
@@ -53,29 +53,29 @@ namespace DarklandsServices.Services
                 throw new ArgumentException("Cannot use Global as a configuration type when reading settings!", "type");
             }
 
-            if (!s_configFiles.ContainsKey(type) || !HasSetting(type, key))
+            if (!ConfigFiles.ContainsKey(type) || !HasSetting(type, key))
             {
                 return default(T);
             }
 
-            var setting = s_configFiles[type].AppSettings.Settings[key];
-            var converter = TypeDescriptor.GetConverter(typeof(T));
+            var setting = ConfigFiles[type].AppSettings.Settings[key];
+            var converter = TypeDescriptor.GetConverter(typeof (T));
 
-            return (T)converter.ConvertFromInvariantString(setting.Value);
+            return (T) converter.ConvertFromInvariantString(setting.Value);
         }
 
         public static void AddUpdateAppSettings(ConfigType type, string key, string value)
         {
             if (type == ConfigType.Global)
             {
-                foreach (var config in s_configFiles.Values)
+                foreach (var config in ConfigFiles.Values)
                 {
                     DoAddUpdateSettings(config, key, value);
                 }
             }
-            else if (s_configFiles.ContainsKey(type))
+            else if (ConfigFiles.ContainsKey(type))
             {
-                DoAddUpdateSettings(s_configFiles[type], key, value);
+                DoAddUpdateSettings(ConfigFiles[type], key, value);
             }
             else
             {
@@ -85,7 +85,6 @@ namespace DarklandsServices.Services
 
         private static void DoAddUpdateSettings(Configuration config, string key, string value)
         {
-
             if (config.AppSettings.Settings[key] == null)
             {
                 config.AppSettings.Settings.Add(key, value);
@@ -102,20 +101,20 @@ namespace DarklandsServices.Services
 
         public static bool HasDarklandsPath(ConfigType type)
         {
-            return ConfigurationService.HasSetting(
-                type, ConfigurationService.SETTING_DARKLANDS_PATH);
+            return HasSetting(
+                type, SettingDarklandsPath);
         }
 
         public static string GetDarklandsPath(ConfigType type)
         {
-            return ConfigurationService.ReadSetting<string>(
-                type, ConfigurationService.SETTING_DARKLANDS_PATH);
+            return ReadSetting<string>(
+                type, SettingDarklandsPath);
         }
 
         public static void SetDarklandsPath(string path)
         {
-            ConfigurationService.AddUpdateAppSettings(
-                ConfigType.Global, ConfigurationService.SETTING_DARKLANDS_PATH, path);
+            AddUpdateAppSettings(
+                ConfigType.Global, SettingDarklandsPath, path);
         }
 
         #endregion

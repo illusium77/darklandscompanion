@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DarklandsServices.Memory
 {
@@ -13,64 +9,79 @@ namespace DarklandsServices.Memory
         void Stop();
     }
 
-    abstract class MemoryWorker<T> : IMemoryWorker
+    internal abstract class MemoryWorker<T> : IMemoryWorker
     {
-        private const string PROCESS_NAME = "dosbox";
-        
-        protected MemoryAccessor m_accessor;
-        protected BackgroundWorker m_worker;
-
-        private Action<T> m_dataReadCb;
-        
-        private bool m_isContinous;
+        private const string ProcessName = "dosbox";
+        private readonly Action<T> _dataReadCb;
+        private readonly bool _isContinous;
+        protected MemoryAccessor Accessor;
+        protected readonly BackgroundWorker Worker;
 
         public MemoryWorker(Action<T> dataReadCb, bool isContinous)
         {
-            m_isContinous = isContinous;
+            _isContinous = isContinous;
 
-            m_worker = new BackgroundWorker();
-            m_worker.WorkerSupportsCancellation = true;
+            Worker = new BackgroundWorker {WorkerSupportsCancellation = true};
             if (isContinous)
             {
-                m_worker.WorkerReportsProgress = true;
+                Worker.WorkerReportsProgress = true;
             }
 
-            m_dataReadCb = dataReadCb;
+            _dataReadCb = dataReadCb;
         }
 
         public void Start()
         {
-            if (!m_worker.IsBusy)
+            if (!Worker.IsBusy)
             {
-                m_accessor = new MemoryAccessor(PROCESS_NAME);
+                Accessor = new MemoryAccessor(ProcessName);
 
-                m_worker.DoWork += OnStart;
-                m_worker.RunWorkerCompleted += OnDone;
+                Worker.DoWork += OnStart;
+                Worker.RunWorkerCompleted += OnDone;
 
-                if (m_isContinous)
+                if (_isContinous)
                 {
-                    m_worker.ProgressChanged += OnProgressChanged;
+                    Worker.ProgressChanged += OnProgressChanged;
                 }
 
-                m_worker.RunWorkerAsync();
+                Worker.RunWorkerAsync();
             }
         }
 
         public void Stop()
         {
-            if (m_worker.IsBusy)
+            if (Worker.IsBusy)
             {
-                m_worker.CancelAsync();
+                Worker.CancelAsync();
 
-                m_worker.DoWork -= OnStart;
-                m_worker.RunWorkerCompleted -= OnDone;
+                Worker.DoWork -= OnStart;
+                Worker.RunWorkerCompleted -= OnDone;
 
-                if (m_isContinous)
+                if (_isContinous)
                 {
-                    m_worker.ProgressChanged -= OnProgressChanged;
+                    Worker.ProgressChanged -= OnProgressChanged;
                 }
 
-                m_accessor.Stop();
+                Accessor.Stop();
+            }
+        }
+
+        public void Dispose()
+        {
+            if (Worker.IsBusy)
+            {
+                Stop();
+            }
+            else
+            {
+                if (Accessor != null)
+                {
+                    Accessor.Dispose();
+                }
+                if (Worker != null)
+                {
+                    Worker.Dispose();
+                }
             }
         }
 
@@ -83,44 +94,24 @@ namespace DarklandsServices.Memory
 
         private void OnDone(object sender, RunWorkerCompletedEventArgs e)
         {
-            if (!m_isContinous && !e.Cancelled)
+            if (!_isContinous && !e.Cancelled)
             {
                 SendResult(e.Result);
             }
 
-            if (m_accessor != null)
+            if (Accessor != null)
             {
-                m_accessor.Stop();
+                Accessor.Stop();
             }
         }
 
         private void SendResult(object result)
         {
-            var data = (T)result;
-            if (data != null && m_dataReadCb != null)
+            var data = (T) result;
+            if (data != null && _dataReadCb != null)
             {
-                m_dataReadCb(data);
-            }
-        }
-
-        public void Dispose()
-        {
-            if (m_worker.IsBusy)
-            {
-                Stop();
-            }
-            else
-            {
-                if (m_accessor != null)
-                {
-                    m_accessor.Dispose();
-                }
-                if (m_worker != null)
-                {
-                    m_worker.Dispose();
-                }
+                _dataReadCb(data);
             }
         }
     }
 }
-

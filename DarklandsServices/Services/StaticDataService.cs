@@ -1,81 +1,47 @@
-﻿using DarklandsBusinessObjects.Objects;
-using DarklandsBusinessObjects.Streaming;
-using DarklandsBusinessObjects.Utils;
-using DarklandsServices.Saints;
-using Microsoft.Win32;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DarklandsBusinessObjects.Objects;
+using DarklandsBusinessObjects.Streaming;
+using DarklandsBusinessObjects.Utils;
+using DarklandsServices.Saints;
 
 namespace DarklandsServices.Services
 {
     public static class StaticDataService
     {
-        //private static string s_darklandsFolder = @"Dependencies\";
-
-        private enum FileType
+        private static readonly IReadOnlyList<RequiredFile> DarklandFiles = new List<RequiredFile>
         {
-            City,
-            CityDescriptions,
-            List,
-            Alchemy,
-            Saint,
-            Location
-        }
-
-        private class RequiredFile
-        {
-            public FileType Type { get; private set; }
-            public string Name { get; private set; }
-            public string FullPath { get; set; }
-
-            public bool Exists { get { return File.Exists(FullPath); } }
-
-            public RequiredFile(FileType type, string name)
-            {
-                Type = type;
-                Name = name;
-                FullPath = Path.Combine(Directory.GetCurrentDirectory(), Name);
-            }
-        }
-
-        private static IReadOnlyList<RequiredFile> s_darklandFiles = new List<RequiredFile>
-        {
-            new RequiredFile (FileType.City, "darkland.cty"),
-            new RequiredFile (FileType.CityDescriptions, "darkland.dsc"),
-            new RequiredFile (FileType.List, "darkland.lst"),
-            new RequiredFile (FileType.Alchemy, "darkland.alc"),
-            new RequiredFile (FileType.Saint, "darkland.snt"),
-            new RequiredFile (FileType.Location, "darkland.loc"),
+            new RequiredFile(FileType.City, "darkland.cty"),
+            new RequiredFile(FileType.CityDescriptions, "darkland.dsc"),
+            new RequiredFile(FileType.List, "darkland.lst"),
+            new RequiredFile(FileType.Alchemy, "darkland.alc"),
+            new RequiredFile(FileType.Saint, "darkland.snt"),
+            new RequiredFile(FileType.Location, "darkland.loc")
         };
 
-        private static List<City> s_cities = null;
-        private static List<ItemDefinition> s_items = null;
-        private static List<Saint> s_saints = null;
-        private static List<Formula> s_formulae = null;
-        private static List<Location> s_locations = null;
+        private static List<City> _cities;
+        private static List<ItemDefinition> _items;
+        private static List<Saint> _saints;
+        private static List<Formula> _formulae;
+        private static List<Location> _locations;
 
         public static IEnumerable<string> RequiredFiles
         {
-            get
-            {
-                return s_darklandFiles.Select(f => f.Name);
-            }
+            get { return DarklandFiles.Select(f => f.Name); }
         }
 
         public static IReadOnlyList<City> Cities
         {
             get
             {
-                if (s_cities == null)
+                if (_cities == null)
                 {
                     InitializeCty();
                 }
 
-                return s_cities;
+                return _cities;
             }
         }
 
@@ -83,71 +49,39 @@ namespace DarklandsServices.Services
         {
             get
             {
-                if (s_saints == null)
+                if (_saints == null)
                 {
                     InitializeLst();
                 }
 
-                return s_saints;
+                return _saints;
             }
-        }
-
-        public static IList<Saint> FindSaints(IEnumerable<int> ids)
-        {
-            return (from s in Saints
-                    where ids.Contains(s.Id)
-                    select s).ToList();
-        }
-
-        public static IEnumerable<Saint> FilterSaints(SaintBuffFilter buffFilter, IEnumerable<int> idFilter)
-        {
-            var saints = idFilter == null ? Saints : from s in Saints
-                                                     where idFilter.Contains(s.Id)
-                                                     select s;
-
-            return from s in saints
-                   where s.HasBuff(buffFilter.Name)
-                   select s;
         }
 
         public static IReadOnlyList<ItemDefinition> ItemDefinitions
         {
             get
             {
-                if (s_items == null)
+                if (_items == null)
                 {
                     InitializeLst();
                 }
 
-                return s_items;
+                return _items;
             }
-        }
-
-        public static IEnumerable<ItemDefinition> FindItems(IEnumerable<int> ids)
-        {
-            return from i in ItemDefinitions
-                   where ids.Contains(i.Id)
-                   select i;
         }
 
         public static IReadOnlyList<Formula> Formulae
         {
             get
             {
-                if (s_items == null)
+                if (_items == null)
                 {
                     InitializeLst();
                 }
 
-                return s_formulae;
+                return _formulae;
             }
-        }
-
-        public static IEnumerable<Formula> FindFormulae(IEnumerable<int> ids)
-        {
-            return from f in Formulae
-                   where ids.Contains(f.Id)
-                   select f;
         }
 
         // Note! These are initial 'states' of lacation when starting new game.
@@ -157,20 +91,54 @@ namespace DarklandsServices.Services
         {
             get
             {
-                if (s_locations == null)
+                if (_locations == null)
                 {
                     InitializeLoc();
                 }
 
-                return s_locations;
+                return _locations;
             }
+        }
+
+        public static IList<Saint> FindSaints(IEnumerable<int> ids)
+        {
+            return (from s in Saints
+                where ids.Contains(s.Id)
+                select s).ToList();
+        }
+
+        public static IEnumerable<Saint> FilterSaints(SaintBuffFilter buffFilter, IEnumerable<int> idFilter)
+        {
+            var saints = idFilter == null
+                ? Saints
+                : from s in Saints
+                    where idFilter.Contains(s.Id)
+                    select s;
+
+            return from s in saints
+                where s.HasBuff(buffFilter.Name)
+                select s;
+        }
+
+        public static IEnumerable<ItemDefinition> FindItems(IEnumerable<int> ids)
+        {
+            return from i in ItemDefinitions
+                where ids.Contains(i.Id)
+                select i;
+        }
+
+        public static IEnumerable<Formula> FindFormulae(IEnumerable<int> ids)
+        {
+            return from f in Formulae
+                where ids.Contains(f.Id)
+                select f;
         }
 
         public static IEnumerable<Location> FindLocations(IEnumerable<int> ids)
         {
             return from l in Locations
-                   where ids.Contains(l.Id)
-                   select l;
+                where ids.Contains(l.Id)
+                select l;
         }
 
         public static bool SetDarklandsPath(string path)
@@ -184,19 +152,18 @@ namespace DarklandsServices.Services
             try
             {
                 var darklandFiles = Directory.GetFiles(searchPath, "darkland.*", SearchOption.AllDirectories);
-                foreach (var file in s_darklandFiles)
+                foreach (var file in DarklandFiles)
                 {
                     file.FullPath = darklandFiles.FirstOrDefault(
                         f => f.ToLower().EndsWith(file.Name.ToLower()));
                 }
 
-                if (s_darklandFiles.Any(f => !f.Exists))
+                if (DarklandFiles.Any(f => !f.Exists))
                 {
                     return false;
                 }
 
                 return true;
-
             }
             catch (Exception)
             {
@@ -206,7 +173,13 @@ namespace DarklandsServices.Services
 
         private static BinaryReader OpenFile(FileType fileType)
         {
-            var file = s_darklandFiles.FirstOrDefault(f => f.Type == fileType);
+            var file = DarklandFiles.FirstOrDefault(f => f.Type == fileType);
+            if (file == null)
+            {
+                throw new InvalidOperationException(
+                    "Invalid file type " + fileType);
+            }
+
             if (!file.Exists)
             {
                 throw new InvalidOperationException(
@@ -218,31 +191,29 @@ namespace DarklandsServices.Services
 
         private static void InitializeCty()
         {
-            int numCities = 0;
+            int numCities;
 
             using (var file = OpenFile(FileType.City))
             {
                 numCities = file.ReadByte();
 
-                s_cities = new List<City>(numCities);
+                _cities = new List<City>(numCities);
 
-                for (int i = 0; i < numCities; i++)
+                for (var i = 0; i < numCities; i++)
                 {
                     var data = new ByteStream(file.ReadBytes(City.CitySize));
-                    s_cities.Add(new City(data, 0, i));
+                    _cities.Add(new City(data, 0, i));
                 }
             }
 
-            var t = s_cities.First().CityData.PortDestinations;
-
             using (var file = OpenFile(FileType.CityDescriptions))
             {
-                var falseNumCities = file.ReadByte(); // value is wrong ?
+                file.ReadByte(); // 1st byte is the number of cities but value seems to be incorrect
 
-                for (int i = 0; i < numCities; i++)
+                for (var i = 0; i < numCities; i++)
                 {
                     var desc = file.ReadBytes(City.DescriptionSize);
-                    s_cities[i].Description = StringHelper.ConvertToString(desc);
+                    _cities[i].Description = StringHelper.ConvertToString(desc);
                 }
             }
         }
@@ -255,15 +226,15 @@ namespace DarklandsServices.Services
                 var numSaints = file.ReadByte();
                 var numFormulae = file.ReadByte();
 
-                s_items = new List<ItemDefinition>(numItems);
+                _items = new List<ItemDefinition>(numItems);
 
-                for (int i = 0; i < numItems; i++)
+                for (var i = 0; i < numItems; i++)
                 {
                     var stream = new ByteStream(file.ReadBytes(ItemDefinition.ItemDefinitionSize));
-                    s_items.Add(new ItemDefinition(stream, 0, i));
+                    _items.Add(new ItemDefinition(stream, 0, i));
                 }
 
-                var restOfTheFile = file.ReadBytes((int)file.BaseStream.Length);
+                var restOfTheFile = file.ReadBytes((int) file.BaseStream.Length);
                 var startIndex = 0;
 
                 var saintLongNames = StringHelper.GetNullDelimitedStrings(
@@ -285,12 +256,12 @@ namespace DarklandsServices.Services
             using (var file = OpenFile(FileType.Alchemy))
             {
                 var numFormulae = file.ReadByte();
-                s_formulae = new List<Formula>(numFormulae);
+                _formulae = new List<Formula>(numFormulae);
 
-                for (int i = 0; i < numFormulae; i++)
+                for (var i = 0; i < numFormulae; i++)
                 {
                     var stream = new ByteStream(file.ReadBytes(Formula.FormulaSize));
-                    s_formulae.Add(new Formula(stream, 0, i, formulaeLongNames[i], formulaeShortNames[i]));
+                    _formulae.Add(new Formula(stream, 0, i, formulaeLongNames[i], formulaeShortNames[i]));
                 }
             }
         }
@@ -300,17 +271,17 @@ namespace DarklandsServices.Services
             using (var file = OpenFile(FileType.Saint))
             {
                 var numSaints = file.ReadByte();
-                s_saints = new List<Saint>(numSaints);
+                _saints = new List<Saint>(numSaints);
 
-                for (int i = 0; i < numSaints; i++)
+                for (var i = 0; i < numSaints; i++)
                 {
                     var desc = StringHelper.ConvertToString(
                         file.ReadBytes(Saint.DescriptionSize));
 
                     var clue = SaintClues.GetClueById(i);
                     var buffs = SaintBuffManager.GenerateBuffsFromClue(clue);
-                    
-                    s_saints.Add(new Saint(
+
+                    _saints.Add(new Saint(
                         i, saintLongNames[i], saintShortNames[i], desc, clue, buffs));
                 }
             }
@@ -321,13 +292,44 @@ namespace DarklandsServices.Services
             using (var file = OpenFile(FileType.Location))
             {
                 var numLocs = file.ReadInt16();
-                s_locations = new List<Location>(numLocs);
+                _locations = new List<Location>(numLocs);
 
-                for (int i = 0; i < numLocs; i++)
+                for (var i = 0; i < numLocs; i++)
                 {
                     var stream = new ByteStream(file.ReadBytes(Location.LocationSize));
-                    s_locations.Add(new Location(stream, 0, i));
+                    _locations.Add(new Location(stream, 0, i));
                 }
+            }
+        }
+
+        //private static string s_darklandsFolder = @"Dependencies\";
+
+        private enum FileType
+        {
+            City,
+            CityDescriptions,
+            List,
+            Alchemy,
+            Saint,
+            Location
+        }
+
+        private class RequiredFile
+        {
+            public RequiredFile(FileType type, string name)
+            {
+                Type = type;
+                Name = name;
+                FullPath = Path.Combine(Directory.GetCurrentDirectory(), Name);
+            }
+
+            public FileType Type { get; private set; }
+            public string Name { get; private set; }
+            public string FullPath { get; set; }
+
+            public bool Exists
+            {
+                get { return File.Exists(FullPath); }
             }
         }
     }

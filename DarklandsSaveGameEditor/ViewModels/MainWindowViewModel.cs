@@ -43,14 +43,14 @@ namespace DarklandsSaveGameEditor.ViewModels
         {
             get
             {
-                return ConfigurationService.HasSetting(ConfigType.DarklandsSaveGameEditor, ConfigurationService.SETTING_BACKUP_SAVEGAME)
-                    ? ConfigurationService.ReadSetting<bool>(ConfigType.DarklandsSaveGameEditor, ConfigurationService.SETTING_BACKUP_SAVEGAME)
+                return ConfigurationService.HasSetting(ConfigType.DarklandsSaveGameEditor, ConfigurationService.SettingBackupSavegame)
+                    ? ConfigurationService.ReadSetting<bool>(ConfigType.DarklandsSaveGameEditor, ConfigurationService.SettingBackupSavegame)
                     : true;
             }
             set
             {
                 ConfigurationService.AddUpdateAppSettings(
-                    ConfigType.DarklandsSaveGameEditor, ConfigurationService.SETTING_BACKUP_SAVEGAME, value.ToString());
+                    ConfigType.DarklandsSaveGameEditor, ConfigurationService.SettingBackupSavegame, value.ToString());
 
                 NotifyPropertyChanged();
             }

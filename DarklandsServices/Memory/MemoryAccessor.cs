@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace DarklandsServices.Memory
 {
@@ -15,49 +13,42 @@ namespace DarklandsServices.Memory
         //http://www.unknowncheats.me/forum/c/62019-c-non-hooked-external-directx-overlay.html
         //http://www.codeproject.com/Articles/716227/Csharp-How-to-Scan-a-Process-Memory
 
-        const int MEM_COMMIT = 0x00001000;
-        const int PAGE_READWRITE = 0x04;
-
-        private int m_processId;
-        private IntPtr m_processHandle = IntPtr.Zero;
-        private IntPtr m_baseAddress;
-        private string m_processName;
-        private bool m_Stopping;
-
-        private byte[] m_lastValue = null;
+        private const int MemCommit = 0x00001000;
+        private const int PageReadwrite = 0x04;
+        private const int PointerLength = 4;
+        private readonly string _processName;
+        private IntPtr _baseAddress;
+        private byte[] _lastValue;
+        private IntPtr _processHandle = IntPtr.Zero;
+        private int _processId;
+        private bool _stopping;
 
         public MemoryAccessor(string processName)
         {
-            m_processName = processName;
+            _processName = processName;
         }
 
         public long GetPointer(long offset)
         {
-            if (m_processHandle == IntPtr.Zero)
+            if (_processHandle == IntPtr.Zero)
             {
-                m_Stopping = false;
+                _stopping = false;
                 FindProcess();
             }
 
-            int length = 4;
-            var buffer = new byte[length];
-            IntPtr bytesRead = IntPtr.Zero;
-            var address = offset + (long)m_baseAddress;
-            NativeMethods.ReadProcessMemory(m_processHandle, (IntPtr)address, buffer, (IntPtr)length, out bytesRead);
+            var buffer = new byte[PointerLength];
+            IntPtr bytesRead;
+            var address = offset + (long) _baseAddress;
+            NativeMethods.ReadProcessMemory(_processHandle, (IntPtr) address, buffer, (IntPtr) PointerLength, out bytesRead);
 
-            if (bytesRead.ToInt32() > 0)
-            {
-                return BitConverter.ToUInt32(buffer, 0);
-            }
-
-            return 0;
+            return bytesRead.ToInt32() > 0 ? BitConverter.ToUInt32(buffer, 0) : 0;
         }
 
         public void StartPolling(long address, int length, int interval, Action<byte[]> dataRead)
         {
-            if (m_processHandle == IntPtr.Zero)
+            if (_processHandle == IntPtr.Zero)
             {
-                m_Stopping = false;
+                _stopping = false;
                 FindProcess();
             }
 
@@ -65,27 +56,28 @@ namespace DarklandsServices.Memory
             {
                 var buffer = new byte[length];
 
-                var bytesRead = IntPtr.Zero;
-                if (!NativeMethods.ReadProcessMemory(m_processHandle, (IntPtr)address, buffer, (IntPtr)length, out bytesRead))
+                IntPtr bytesRead;
+                if (
+                    !NativeMethods.ReadProcessMemory(_processHandle, (IntPtr) address, buffer, (IntPtr) length,
+                        out bytesRead))
                 {
-                    m_Stopping = true;
+                    _stopping = true;
                 }
-                if (bytesRead.ToInt32() > 0 && (m_lastValue == null || !m_lastValue.SequenceEqual(buffer)))
+                if (bytesRead.ToInt32() > 0 && (_lastValue == null || !_lastValue.SequenceEqual(buffer)))
                 {
-                    m_lastValue = buffer;
-                    dataRead(m_lastValue);
+                    _lastValue = buffer;
+                    dataRead(_lastValue);
                 }
 
                 Thread.Sleep(interval);
-
-            } while (!m_Stopping);
+            } while (!_stopping);
         }
 
         public bool ReadMemory(long address, byte[] bytes, int length = 0)
         {
-            if (m_processHandle == IntPtr.Zero)
+            if (_processHandle == IntPtr.Zero)
             {
-                m_Stopping = false;
+                _stopping = false;
                 FindProcess();
             }
 
@@ -98,9 +90,10 @@ namespace DarklandsServices.Memory
                 length = bytes.Length;
             }
 
-            var bytesRead = IntPtr.Zero;
+            IntPtr bytesRead;
 
-            return NativeMethods.ReadProcessMemory(m_processHandle, (IntPtr)address, bytes, (IntPtr)length, out bytesRead);
+            return NativeMethods.ReadProcessMemory(_processHandle, (IntPtr) address, bytes, (IntPtr) length,
+                out bytesRead);
         }
 
         public IEnumerable<long> SearchMemory(byte[] bytes)
@@ -110,33 +103,32 @@ namespace DarklandsServices.Memory
                 throw new ArgumentNullException("bytes");
             }
 
-            if (m_processHandle == IntPtr.Zero)
+            if (_processHandle == IntPtr.Zero)
             {
-                m_Stopping = false;
+                _stopping = false;
                 FindProcess(ProcessAccessFlags.QueryInformation | ProcessAccessFlags.VirtualMemoryRead);
             }
 
             // http://www.codeproject.com/Articles/716227/Csharp-How-to-Scan-a-Process-Memory
             var addresses = new List<long>();
 
-            var sysInfo = new ExternSystemInfo();
+            ExternSystemInfo sysInfo;
             NativeMethods.GetSystemInfo(out sysInfo);
 
-            long minAddress = (long)sysInfo.minimumApplicationAddress;
-            long maxAddress = (long)sysInfo.maximumApplicationAddress;
+            var minAddress = (long) sysInfo.MinimumApplicationAddress;
+            var maxAddress = (long) sysInfo.MaximumApplicationAddress;
 
-            var memInfo = new ExternMemoryBasicInformation();
-            var memInfoSize = (IntPtr)28;
-            var bytesRead = IntPtr.Zero;
-            while (!m_Stopping && minAddress < maxAddress)
+            var memInfoSize = (IntPtr) 28;
+            while (!_stopping && minAddress < maxAddress)
             {
-                NativeMethods.VirtualQueryEx(m_processHandle, new IntPtr(minAddress), out memInfo, memInfoSize);
+                ExternMemoryBasicInformation memInfo;
+                NativeMethods.VirtualQueryEx(_processHandle, new IntPtr(minAddress), out memInfo, memInfoSize);
 
                 if (memInfo.RegionSize == 0)
                 {
                     var msg = "Could not read memory info, error code: " + Marshal.GetLastWin32Error()
-                        + " handle: 0x" + m_processHandle.ToString("x")
-                        + " minAddress: 0x" + minAddress.ToString("x");
+                              + " handle: 0x" + _processHandle.ToString("x")
+                              + " minAddress: 0x" + minAddress.ToString("x");
 
                     Stop();
                     throw new InvalidOperationException(msg);
@@ -146,13 +138,14 @@ namespace DarklandsServices.Memory
                 {
                 }
 
-                if (memInfo.Protect == PAGE_READWRITE && memInfo.State == MEM_COMMIT)
+                if (memInfo.Protect == PageReadwrite && memInfo.State == MemCommit)
                 {
                     var buffer = new byte[memInfo.RegionSize];
-                    if (NativeMethods.ReadProcessMemory(m_processHandle, (IntPtr)memInfo.BaseAddress, buffer,
-                        (IntPtr)memInfo.RegionSize, out bytesRead))
+                    IntPtr bytesRead;
+                    if (NativeMethods.ReadProcessMemory(_processHandle, (IntPtr) memInfo.BaseAddress, buffer,
+                        (IntPtr) memInfo.RegionSize, out bytesRead))
                     {
-                        int index = 0;
+                        var index = 0;
 
                         do
                         {
@@ -165,7 +158,6 @@ namespace DarklandsServices.Memory
 
                                 //System.IO.File.WriteAllBytes("memdumb.bin", buffer);
                             }
-
                         } while (index > 0);
                     }
                 }
@@ -176,21 +168,23 @@ namespace DarklandsServices.Memory
             return addresses;
         }
 
-        private void FindProcess(ProcessAccessFlags flags = ProcessAccessFlags.VirtualMemoryRead | ProcessAccessFlags.VirtualMemoryWrite)
+        private void FindProcess(
+            ProcessAccessFlags flags = ProcessAccessFlags.VirtualMemoryRead | ProcessAccessFlags.VirtualMemoryWrite)
         {
-            while (m_processHandle == IntPtr.Zero && !m_Stopping)
+            while (_processHandle == IntPtr.Zero && !_stopping)
             {
-                var process = Process.GetProcessesByName(m_processName).FirstOrDefault();
+                var process = Process.GetProcessesByName(_processName).FirstOrDefault();
                 if (process == null)
                 {
                     Thread.Sleep(1000);
                 }
                 else
                 {
-                    m_processId = process.Id;
-                    m_baseAddress = process.MainModule.BaseAddress;
-                    m_processHandle = NativeMethods.OpenProcess(flags, false, m_processId);
-                    Console.WriteLine(string.Format("Found process '{0}' Id: {1:X}h, Handle: {2:X}", m_processName, m_processId, m_processHandle));
+                    _processId = process.Id;
+                    _baseAddress = process.MainModule.BaseAddress;
+                    _processHandle = NativeMethods.OpenProcess(flags, false, _processId);
+                    Console.WriteLine("Found process '{0}' Id: {1:X}h, Handle: {2:X}", _processName, _processId,
+                        (int)_processHandle);
                 }
             }
         }
@@ -199,13 +193,13 @@ namespace DarklandsServices.Memory
         {
             // http://boncode.blogspot.com/2011/02/net-c-find-pattern-in-byte-array.html
 
-            int found = -1;
-            bool matched = false;
+            var found = -1;
             //only look at this if we have a populated search array and search bytes with a sensible start
-            if (searchIn.Length > 0 && searchBytes.Length > 0 && start <= (searchIn.Length - searchBytes.Length) && searchIn.Length >= searchBytes.Length)
+            if (searchIn.Length > 0 && searchBytes.Length > 0 && start <= (searchIn.Length - searchBytes.Length) &&
+                searchIn.Length >= searchBytes.Length)
             {
                 //iterate through the array to be searched
-                for (int i = start; i <= searchIn.Length - searchBytes.Length; i++)
+                for (var i = start; i <= searchIn.Length - searchBytes.Length; i++)
                 {
                     //if the start bytes match we will start comparing all other bytes
                     if (searchIn[i] == searchBytes[0])
@@ -213,8 +207,8 @@ namespace DarklandsServices.Memory
                         if (searchIn.Length > 1)
                         {
                             //multiple bytes to be searched we have to compare byte by byte
-                            matched = true;
-                            for (int y = 1; y <= searchBytes.Length - 1; y++)
+                            var matched = true;
+                            for (var y = 1; y <= searchBytes.Length - 1; y++)
                             {
                                 if (searchIn[i + y] != searchBytes[y])
                                 {
@@ -228,7 +222,6 @@ namespace DarklandsServices.Memory
                                 found = i;
                                 break;
                             }
-
                         }
                         else
                         {
@@ -236,23 +229,21 @@ namespace DarklandsServices.Memory
                             found = i;
                             break; //stop the loop
                         }
-
                     }
                 }
-
             }
             return found;
         }
 
         public void Stop()
         {
-            m_Stopping = true;
+            _stopping = true;
 
-            if (m_processHandle != IntPtr.Zero)
+            if (_processHandle != IntPtr.Zero)
             {
-                Console.WriteLine(string.Format("Closing handle {0:X}", m_processHandle));
-                NativeMethods.CloseHandle(m_processHandle);
-                m_processHandle = IntPtr.Zero;
+                Console.WriteLine("Closing handle {0:X}", (int)_processHandle);
+                NativeMethods.CloseHandle(_processHandle);
+                _processHandle = IntPtr.Zero;
             }
         }
 
@@ -267,7 +258,6 @@ namespace DarklandsServices.Memory
         //    {
         //        proccID = procs[0].Id;
         //        pHandle = OpenProcess(0x1F0FFF, false, proccID);
-
 
 
         //        ProcessModuleCollection modules = procs[0].Modules;

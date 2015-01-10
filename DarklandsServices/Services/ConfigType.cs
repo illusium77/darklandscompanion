@@ -1,5 +1,4 @@
-﻿
-namespace DarklandsServices.Services
+﻿namespace DarklandsServices.Services
 {
     public enum ConfigType
     {
