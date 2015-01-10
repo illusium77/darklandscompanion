@@ -22,12 +22,16 @@ namespace DarklandsUiCommon.Models
         public QuestType Type { get; private set; }
 
         public bool IsCompleted { get; private set; }
+
         public string PickUpDate { get; private set; }
         public string DeliverByDate { get; private set; }
+        public string TimeLeftComplete { get; private set; }
+
         public string QuestGiverName { get; private set; }
         public string Destination { get; private set; }
         public string Source { get; private set; }
         public string QuestItem { get; private set; }
+
         public string Tooltip { get; private set; }
         public string Description { get; private set; }
 
@@ -53,7 +57,7 @@ namespace DarklandsUiCommon.Models
             {
                 Type = QuestType.KillRaubritter;
 
-                IsCompleted = dest != null ? dest.Type != LocationType.CastleRaubritter : false;
+                IsCompleted = dest != null && dest.Type != LocationType.CastleRaubritter;
             }
             else
             {
@@ -66,11 +70,11 @@ namespace DarklandsUiCommon.Models
             }
 
             PickUpDate = m_event.CreateDate.ToString();
-
             DeliverByDate = m_event.ExpireDate.IsInfinite == false
                 ? m_event.ExpireDate.ToString() : string.Empty;
+            TimeLeftComplete = GetTimeDelta();
 
-            QuestGiverName = GetQuestGiver(m_event.QuestGiver);
+            QuestGiverName = GetQuestGiver();
 
             var source = locations.FirstOrDefault(l => l.Id == m_event.SourceLocationId);
             Source = source != null ? source.Name : INVALID;
@@ -97,9 +101,27 @@ namespace DarklandsUiCommon.Models
             return INVALID;
         }
 
-        private string GetQuestGiver(QuestGiver questGiver)
+        private string GetTimeDelta()
         {
-            switch (questGiver)
+            if (m_event.ExpireDate.IsInfinite)
+            {
+                return string.Empty;
+            }
+
+            var delta = m_event.ExpireDate.DayDifference(m_event.CreateDate);
+            if (delta < 90)
+            {
+                return delta + "d";
+            }
+            else
+            {
+                return m_event.ExpireDate.MonthDifference(m_event.CreateDate) + "m";
+            }
+        }
+
+        private string GetQuestGiver()
+        {
+            switch (m_event.QuestGiver)
             {
                 case QuestGiver.NA:
                     return INVALID;
@@ -108,7 +130,7 @@ namespace DarklandsUiCommon.Models
                 case QuestGiver.Hanse:
                     return "Hanseatic League";
                 default:
-                    return questGiver.ToString();
+                    return m_event.QuestGiver.ToString();
             }
         }
 
@@ -170,7 +192,7 @@ namespace DarklandsUiCommon.Models
         {
             var quests = new List<QuestModel>(
                 from e in events
-                where e.IsQuest
+                where e.IsActiveQuest
                 select new QuestModel(e, locations, items));
 
             return quests;

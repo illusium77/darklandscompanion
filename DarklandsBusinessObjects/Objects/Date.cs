@@ -40,7 +40,28 @@ namespace DarklandsBusinessObjects.Objects
 
         // quests etc. maybe have infinite date (1499/13/31) when there
         // is not time limit for delivery
-        public bool IsInfinite { get { return Year == 1499 && Month == 13 && Day == 31; } }
+        public bool IsInfinite
+        {
+            get { return Year == 1499 && Month == 13 && Day == 31; }
+        }
+
+        public int DayDifference(Date other)
+        {
+            var dateA = new DateTime(this.Year, this.Month, this.Day);
+            var dateB = new DateTime(other.Year, other.Month, other.Day);
+
+            return dateA < dateB
+                ? (dateB - dateA).Days 
+                : (dateA - dateB).Days;
+        }
+
+        public int MonthDifference(Date other)
+        {
+            var dateA = new DateTime(this.Year, this.Month, this.Day);
+            var dateB = new DateTime(other.Year, other.Month, other.Day);
+
+            return Math.Abs((dateA.Month - dateB.Month) + 12 * (dateA.Year - dateB.Year));
+        }
 
         public Date(ByteStream dataStream, int offset, bool isReversed)
             : base(dataStream, offset, DATE_SIZE)

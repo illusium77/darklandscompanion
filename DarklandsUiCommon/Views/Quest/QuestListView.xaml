@@ -78,7 +78,7 @@
 
             <DataGrid.Columns>
                 <DataGridCheckBoxColumn Header="Done" Binding="{Binding IsCompleted, Mode=OneWay}" />
-                <DataGridTextColumn Header="Deadline" Binding="{Binding DeliverByDate, Mode=OneWay}" />
+                <DataGridTextColumn Header="Time left" Binding="{Binding TimeLeftComplete, Mode=OneWay}" />
                 <DataGridTextColumn Header="Destination" Binding="{Binding Destination, Mode=OneWay}" />
                 <DataGridTextColumn Header="Description" Binding="{Binding Description, Mode=OneWay}" Width="*" />
             </DataGrid.Columns>

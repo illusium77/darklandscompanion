@@ -73,6 +73,29 @@ namespace DarklandsBusinessObjects.Objects
             get { return QuestGiver != Objects.QuestGiver.NA; }
         }
 
+        public bool IsActiveQuest
+        {
+            get
+            {
+                // logic from dkedit dos savegame editor
+                if (!IsQuest || ExpireDate.Year == CreateDate.Year)
+                {
+                    return false;
+                }
+
+                //if (UnknownW22 != 8 || UnknownW2a == 0 || UnknownW2c != 2)
+                //{
+                //    if (ItemId == 0)
+                //    {
+                //        return false;
+                //    }
+                //}
+
+                return true;
+            }
+
+        }
+
         public Event(ByteStream dataStream, int offset)
             : base(dataStream, offset, EVENT_SIZE)
         {
