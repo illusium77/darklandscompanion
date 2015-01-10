@@ -93,9 +93,6 @@
     <Compile Include="Views\Character\SkillView.xaml.cs">
       <DependentUpon>SkillView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Quest\QuestView.xaml.cs">
-      <DependentUpon>QuestView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Quest\QuestListView.xaml.cs">
       <DependentUpon>QuestListView.xaml</DependentUpon>
     </Compile>
@@ -139,10 +136,6 @@
     <Page Include="Views\Character\SkillView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Quest\QuestView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Quest\QuestListView.xaml">
       <SubType>Designer</SubType>
