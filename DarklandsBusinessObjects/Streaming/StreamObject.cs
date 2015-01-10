@@ -163,7 +163,7 @@ namespace DarklandsBusinessObjects.Streaming
 
         public string Error
         {
-            get { throw new NotImplementedException(); }
+            get { return "Error"; }
         }
 
         public string this[string propertyName]

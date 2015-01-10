@@ -41,9 +41,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Memory\BaseAddressResolver.cs" />
+    <Compile Include="Memory\ExternMemoryBasicInformation.cs" />
+    <Compile Include="Memory\ExternSystemInfo.cs" />
     <Compile Include="Memory\MemoryAccessor.cs" />
     <Compile Include="Memory\MemoryMonitorBase.cs" />
     <Compile Include="Memory\MemorySectionMonitor.cs" />
+    <Compile Include="Memory\NativeMethods.cs" />
+    <Compile Include="Memory\ProcessAccessFlags.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Saints\SaintBuffFilter.cs" />
     <Compile Include="Saints\SaintBuffManager.cs" />
