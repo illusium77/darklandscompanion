@@ -1,50 +1,55 @@
-﻿using DarklandsBusinessObjects.Save;
-using DarklandsUiCommon.ViewModels;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
+using DarklandsBusinessObjects.Save;
+using DarklandsUiCommon.ViewModels;
 
 namespace DarklandsSaveGameEditor.ViewModels
 {
     internal class SaveGameViewModel : ModelBase
     {
-        private SaveGame m_saveGame;
+        private IEnumerable<CharacterTabViewModel> _characterTabVms;
+        private QuestTabVm _questTabVm;
+        private SaveGame _saveGame;
+        private Visibility _visibility;
+
         public SaveGame SaveGame
         {
-            get { return m_saveGame; }
+            get { return _saveGame; }
             private set
             {
-                m_saveGame = value;
+                _saveGame = value;
                 NotifyPropertyChanged();
             }
         }
 
-        private IEnumerable<CharacterTabViewModel> m_characterTabVms;
         public IEnumerable<CharacterTabViewModel> CharacterTabVms
         {
-            get { return m_characterTabVms; }
+            get { return _characterTabVms; }
             private set
             {
-                m_characterTabVms = value;
+                _characterTabVms = value;
                 NotifyPropertyChanged();
             }
         }
 
-        private QuestTabVm m_questTabVm;
         public QuestTabVm QuestTabVm
         {
-            get { return m_questTabVm; }
+            get { return _questTabVm; }
             private set
             {
-                m_questTabVm = value;
+                _questTabVm = value;
                 NotifyPropertyChanged();
             }
         }
 
         public Visibility Visibility
         {
-            get
+            get { return _visibility; }
+            set
             {
-                return SaveGame == null ? Visibility.Hidden : Visibility.Visible;
+                _visibility = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -56,17 +61,16 @@ namespace DarklandsSaveGameEditor.ViewModels
 
             if (saveGame != null)
             {
-                var tabs = new List<CharacterTabViewModel>();
-                foreach (var character in SaveGame.Party.Characters)
-                {
-                    tabs.Add(new CharacterTabViewModel(character));
-                }
+                var tabs = new List<CharacterTabViewModel>(
+                    from c in SaveGame.Party.Characters
+                    select new CharacterTabViewModel(c));
+
                 CharacterTabVms = tabs;
 
                 QuestTabVm = new QuestTabVm(SaveGame.Events);
             }
 
-            NotifyPropertyChanged("Visibility");
+            Visibility = SaveGame == null ? Visibility.Hidden : Visibility.Visible;
         }
     }
 }

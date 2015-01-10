@@ -1,67 +1,24 @@
-﻿using DarklandsBusinessObjects.Save;
-using DarklandsUiCommon.Commands;
-using DarklandsUiCommon.ViewModels;
-using Microsoft.Win32;
-using System;
-using System.Linq;
+﻿using System;
 using System.IO;
 using System.Windows.Input;
-using DarklandsUiCommon.DataValidation;
+using DarklandsBusinessObjects.Save;
 using DarklandsServices.Services;
-using System.Collections.Generic;
-using DarklandsUiCommon.Models;
+using DarklandsUiCommon.Commands;
+using DarklandsUiCommon.DataValidation;
+using DarklandsUiCommon.ViewModels;
+using Microsoft.Win32;
 
 namespace DarklandsSaveGameEditor.ViewModels
 {
     internal class MainWindowViewModel : ModelBase
     {
-        private const string DEFAULT_TITLE = "Darklands Save Game Editor";
-
-        private string m_title;
-        public string Title
-        {
-            get { return m_title; }
-            set
-            {
-                m_title = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private SaveGameViewModel m_saveGameVm;
-        public SaveGameViewModel SaveGameVm
-        {
-            get { return m_saveGameVm; }
-            set
-            {
-                m_saveGameVm = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public bool MakeBackup
-        {
-            get
-            {
-                return ConfigurationService.HasSetting(ConfigType.DarklandsSaveGameEditor, ConfigurationService.SettingBackupSavegame)
-                    ? ConfigurationService.ReadSetting<bool>(ConfigType.DarklandsSaveGameEditor, ConfigurationService.SettingBackupSavegame)
-                    : true;
-            }
-            set
-            {
-                ConfigurationService.AddUpdateAppSettings(
-                    ConfigType.DarklandsSaveGameEditor, ConfigurationService.SettingBackupSavegame, value.ToString());
-
-                NotifyPropertyChanged();
-            }
-        }
-
-        public ICommand LoadCommand { get; private set; }
-        public ICommand SaveCommand { get; private set; }
+        private const string DefaultTitle = "Darklands Save Game Editor";
+        private SaveGameViewModel _saveGameVm;
+        private string _title;
 
         public MainWindowViewModel()
         {
-            Title = DEFAULT_TITLE;
+            Title = DefaultTitle;
 
             SaveGameVm = new SaveGameViewModel();
 
@@ -74,6 +31,45 @@ namespace DarklandsSaveGameEditor.ViewModels
                 LoadSave(args[1]);
             }
         }
+
+        public string Title
+        {
+            get { return _title; }
+            set
+            {
+                _title = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public SaveGameViewModel SaveGameVm
+        {
+            get { return _saveGameVm; }
+            set
+            {
+                _saveGameVm = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public bool MakeBackup
+        {
+            get
+            {
+                return !ConfigurationService.HasSetting(ConfigType.DarklandsSaveGameEditor, ConfigurationService.SettingBackupSavegame) 
+                    || ConfigurationService.ReadSetting<bool>(ConfigType.DarklandsSaveGameEditor, ConfigurationService.SettingBackupSavegame);
+            }
+            set
+            {
+                ConfigurationService.AddUpdateAppSettings(
+                    ConfigType.DarklandsSaveGameEditor, ConfigurationService.SettingBackupSavegame, value.ToString());
+
+                NotifyPropertyChanged();
+            }
+        }
+
+        public ICommand LoadCommand { get; private set; }
+        public ICommand SaveCommand { get; private set; }
 
         private bool CanSave()
         {
@@ -126,9 +122,11 @@ namespace DarklandsSaveGameEditor.ViewModels
 
         private void OnLoad()
         {
-            var openFileDialog = new OpenFileDialog();
-            openFileDialog.DefaultExt = ".sav";
-            openFileDialog.Filter = "Darkland save (.sav)|*.sav"; // Filter files by extension 
+            var openFileDialog = new OpenFileDialog
+            {
+                DefaultExt = ".sav",
+                Filter = "Darklands save (.sav)|*.sav"
+            };
 
             if (openFileDialog.ShowDialog() == true)
             {
@@ -142,7 +140,7 @@ namespace DarklandsSaveGameEditor.ViewModels
             {
                 var save = new SaveGame(fileName);
                 SaveGameVm.SetSave(save);
-                Title = DEFAULT_TITLE + " - " + Path.GetFileName(fileName) + " " + save.Header.Date;
+                Title = DefaultTitle + " - " + Path.GetFileName(fileName) + " " + save.Header.Date;
 
                 var backup = (fileName + ".backup").ToUpper();
                 if (MakeBackup && !File.Exists(backup))

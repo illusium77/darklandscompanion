@@ -13,9 +13,10 @@
         <ToolBarPanel Grid.Row="0" Orientation="Horizontal">
             <Button Content="Load" Command="{Binding LoadCommand}" />
             <Button Content="Save" Command="{Binding SaveCommand}" />
-            <CheckBox Content="Backup original" IsChecked="{Binding MakeBackup, FallbackValue=True}" VerticalAlignment="Center" />
+            <CheckBox Content="Backup original" IsChecked="{Binding MakeBackup, FallbackValue=True}"
+                      VerticalAlignment="Center" />
         </ToolBarPanel>
 
-        <views:SaveGameView Grid.Row="2" DataContext="{Binding SaveGameVm}" />
+        <views:SaveGameView Grid.Row="1" DataContext="{Binding SaveGameVm}" />
     </Grid>
 </Window>

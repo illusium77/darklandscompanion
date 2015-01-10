@@ -1,24 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-
-namespace DarklandsSaveGameEditor.Views
+﻿namespace DarklandsSaveGameEditor.Views
 {
     /// <summary>
-    /// Interaction logic for SaveGameView.xaml
+    ///     Interaction logic for SaveGameView.xaml
     /// </summary>
-    public partial class SaveGameView : UserControl
+    public partial class SaveGameView
     {
         public SaveGameView()
         {

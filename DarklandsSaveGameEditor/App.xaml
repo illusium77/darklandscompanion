@@ -5,8 +5,8 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/DarklandsUiCommon;component/Views/SharedStyles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/DarklandsUiCommon;component/Views/SharedStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>        
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
