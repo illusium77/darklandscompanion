@@ -1,35 +1,33 @@
-﻿using DarklandsBusinessObjects.Objects;
-using DarklandsServices.Services;
-using DarklandsUiCommon.ViewModels;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using DarklandsBusinessObjects.Objects;
+using DarklandsServices.Services;
+using DarklandsUiCommon.ViewModels;
 
 namespace DarklandsCompanion.ViewModels
 {
     public class MessageViewModel : ModelBase
     {
-        private ScreenType m_currentScreen;
-
-        private string m_messages;
-        public string Messages
-        {
-            get { return m_messages; }
-            set
-            {
-                m_messages = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public bool IsListening { get; set; }
+        private ScreenType _currentScreen;
+        private string _messages;
 
         public MessageViewModel()
         {
             IsListening = false;
         }
+
+        public string Messages
+        {
+            get { return _messages; }
+            set
+            {
+                _messages = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public bool IsListening { get; set; }
 
         public void Start()
         {
@@ -45,31 +43,37 @@ namespace DarklandsCompanion.ViewModels
 
         private void OnScreenUpdated(string screenName)
         {
-            m_currentScreen = LiveDataService.GetScreen(screenName);
+            _currentScreen = LiveDataService.GetScreen(screenName);
         }
 
         private void UpdateFormulae(IEnumerable<Formula> formulae)
         {
-            if (m_currentScreen == ScreenType.Alchemist
-                && formulae.Count() == 4) // ackward hack #1
+            var formulaList = formulae.ToList();
+
+            if (_currentScreen == ScreenType.Alchemist
+                && formulaList.Count == 4) // ackward hack #1
             {
                 // #1 when entring the the alchemy screen memory section contains
-                // 3 last formulae and text 'potions'. Skip that.
-                var party = LiveDataService.ReadParty();
+                // 3 last formulaList and text 'potions'. Skip that.
+                var party = LiveDataService.ReadParty().ToList();
 
 
                 var sb = new StringBuilder();
-                foreach (var f in formulae)
+                foreach (var f in formulaList)
                 {
-                    var ingredientsWithNames = from ing in f.Ingrediens
-                                               let item = StaticDataService.ItemDefinitions.FirstOrDefault(i => i.Id == ing.ItemCode)
-                                               select string.Format("{0} ({1})", (item != null ? item.ShortName : "???"), ing.Quantity);
+                    var formula = f;
 
-                    var alreadyKnown = from c in party
-                                       where c.HasFormula(f.Id)
-                                       select c.ShortName;
+                    var ingredientsWithNames =
+                        from ing in formula.Ingrediens
+                        let item = StaticDataService.ItemDefinitions.FirstOrDefault(i => i.Id == ing.ItemCode)
+                        select string.Format("{0} ({1})", (item != null ? item.ShortName : "???"), ing.Quantity);
 
-                    sb.AppendLine(f.FullName + " (" + f.Quality + ") " + (alreadyKnown.Any() ? string.Join(", ", alreadyKnown) : string.Empty));
+                    var alreadyKnown = (from c in party
+                                        where c.HasFormula(formula.Id)
+                                        select c.ShortName).ToList();
+
+                    sb.AppendLine(f.FullName + " (" + f.Quality + ") " +
+                                  (alreadyKnown.Any() ? string.Join(", ", alreadyKnown) : string.Empty));
                     sb.AppendLine(string.Join(", ", ingredientsWithNames));
 
                     sb.AppendLine(f.Description);
@@ -82,17 +86,18 @@ namespace DarklandsCompanion.ViewModels
 
         private void UpdateSaints(IEnumerable<Saint> saints)
         {
-            var party = LiveDataService.ReadParty();
+            var party = LiveDataService.ReadParty().ToList();
+            var saintList = saints.ToList();
 
-            if (saints.Any())
+            if (saintList.Any())
             {
                 var sb = new StringBuilder();
-                foreach (var saint in saints)
+                foreach (var saint in saintList)
                 {
                     sb.AppendLine(saint.Clue);
-                    var alreadyKnown = from c in party
-                                       where c.HasSaint(saint.Id)
-                                       select c.ShortName;
+                    var alreadyKnown = (from c in party
+                                        where c.HasSaint(saint.Id)
+                                        select c.ShortName).ToList();
 
                     if (alreadyKnown.Any())
                     {

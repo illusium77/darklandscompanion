@@ -1,60 +1,59 @@
 ﻿using DarklandsServices.Services;
 using DarklandsUiCommon.ViewModels;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace DarklandsCompanion.ViewModels
 {
     public class MainWindowViewModel : ModelBase
     {
-        private MessageViewModel m_messageVm;
-        public MessageViewModel MessageVm
-        {
-            get { return m_messageVm; }
-            set
-            {
-                m_messageVm = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private SaintSearchViewModel m_saintSearchVm;
-        public SaintSearchViewModel SaintSearchVm
-        {
-            get { return m_saintSearchVm; }
-            set
-            {
-                m_saintSearchVm = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private string m_title;
-        public string Title
-        {
-            get { return m_title; }
-            set
-            {
-                m_title = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private bool m_isConnected;
-        public bool IsConnected
-        {
-            get { return m_isConnected; }
-            set
-            {
-                m_isConnected = value;
-                NotifyPropertyChanged();
-            }
-        }
+        private bool _isConnected;
+        private MessageViewModel _messageVm;
+        private SaintSearchViewModel _saintSearchVm;
+        private string _title;
 
         public MainWindowViewModel()
         {
             MessageVm = new MessageViewModel();
             SaintSearchVm = new SaintSearchViewModel();
+        }
+
+        public MessageViewModel MessageVm
+        {
+            get { return _messageVm; }
+            set
+            {
+                _messageVm = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public SaintSearchViewModel SaintSearchVm
+        {
+            get { return _saintSearchVm; }
+            set
+            {
+                _saintSearchVm = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public string Title
+        {
+            get { return _title; }
+            set
+            {
+                _title = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public bool IsConnected
+        {
+            get { return _isConnected; }
+            set
+            {
+                _isConnected = value;
+                NotifyPropertyChanged();
+            }
         }
 
         public bool Start()
@@ -67,12 +66,9 @@ namespace DarklandsCompanion.ViewModels
 
                 return true;
             }
-            else
-            {
-                MessageVm.Messages = "Error: Cannot find Darklands from the folder '" + path + "'";
+            MessageVm.Messages = "Error: Cannot find Darklands from the folder '" + path + "'";
 
-                return false;
-            }
+            return false;
         }
 
         public void Stop()
@@ -83,7 +79,7 @@ namespace DarklandsCompanion.ViewModels
         private void OnConnected(bool isConnected)
         {
             Title = "Darklands Companion - " +
-                (isConnected ? "Connected" : "Looking for Darklands process...");
+                    (isConnected ? "Connected" : "Looking for Darklands process...");
             IsConnected = isConnected;
 
             if (isConnected && !MessageVm.IsListening)
@@ -91,13 +87,5 @@ namespace DarklandsCompanion.ViewModels
                 MessageVm.Start();
             }
         }
-
-
-        //public void SetDarklandPath(string path)
-        //{
-        //    ConfigurationService.AddUpdateAppSettings(
-        //        ConfigType.Global, ConfigurationService.SETTING_DARKLANDS_PATH, path);
-        //    Start();
-        //}
     }
 }
