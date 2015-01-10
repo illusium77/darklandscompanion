@@ -1,37 +1,43 @@
-﻿using DarklandsUiCommon.Commands;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
+using DarklandsUiCommon.Commands;
 
 namespace DarklandsUiCommon.ViewModels
 {
     public class SelectFolderDialogModel : ModelBase
     {
-        private Action m_onClose;
+        private readonly Action _onClose;
+        private IEnumerable<string> _requiredFiles;
+        private string _selectedPath;
 
-        private string m_selectedPath;
+        public SelectFolderDialogModel(Action onClose)
+        {
+            BrowseCommand = new UiCommand(OnBrowse);
+            OkCommand = new UiCommand(OnOk, IsProperFolder);
+
+            _onClose = onClose;
+        }
+
         public string SelectedPath
         {
-            get { return m_selectedPath; }
+            get { return _selectedPath; }
             set
             {
-                m_selectedPath = value;
+                _selectedPath = value;
                 NotifyPropertyChanged();
             }
         }
 
-        private IEnumerable<string> m_requiredFiles;
         public IEnumerable<string> RequiredFiles
         {
-            get { return m_requiredFiles; }
+            get { return _requiredFiles; }
             set
             {
-                m_requiredFiles = value;
+                _requiredFiles = value;
                 NotifyPropertyChanged();
             }
         }
@@ -39,19 +45,11 @@ namespace DarklandsUiCommon.ViewModels
         public ICommand BrowseCommand { get; private set; }
         public ICommand OkCommand { get; private set; }
 
-        public SelectFolderDialogModel(Action OnClose)
-        {
-            BrowseCommand = new UiCommand(OnBrowse);
-            OkCommand = new UiCommand(OnOk, IsProperFolder);
-
-            m_onClose = OnClose;
-        }
-
         private void OnOk()
         {
-            if (m_onClose != null)
+            if (_onClose != null)
             {
-                m_onClose();
+                _onClose();
             }
         }
 
@@ -61,15 +59,17 @@ namespace DarklandsUiCommon.ViewModels
             {
                 return false;
             }
-            else if (RequiredFiles == null || RequiredFiles.Count() == 0)
+            if (RequiredFiles == null || !RequiredFiles.Any())
             {
                 return true;
             }
 
             try
             {
-                var filesInDirectory = Directory.EnumerateFiles(
-                                SelectedPath, "*", SearchOption.AllDirectories).Select(f => Path.GetFileName(f).ToLower());
+                var filesInDirectory =
+                    from f in Directory.EnumerateFiles(SelectedPath, "*", SearchOption.AllDirectories)
+                    where f != null
+                    select Path.GetFileName(f).ToLower();
 
                 return !RequiredFiles.Except(filesInDirectory).Any();
             }

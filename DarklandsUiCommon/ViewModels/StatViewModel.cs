@@ -4,32 +4,33 @@ namespace DarklandsUiCommon.ViewModels
 {
     public class StatViewModel : ModelBase
     {
-        private AttributeSet m_attributes;
-        public AttributeSet Attributes
-        {
-            get { return m_attributes; }
-            set
-            {
-                m_attributes = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private SkillSet m_skills;
-        public SkillSet Skills
-        {
-            get { return m_skills; }
-            set
-            {
-                m_skills = value;
-                NotifyPropertyChanged();
-            }
-        }
+        private AttributeSet _attributes;
+        private SkillSet _skills;
 
         public StatViewModel(Character character)
         {
             Attributes = character.MaxAttributes;
             Skills = character.Skills;
+        }
+
+        public AttributeSet Attributes
+        {
+            get { return _attributes; }
+            set
+            {
+                _attributes = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public SkillSet Skills
+        {
+            get { return _skills; }
+            set
+            {
+                _skills = value;
+                NotifyPropertyChanged();
+            }
         }
     }
 }

@@ -4,7 +4,7 @@
         Title="Select Darklands Folder"
         ShowInTaskbar="False" WindowStartupLocation="CenterOwner" SizeToContent="WidthAndHeight"
         WindowStyle="ToolWindow">
-    
+
     <Grid Margin="15">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -20,7 +20,8 @@
 
         <TextBlock Grid.Row="0" TextWrapping="Wrap" IsEnabled="False"
                    Text="Application has to locate Darklands installation folder in order to show in game data like saint names and alchemy formulae." />
-        <TextBlock Grid.Row="1" IsEnabled="False" Margin="0,15,0,0" Text="Please enter the folder where Darklands has been installed:" />
+        <TextBlock Grid.Row="1" IsEnabled="False" Margin="0,15,0,0"
+                   Text="Please enter the folder where Darklands has been installed:" />
 
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
@@ -28,8 +29,10 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <TextBox Grid.Column="0" Text="{Binding SelectedPath, UpdateSourceTrigger=PropertyChanged}"  Margin="0,0,10,0" />
-            <Button Grid.Column="1" Content="..." Command="{Binding BrowseCommand}" Width="20" ToolTip="Browse for folder..." />
+            <TextBox Grid.Column="0" Text="{Binding SelectedPath, UpdateSourceTrigger=PropertyChanged}"
+                     Margin="0,0,10,0" />
+            <Button Grid.Column="1" Content="..." Command="{Binding BrowseCommand}" Width="20"
+                    ToolTip="Browse for folder..." />
         </Grid>
 
         <WrapPanel Grid.Row="3" Orientation="Horizontal"

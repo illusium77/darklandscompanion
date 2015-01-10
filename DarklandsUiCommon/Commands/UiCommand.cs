@@ -1,27 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DarklandsUiCommon.Commands
 {
     public class UiCommand : BaseCommand
     {
-        private Action m_execute;
-        private Func<bool> m_canExecute;
+        private readonly Func<bool> _canExecute;
+        private readonly Action _execute;
 
         public UiCommand(Action execute, Func<bool> canExecute = null)
         {
-            m_execute = execute;
-            m_canExecute = canExecute;
+            _execute = execute;
+            _canExecute = canExecute;
         }
 
         public override bool CanExecute(object parameter)
         {
-            if (m_canExecute != null)
+            if (_canExecute != null)
             {
-                return m_canExecute();
+                return _canExecute();
             }
 
             return true;
@@ -29,9 +25,9 @@ namespace DarklandsUiCommon.Commands
 
         public override void Execute(object parameter)
         {
-            if (m_execute != null)
+            if (_execute != null)
             {
-                m_execute();
+                _execute();
             }
         }
     }

@@ -1,22 +1,17 @@
 ﻿using DarklandsUiCommon.DataValidation;
-using System.Linq;
-using System.Windows.Controls;
 
 namespace DarklandsUiCommon.Views.Character
 {
     /// <summary>
-    /// Interaction logic for AttributeView.xaml
+    ///     Interaction logic for AttributeView.xaml
     /// </summary>
-    public partial class AttributeView : Grid
+    public partial class AttributeView
     {
         public AttributeView()
         {
             InitializeComponent();
 
-            Loaded += (s, e) =>
-            {
-                ErrorMonitor.Register(this);
-            };
+            Loaded += (s, e) => { ErrorMonitor.Register(this); };
         }
     }
 }

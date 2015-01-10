@@ -1,25 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
 
 namespace DarklandsUiCommon.DataValidation
 {
     public static class ErrorMonitor
     {
-        private static ICollection<Panel> s_registeredPanels = new List<Panel>();
-
+        private static readonly ICollection<Panel> RegisteredPanels = new List<Panel>();
         public static int ErrorCount { get; set; }
-        public static bool HasErrors { get { return ErrorCount != 0; } }
+
+        public static bool HasErrors
+        {
+            get { return ErrorCount != 0; }
+        }
 
         public static void Register(Panel panel)
         {
-            if (!s_registeredPanels.Contains(panel))
+            if (!RegisteredPanels.Contains(panel))
             {
-                s_registeredPanels.Add(panel);
+                RegisteredPanels.Add(panel);
 
                 // subscribe only for textbox validaiton errors 
                 foreach (var tb in panel.Children.OfType<TextBox>())
@@ -28,7 +27,7 @@ namespace DarklandsUiCommon.DataValidation
 
                     // check if we already have error
                     var prop = tb.GetBindingExpression(TextBox.TextProperty);
-                    if (prop.HasError)
+                    if (prop != null && prop.HasError)
                     {
                         ErrorCount++;
                     }
@@ -38,7 +37,7 @@ namespace DarklandsUiCommon.DataValidation
 
         public static void ShutDown()
         {
-            foreach (var panel in s_registeredPanels)
+            foreach (var panel in RegisteredPanels)
             {
                 foreach (var tb in panel.Children.OfType<TextBox>())
                 {
@@ -46,7 +45,7 @@ namespace DarklandsUiCommon.DataValidation
                 }
             }
 
-            s_registeredPanels.Clear();
+            RegisteredPanels.Clear();
         }
 
         private static void OnValidationError(object sender, ValidationErrorEventArgs e)
@@ -54,6 +53,5 @@ namespace DarklandsUiCommon.DataValidation
             if (e.Action == ValidationErrorEventAction.Added) ErrorCount += 1;
             if (e.Action == ValidationErrorEventAction.Removed) ErrorCount -= 1;
         }
-
     }
 }

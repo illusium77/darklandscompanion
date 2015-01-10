@@ -43,13 +43,13 @@
             <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding CurrentLocationName, Mode=OneWay}" IsEnabled="False" />
 
             <Label Grid.Row="3" Grid.Column="0" Content="Global Reputation" />
-            <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Reputation, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" Style="{StaticResource errorTextBox}" />
+            <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Reputation, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" Style="{StaticResource ErrorTextBox}" />
 
             <Label Grid.Row="4" Grid.Column="0" Content="Philosopher's Stone" />
-            <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding PhilosopherStone, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" Style="{StaticResource errorTextBox}" />
+            <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding PhilosopherStone, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" Style="{StaticResource ErrorTextBox}" />
 
             <Label Grid.Row="5" Grid.Column="0" Content="Bank Notes" />
-            <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding BankNotes, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" Style="{StaticResource errorTextBox}" ToolTip="In florings" />
+            <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding BankNotes, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" Style="{StaticResource ErrorTextBox}" ToolTip="In florings" />
 
             <Label Grid.Row="6" Grid.Column="0">
                 <TextBlock>
@@ -58,7 +58,7 @@
                     <Run Text="{Binding Money.Pfenniges, Mode=OneWay}"/>pf)
                 </TextBlock>
             </Label>
-            <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding Money.TotalInPfenniges, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" Style="{StaticResource errorTextBox}" ToolTip="Money in pfenniges" />
+            <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding Money.TotalInPfenniges, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" Style="{StaticResource ErrorTextBox}" ToolTip="Money in pfenniges" />
         </Grid>
     </AdornerDecorator>
 </TabItem>

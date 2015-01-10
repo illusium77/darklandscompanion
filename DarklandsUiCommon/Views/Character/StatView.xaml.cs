@@ -1,11 +1,9 @@
-﻿using System.Windows.Controls;
-
-namespace DarklandsUiCommon.Views.Character
+﻿namespace DarklandsUiCommon.Views.Character
 {
     /// <summary>
-    /// Interaction logic for CharacterView.xaml
+    ///     Interaction logic for CharacterView.xaml
     /// </summary>
-    public partial class StatView : UserControl
+    public partial class StatView
     {
         public StatView()
         {

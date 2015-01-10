@@ -1,30 +1,50 @@
-﻿using DarklandsBusinessObjects.Objects;
-using DarklandsUiCommon.ViewModels;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using DarklandsBusinessObjects.Objects;
+using DarklandsUiCommon.ViewModels;
 
 namespace DarklandsUiCommon.Models
 {
-    public class FormulaTypeModel : ModelBase
+    public class FormulaModel : ModelBase
     {
-        private Formula[] m_formulae;
-        private FormulaeBitmask m_knownFormulae;
+        private readonly Formula[] _formulae;
+        private readonly FormulaeBitmask _knownFormulae;
+
+        public FormulaModel(Formula[] formulae, FormulaeBitmask knownFormulae)
+        {
+            if (formulae.Length != 3)
+            {
+                throw new ArgumentException("Model requires three formulas");
+            }
+
+            // order by ql just in case
+            _formulae = (from f in formulae
+                orderby f.Quality
+                select f).ToArray();
+
+            _knownFormulae = knownFormulae;
+
+            Type = _formulae[0].Type; // all should have same type
+            Description = _formulae[0].Description;
+
+            Quality25Tip = CreateTooltip(_formulae[0]);
+            Quality35Tip = CreateTooltip(_formulae[1]);
+            Quality45Tip = CreateTooltip(_formulae[2]);
+        }
 
         public bool HasQuality25
         {
-            get { return m_knownFormulae.HasFormula(m_formulae[0].Id); }
+            get { return _knownFormulae.HasFormula(_formulae[0].Id); }
             set
             {
                 if (value)
                 {
-                    m_knownFormulae.LearnFormula(m_formulae[0].Id);
+                    _knownFormulae.LearnFormula(_formulae[0].Id);
                 }
                 else
                 {
-                    m_knownFormulae.ForgetFormula(m_formulae[0].Id);
+                    _knownFormulae.ForgetFormula(_formulae[0].Id);
                 }
                 NotifyPropertyChanged();
             }
@@ -32,16 +52,16 @@ namespace DarklandsUiCommon.Models
 
         public bool HasQuality35
         {
-            get { return m_knownFormulae.HasFormula(m_formulae[1].Id); }
+            get { return _knownFormulae.HasFormula(_formulae[1].Id); }
             set
             {
                 if (value)
                 {
-                    m_knownFormulae.LearnFormula(m_formulae[1].Id);
+                    _knownFormulae.LearnFormula(_formulae[1].Id);
                 }
                 else
                 {
-                    m_knownFormulae.ForgetFormula(m_formulae[1].Id);
+                    _knownFormulae.ForgetFormula(_formulae[1].Id);
                 }
                 NotifyPropertyChanged();
             }
@@ -49,16 +69,16 @@ namespace DarklandsUiCommon.Models
 
         public bool HasQuality45
         {
-            get { return m_knownFormulae.HasFormula(m_formulae[2].Id); }
+            get { return _knownFormulae.HasFormula(_formulae[2].Id); }
             set
             {
                 if (value)
                 {
-                    m_knownFormulae.LearnFormula(m_formulae[2].Id);
+                    _knownFormulae.LearnFormula(_formulae[2].Id);
                 }
                 else
                 {
-                    m_knownFormulae.ForgetFormula(m_formulae[2].Id);
+                    _knownFormulae.ForgetFormula(_formulae[2].Id);
                 }
                 NotifyPropertyChanged();
             }
@@ -66,32 +86,9 @@ namespace DarklandsUiCommon.Models
 
         public string Type { get; private set; }
         public string Description { get; private set; }
-
         public string Quality25Tip { get; private set; }
         public string Quality35Tip { get; private set; }
         public string Quality45Tip { get; private set; }
-
-        public FormulaTypeModel(IEnumerable<Formula> formulae, FormulaeBitmask knownFormulae)
-        {
-            if (formulae.Count() != 3)
-            {
-                throw new ArgumentException("Model requires three formulas");
-            }
-
-            // order by ql just in case
-            m_formulae = (from f in formulae
-                         orderby f.Quality
-                         select f).ToArray();
-
-            m_knownFormulae = knownFormulae;
-
-            Type = m_formulae[0].Type; // all should have same type
-            Description = m_formulae[0].Description;
-
-            Quality25Tip = CreateTooltip(m_formulae[0]);
-            Quality35Tip = CreateTooltip(m_formulae[1]);
-            Quality45Tip = CreateTooltip(m_formulae[2]);
-        }
 
         private string CreateTooltip(Formula formula)
         {
@@ -103,6 +100,5 @@ namespace DarklandsUiCommon.Models
 
             return sb.ToString();
         }
-
     }
 }
