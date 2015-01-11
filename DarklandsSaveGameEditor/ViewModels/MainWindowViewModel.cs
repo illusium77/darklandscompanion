@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Windows.Input;
 using DarklandsBusinessObjects.Save;
 using DarklandsServices.Services;
@@ -23,6 +24,7 @@ namespace DarklandsSaveGameEditor.ViewModels
             SaveGameVm = new SaveGameViewModel();
 
             LoadCommand = new UiCommand(OnLoad);
+            LoadLastestCommand = new UiCommand(OnLoadLatest, CanLoadLatest);
             SaveCommand = new UiCommand(OnSave, CanSave);
 
             var args = Environment.GetCommandLineArgs();
@@ -56,7 +58,7 @@ namespace DarklandsSaveGameEditor.ViewModels
         {
             get
             {
-                return !ConfigurationService.HasSetting(ConfigType.DarklandsSaveGameEditor, ConfigurationService.SettingBackupSavegame) 
+                return !ConfigurationService.HasSetting(ConfigType.DarklandsSaveGameEditor, ConfigurationService.SettingBackupSavegame)
                     || ConfigurationService.ReadSetting<bool>(ConfigType.DarklandsSaveGameEditor, ConfigurationService.SettingBackupSavegame);
             }
             set
@@ -69,6 +71,7 @@ namespace DarklandsSaveGameEditor.ViewModels
         }
 
         public ICommand LoadCommand { get; private set; }
+        public ICommand LoadLastestCommand { get; private set; }
         public ICommand SaveCommand { get; private set; }
 
         private bool CanSave()
@@ -134,13 +137,39 @@ namespace DarklandsSaveGameEditor.ViewModels
             }
         }
 
+        private bool CanLoadLatest()
+        {
+            return ConfigurationService.HasDarklandsPath(ConfigType.DarklandsSaveGameEditor);
+        }
+
+        private void OnLoadLatest()
+        {
+            var path = Path.Combine(ConfigurationService.GetDarklandsPath(ConfigType.DarklandsSaveGameEditor), "saves");
+
+            if (!Directory.Exists(path))
+            {
+                return;
+            }
+
+            var latestSave = (
+                from f in new DirectoryInfo(path).EnumerateFiles("*.sav")
+                orderby f.LastWriteTime descending
+                select f.FullName).FirstOrDefault();
+
+            if (!string.IsNullOrWhiteSpace(latestSave))
+            {
+                LoadSave(latestSave);
+            }
+
+        }
+
         private void LoadSave(string fileName)
         {
             if (File.Exists(fileName))
             {
                 var save = new SaveGame(fileName);
                 SaveGameVm.SetSave(save);
-                Title = DefaultTitle + " - " + Path.GetFileName(fileName) + " " + save.Header.Date;
+                Title = DefaultTitle + " - " + Path.GetFileName(fileName) + " " + save.Header.Date + " " + save.Header.Label;
 
                 var backup = (fileName + ".backup").ToUpper();
                 if (MakeBackup && !File.Exists(backup))

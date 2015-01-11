@@ -66,10 +66,23 @@ namespace DarklandsUiCommon.ViewModels
 
             try
             {
-                var filesInDirectory =
-                    from f in Directory.EnumerateFiles(SelectedPath, "*", SearchOption.AllDirectories)
-                    where f != null
-                    select Path.GetFileName(f).ToLower();
+                var filesInDirectory = (
+                    from f in Directory.EnumerateFiles(SelectedPath, "*")
+                    where f != null && RequiredFiles.Contains(Path.GetFileName(f).ToLower())
+                    select f.ToLower()).Distinct().ToList();
+
+                if (filesInDirectory.Count == RequiredFiles.Count())
+                {
+                    var realPath = Path.GetDirectoryName(filesInDirectory.First());
+                    if (SelectedPath != realPath)
+                    {
+                        SelectedPath = realPath;
+                    }
+
+                    return true;
+                }
+
+                return false;
 
                 return !RequiredFiles.Except(filesInDirectory).Any();
             }

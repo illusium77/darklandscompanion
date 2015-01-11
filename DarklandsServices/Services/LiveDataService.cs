@@ -25,6 +25,7 @@ namespace DarklandsServices.Services
         private const long KnownSaintsOffset = 0x2EBAC;
         private const long PartyOffset = 0x3BDF5;
         private const long DateOffset = 0x32280;
+        private const long EventsOffset = 0x68630; // ?
         private const long CurrentScreenOffset = 0x40FFB; // alternative: 0x40583
         private const int NumberofCharacters = 4;
 

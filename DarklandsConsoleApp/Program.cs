@@ -220,10 +220,20 @@ namespace DarklandsConsoleApp
         {
             StartLiveDataService(() =>
             {
-                LiveDataService.MonitorMemory(0x08713B70, Date.DateSize, bytes =>
+                var numEv = 0x50;
+                LiveDataService.MonitorMemory(0x8B0A070, numEv * 0x40, bytes =>
                 {
-                    var date = new Date(new ByteStream(bytes), 0, false);
-                    Console.WriteLine(date);
+                    Console.WriteLine(DateTime.Now);
+                    var s = new ByteStream(bytes);
+
+                    var ev = new List<Event>(numEv);
+                    for (int i = 0; i < numEv; i++)
+                    {
+                        var offset = i*(Event.EventSize + 0x40 - Event.EventSize);
+                        var e = new Event(s, offset);
+                        if (e.IsActiveQuest) Console.WriteLine(e.CreateDate + " - " + e.ExpireDate);
+                        ev.Add(e);
+                    }
                 });
             });
             
