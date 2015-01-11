@@ -7,6 +7,12 @@
         Title="{Binding Title}" Height="550" Width="650"
         Icon="../resources/gargoyle.png">
     <Grid>
+        <Grid.Resources>
+            <Style TargetType="{x:Type Button}">
+                <Setter Property="Margin" Value="2" />
+            </Style>
+        </Grid.Resources>
+
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />

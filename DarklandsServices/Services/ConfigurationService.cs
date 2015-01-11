@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
 using System.IO;
+using System.Linq;
 
 namespace DarklandsServices.Services
 {
@@ -27,6 +28,11 @@ namespace DarklandsServices.Services
             {
                 ConfigFiles.Add(ConfigType.DarklandsSaveGameEditor,
                     ConfigurationManager.OpenExeConfiguration(DarklandsSaveGameEditorFileName));
+            }
+
+            if (!ConfigFiles.Any(c => HasDarklandsPath(c.Key)) && File.Exists("DARKLAND.EXE"))
+            {
+                SetDarklandsPath(Directory.GetCurrentDirectory());
             }
         }
 

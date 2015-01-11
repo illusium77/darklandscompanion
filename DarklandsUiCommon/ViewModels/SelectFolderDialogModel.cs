@@ -66,6 +66,13 @@ namespace DarklandsUiCommon.ViewModels
 
             try
             {
+                // steam / gog path selected
+                var steamPath = Path.Combine(SelectedPath, "DARKLAND");
+                if (Directory.Exists(steamPath))
+                {
+                    SelectedPath = steamPath;
+                }
+
                 var filesInDirectory = (
                     from f in Directory.EnumerateFiles(SelectedPath, "*")
                     where f != null && RequiredFiles.Contains(Path.GetFileName(f).ToLower())
@@ -83,8 +90,6 @@ namespace DarklandsUiCommon.ViewModels
                 }
 
                 return false;
-
-                return !RequiredFiles.Except(filesInDirectory).Any();
             }
             catch (Exception)
             {
@@ -95,7 +100,12 @@ namespace DarklandsUiCommon.ViewModels
         private void OnBrowse()
         {
             // forms...
-            var dialog = new FolderBrowserDialog();
+            var dialog = new FolderBrowserDialog
+            {
+                SelectedPath = SelectedPath,
+                ShowNewFolderButton = false
+            };
+
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 SelectedPath = dialog.SelectedPath;

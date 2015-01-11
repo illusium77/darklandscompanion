@@ -13,6 +13,11 @@ namespace DarklandsSaveGameEditor.ViewModels
         private SaveGame _saveGame;
         private Visibility _visibility;
 
+        public SaveGameViewModel()
+        {
+                Visibility = Visibility.Hidden;
+        }
+
         public SaveGame SaveGame
         {
             get { return _saveGame; }
