@@ -1,4 +1,6 @@
-﻿namespace DarklandsUiCommon.Views.Quest
+﻿using System.Windows.Controls;
+
+namespace DarklandsUiCommon.Views.Quest
 {
     /// <summary>
     ///     Interaction logic for QuestView.xaml
@@ -8,6 +10,15 @@
         public QuestListView()
         {
             InitializeComponent();
+        }
+
+        private void OnPreviewMouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
+        {
+            var scroller = sender as ScrollViewer;
+            if (scroller == null) return;
+
+            scroller.ScrollToVerticalOffset(scroller.VerticalOffset - e.Delta);
+            e.Handled = true;
         }
     }
 }

@@ -6,7 +6,7 @@
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <ScrollViewer>
+        <ScrollViewer Template="{DynamicResource SlimScrollViewerControlTemplate}">
             <TextBox Text="{Binding Messages}" AcceptsReturn="True" TextWrapping="Wrap" IsReadOnly="True" />
         </ScrollViewer>
     </Grid>

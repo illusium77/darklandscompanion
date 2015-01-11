@@ -37,7 +37,9 @@
         </Style>-->
     </UserControl.Resources>
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" 
+                  Template="{DynamicResource SlimScrollViewerControlTemplate}" 
+                  PreviewMouseWheel="OnPreviewMouseWheel">
 
         <DataGrid ItemsSource="{Binding Quests}" CanUserAddRows="False" CanUserDeleteRows="False"
                   AutoGenerateColumns="False" SelectionMode="Single">
@@ -45,6 +47,7 @@
                 <GroupStyle>
                     <GroupStyle.ContainerStyle>
                         <Style TargetType="GroupItem">
+
                             <Setter Property="Template">
                                 <Setter.Value>
                                     <ControlTemplate TargetType="{x:Type GroupItem}">

@@ -20,6 +20,8 @@
             <TextBox Grid.Column="0" Text="{Binding Filter, UpdateSourceTrigger=PropertyChanged}" />
             <CheckBox Grid.Column="1" Content="Known only" IsChecked="{Binding KnownOnly}" VerticalAlignment="Center" />
         </Grid>
-        <TextBox Grid.Row="1" Text="{Binding Result}" AcceptsReturn="True" TextWrapping="Wrap" IsReadOnly="True" />
+        <ScrollViewer Grid.Row="1" Template="{DynamicResource SlimScrollViewerControlTemplate}">
+            <TextBox Text="{Binding Result}" AcceptsReturn="True" TextWrapping="Wrap" IsReadOnly="True" />
+        </ScrollViewer>
     </Grid>
 </UserControl>
