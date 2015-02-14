@@ -25,7 +25,7 @@ namespace DarklandsBusinessObjects.Objects
         {
         }
 
-        [Range(1, 99, ErrorMessage = "Enter value between 1 and 99.")]
+        [Range(1, 99)]
         public int Endurance
         {
             get { return this[0x00]; }

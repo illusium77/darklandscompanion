@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Data;
+using DarklandsBusinessObjects.Utils;
 using DarklandsUiCommon.Models;
 
 namespace DarklandsUiCommon.ViewModels
@@ -16,15 +18,9 @@ namespace DarklandsUiCommon.ViewModels
             Quests = CollectionViewSource.GetDefaultView(quests.OrderBy(q => q.Type));
             if (Quests != null && Quests.CanGroup)
             {
-                Quests.GroupDescriptions.Add(new PropertyGroupDescription("Type"));
+                Quests.GroupDescriptions.Add(new QuestTypeGroup());
                 Quests.SortDescriptions.Add(new SortDescription("DeliverByDate", ListSortDirection.Descending));
             }
-
-            //var fetchQuests = from q in quests where q.Type == QuestType.FetchItem select q;
-            //FetchItemQuests = new CollectionViewSource
-            //{
-            //    Source = fetchQuests,
-            //}.View;
         }
 
         public ICollectionView Quests
@@ -34,6 +30,16 @@ namespace DarklandsUiCommon.ViewModels
             {
                 _quests = value;
                 NotifyPropertyChanged();
+            }
+        }
+
+        private class QuestTypeGroup : PropertyGroupDescription
+        {
+            public override object GroupNameFromItem(object item, int level, CultureInfo culture)
+            {
+                var quest = item as QuestModel;
+
+                return quest != null ? quest.Type.Description() : "INVALID GROUP";
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using DarklandsBusinessObjects.Streaming;
+﻿using System.ComponentModel.DataAnnotations;
+using DarklandsBusinessObjects.Streaming;
 
 namespace DarklandsBusinessObjects.Objects
 {
@@ -13,7 +14,7 @@ namespace DarklandsBusinessObjects.Objects
         {
         }
 
-        public int Code
+        public int Id
         {
             get { return GetWord(0x00); }
         }
@@ -23,14 +24,26 @@ namespace DarklandsBusinessObjects.Objects
             get { return this[0x02]; }
         }
 
+        [Range(1, 99)]
         public int Quality
         {
             get { return this[0x03]; }
+            set
+            {
+                this[0x03] = value;
+                NotifyPropertyChanged();
+            }
         }
 
+        [Range(1, 255)]
         public int Quantity
         {
             get { return this[0x04]; }
+            set
+            {
+                this[0x04] = value;
+                NotifyPropertyChanged();
+            }
         }
 
         public int Weight
@@ -40,7 +53,7 @@ namespace DarklandsBusinessObjects.Objects
 
         public bool IsEmpty
         {
-            get { return Code == 0 && Type == 0 && Quality == 0 && Quantity == 0 && Weight == 0; }
+            get { return Id == 0 && Type == 0 && Quality == 0 && Quantity == 0 && Weight == 0; }
         }
     }
 }

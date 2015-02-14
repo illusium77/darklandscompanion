@@ -3,12 +3,12 @@
     public enum Bearing
     {
         E,
-        Ne,
+        NE,
         N,
-        Nw,
+        NW,
         W,
-        Sw,
+        SW,
         S,
-        Se
+        SE
     }
 }

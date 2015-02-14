@@ -24,7 +24,7 @@ namespace DarklandsBusinessObjects.Objects
         public override string ToString()
         {
             return "[#: " + Quantity
-                   + " Code: " + ItemCode
+                   + " Id: " + ItemCode
                    + "]";
         }
     }

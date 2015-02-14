@@ -45,17 +45,17 @@
 
             <Label Grid.Row="3" Grid.Column="0" Content="Global Reputation" />
             <TextBox Grid.Row="3" Grid.Column="1"
-                     Text="{Binding Reputation, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
+                     Text="{Binding Reputation, ValidatesOnDataErrors=True}"
                      Style="{StaticResource ErrorTextBox}" />
 
             <Label Grid.Row="4" Grid.Column="0" Content="Philosopher's Stone" />
             <TextBox Grid.Row="4" Grid.Column="1"
-                     Text="{Binding PhilosopherStone, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
+                     Text="{Binding PhilosopherStone, ValidatesOnDataErrors=True}"
                      Style="{StaticResource ErrorTextBox}" />
 
             <Label Grid.Row="5" Grid.Column="0" Content="Bank Notes" />
             <TextBox Grid.Row="5" Grid.Column="1"
-                     Text="{Binding BankNotes, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
+                     Text="{Binding BankNotes, ValidatesOnDataErrors=True}"
                      Style="{StaticResource ErrorTextBox}" ToolTip="In florings" />
 
             <Label Grid.Row="6" Grid.Column="0">

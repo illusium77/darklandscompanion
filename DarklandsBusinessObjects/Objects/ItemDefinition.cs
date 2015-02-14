@@ -27,7 +27,7 @@ namespace DarklandsBusinessObjects.Objects
 
         public int Type
         {
-            get { return GetWord(0x14); }
+            get { return GetWord(0x1e); }
         }
 
         public ItemMaskA MaskA
@@ -60,7 +60,7 @@ namespace DarklandsBusinessObjects.Objects
             get { return this[0x25]; }
         }
 
-        public int DefaultQualit
+        public int DefaultQuality
         {
             get { return this[0x26]; }
         }
@@ -78,15 +78,6 @@ namespace DarklandsBusinessObjects.Objects
         public int Value
         {
             get { return GetWord(0x2c); }
-        }
-
-        public bool IsQuestItem
-        {
-            get
-            {
-                return MaskB.HasFlag(ItemMaskB.IsQuestIndoor)
-                       || MaskC.HasFlag(ItemMaskC.IsQuestOutdoor);
-            }
         }
 
         public override string ToString()

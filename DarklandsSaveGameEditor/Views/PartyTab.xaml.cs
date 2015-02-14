@@ -1,4 +1,4 @@
-﻿using DarklandsUiCommon.DataValidation;
+﻿using DarklandsUiCommon.ViewServices;
 
 namespace DarklandsSaveGameEditor.Views
 {

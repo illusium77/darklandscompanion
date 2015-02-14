@@ -6,12 +6,6 @@ using DarklandsUiCommon.ViewModels;
 
 namespace DarklandsUiCommon.Models
 {
-    public enum QuestType
-    {
-        KillRaubritter,
-        RetrieveItem
-    }
-
     public class QuestModel : ModelBase
     {
         private const string Invalid = "[Unknown]";

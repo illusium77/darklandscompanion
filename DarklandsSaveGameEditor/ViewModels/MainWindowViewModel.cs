@@ -5,8 +5,8 @@ using System.Windows.Input;
 using DarklandsBusinessObjects.Save;
 using DarklandsServices.Services;
 using DarklandsUiCommon.Commands;
-using DarklandsUiCommon.DataValidation;
 using DarklandsUiCommon.ViewModels;
+using DarklandsUiCommon.ViewServices;
 using Microsoft.Win32;
 
 namespace DarklandsSaveGameEditor.ViewModels
@@ -58,8 +58,11 @@ namespace DarklandsSaveGameEditor.ViewModels
         {
             get
             {
-                return !ConfigurationService.HasSetting(ConfigType.DarklandsSaveGameEditor, ConfigurationService.SettingBackupSavegame)
-                    || ConfigurationService.ReadSetting<bool>(ConfigType.DarklandsSaveGameEditor, ConfigurationService.SettingBackupSavegame);
+                return !ConfigurationService.HasSetting(ConfigType.DarklandsSaveGameEditor,
+                    ConfigurationService.SettingBackupSavegame)
+                       ||
+                       ConfigurationService.ReadSetting<bool>(ConfigType.DarklandsSaveGameEditor,
+                           ConfigurationService.SettingBackupSavegame);
             }
             set
             {
@@ -160,7 +163,6 @@ namespace DarklandsSaveGameEditor.ViewModels
             {
                 LoadSave(latestSave);
             }
-
         }
 
         private void LoadSave(string fileName)
@@ -169,7 +171,8 @@ namespace DarklandsSaveGameEditor.ViewModels
             {
                 var save = new SaveGame(fileName);
                 SaveGameVm.SetSave(save);
-                Title = DefaultTitle + " - " + Path.GetFileName(fileName) + " " + save.Header.Date + " " + save.Header.Label;
+                Title = DefaultTitle + " - " + Path.GetFileName(fileName) + " " + save.Header.Date + " " +
+                        save.Header.Label;
 
                 var backup = (fileName + ".backup").ToUpper();
                 if (MakeBackup && !File.Exists(backup))

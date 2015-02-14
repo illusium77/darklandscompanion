@@ -1,4 +1,5 @@
-﻿using DarklandsBusinessObjects.Streaming;
+﻿using System.ComponentModel.DataAnnotations;
+using DarklandsBusinessObjects.Streaming;
 
 namespace DarklandsBusinessObjects.Objects
 {
@@ -35,6 +36,11 @@ namespace DarklandsBusinessObjects.Objects
             get { return GetString(0x3e, 11); }
         }
 
+        public int GearWeight
+        {
+            get { return this[0x49]; }
+        }
+
         public int EquippedVitalType
         {
             get { return this[0x4b]; }
@@ -45,14 +51,26 @@ namespace DarklandsBusinessObjects.Objects
             get { return this[0x4c]; }
         }
 
+        [Range(1, 99, ErrorMessage = "Enter value between 1 and 99.")]
         public int EquippedVitalQuality
         {
             get { return this[0x4f]; }
+            set
+            {
+                this[0x4f] = value;
+                NotifyPropertyChanged();
+            }
         }
 
+        [Range(1, 99, ErrorMessage = "Enter value between 1 and 99.")]
         public int EquippedLegQuality
         {
             get { return this[0x50]; }
+            set
+            {
+                this[0x50] = value;
+                NotifyPropertyChanged();
+            }
         }
 
         public int EquippedWeaponType
@@ -60,19 +78,42 @@ namespace DarklandsBusinessObjects.Objects
             get { return this[0x51]; }
         }
 
+        [Range(1, 99, ErrorMessage = "Enter value between 1 and 99.")]
         public int EquippedWeaponQuality
         {
             get { return this[0x58]; }
+            set
+            {
+                this[0x58] = value;
+                NotifyPropertyChanged();
+            }
         }
 
+        public int EquippedMissileType
+        {
+            get { return this[0x22]; }
+        }
+
+        [Range(1, 99, ErrorMessage = "Enter value between 1 and 99.")]
         public int EquippedMissileQuality
         {
             get { return this[0x5a]; }
+            set
+            {
+                this[0x5a] = value;
+                NotifyPropertyChanged();
+            }
         }
 
+        [Range(1, 99, ErrorMessage = "Enter value between 1 and 99.")]
         public int EquippedShieldQuality
         {
             get { return this[0x5b]; }
+            set
+            {
+                this[0x5b] = value;
+                NotifyPropertyChanged();
+            }
         }
 
         public int EquippedShieldType
@@ -87,10 +128,7 @@ namespace DarklandsBusinessObjects.Objects
 
         public AttributeSet CurrentAttributes
         {
-            get
-            {
-                return _currentAttributes ?? (_currentAttributes = new AttributeSet(DataStream, BaseOffset + 0x5d));
-            }
+            get { return _currentAttributes ?? (_currentAttributes = new AttributeSet(DataStream, BaseOffset + 0x5d)); }
         }
 
         public AttributeSet MaxAttributes

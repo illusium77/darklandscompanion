@@ -72,10 +72,15 @@
                     </AdornerDecorator>
                 </TabItem>
 
-
                 <TabItem Header="Alchemy">
                     <AdornerDecorator>
                         <views:FormulaeView DataContext="{Binding FormulaeVm}" />
+                    </AdornerDecorator>
+                </TabItem>
+
+                <TabItem Header="Equipment">
+                    <AdornerDecorator>
+                        <views:EquipmentListView DataContext="{Binding EquipmentListVm}" />
                     </AdornerDecorator>
                 </TabItem>
             </TabControl>

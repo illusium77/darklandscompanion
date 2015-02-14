@@ -139,7 +139,7 @@ namespace DarklandsConsoleApp
                                         "QL:" + item.Quality,
                                         "#:" + item.Quantity,
                                         "Weight:" + item.Weight,
-                                        StaticDataService.ItemDefinitions.First(i => i.Id == item.Code).Name);
+                                        StaticDataService.ItemDefinitions.First(i => i.Id == item.Id).Name);
                                 Console.WriteLine(string.Join("\n", itemsWithNames));
                             }
                             break;
@@ -221,13 +221,13 @@ namespace DarklandsConsoleApp
             StartLiveDataService(() =>
             {
                 var numEv = 0x50;
-                LiveDataService.MonitorMemory(0x8B0A070, numEv * 0x40, bytes =>
+                LiveDataService.MonitorMemory(0x8B0A070, numEv*0x40, bytes =>
                 {
                     Console.WriteLine(DateTime.Now);
                     var s = new ByteStream(bytes);
 
                     var ev = new List<Event>(numEv);
-                    for (int i = 0; i < numEv; i++)
+                    for (var i = 0; i < numEv; i++)
                     {
                         var offset = i*(Event.EventSize + 0x40 - Event.EventSize);
                         var e = new Event(s, offset);
@@ -236,7 +236,6 @@ namespace DarklandsConsoleApp
                     }
                 });
             });
-            
         }
 
         private static readonly IReadOnlyDictionary<string, Action<string[]>> Actions = new Dictionary

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
@@ -10,6 +11,7 @@ namespace DarklandsBusinessObjects.Streaming
 {
     public abstract class StreamObject : IDisposable, INotifyPropertyChanged, IDataErrorInfo
     {
+        private List<string> _errors = new List<string>();
         private BinaryReader _reader;
         private BinaryWriter _writer;
 
@@ -152,7 +154,7 @@ namespace DarklandsBusinessObjects.Streaming
 
         public string Error
         {
-            get { return "Error"; }
+            get { return _errors.Any() ? string.Join(", ", _errors) : null; }
         }
 
         public string this[string propertyName]
@@ -172,11 +174,11 @@ namespace DarklandsBusinessObjects.Streaming
             }
 
             var value = info.GetValue(this);
-            var errors = (from va in validators
+            _errors = (from va in validators
                 where !va.IsValid(value)
                 select va.FormatErrorMessage(propertyName)).ToList();
 
-            return errors.Any() ? string.Join(", ", errors) : string.Empty;
+            return Error;
         }
 
         #endregion

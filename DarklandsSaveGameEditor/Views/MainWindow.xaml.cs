@@ -1,7 +1,7 @@
 ﻿using DarklandsSaveGameEditor.ViewModels;
 using DarklandsServices.Services;
-using DarklandsUiCommon.DataValidation;
 using DarklandsUiCommon.Views;
+using DarklandsUiCommon.ViewServices;
 
 namespace DarklandsSaveGameEditor.Views
 {

@@ -55,8 +55,13 @@
   <ItemGroup>
     <Compile Include="Commands\BaseCommand.cs" />
     <Compile Include="Commands\UiCommand.cs" />
+    <Compile Include="Contracts\IValidableObject.cs" />
+    <Compile Include="Models\EquipmentCategory.cs" />
+    <Compile Include="Models\EquipmentListModel.cs" />
+    <Compile Include="Models\EquipmentModel.cs" />
     <Compile Include="Models\FormulaModel.cs" />
     <Compile Include="Models\QuestModel.cs" />
+    <Compile Include="Models\QuestType.cs" />
     <Compile Include="Models\SaintModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -71,8 +76,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="DataValidation\ErrorMonitor.cs" />
+    <Compile Include="ViewServices\ErrorMonitor.cs" />
     <Compile Include="ViewModels\FormulaeViewModel.cs" />
+    <Compile Include="ViewModels\EquipmentListViewModel.cs" />
     <Compile Include="ViewModels\QuestListViewModel.cs" />
     <Compile Include="ViewModels\SaintViewModel.cs" />
     <Compile Include="ViewModels\StatViewModel.cs" />
@@ -83,6 +89,9 @@
     </Compile>
     <Compile Include="Views\Character\FormulaeView.xaml.cs">
       <DependentUpon>FormulaeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Character\EquipmentListView.xaml.cs">
+      <DependentUpon>EquipmentListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Character\SaintView.xaml.cs">
       <DependentUpon>SaintView.xaml</DependentUpon>
@@ -122,6 +131,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Character\FormulaeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Character\EquipmentListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

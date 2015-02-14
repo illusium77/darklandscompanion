@@ -7,6 +7,7 @@ namespace DarklandsSaveGameEditor.ViewModels
     public class CharacterTabViewModel : ModelBase
     {
         private Character _character;
+        private EquipmentListViewModel _equipmentListVm;
         private FormulaeViewModel _formulaeVm;
         private SaintViewModel _saintVm;
         private StatViewModel _statVm;
@@ -18,6 +19,7 @@ namespace DarklandsSaveGameEditor.ViewModels
             StatVm = new StatViewModel(Character);
             SaintVm = new SaintViewModel(StaticDataService.Saints, Character.SaintBitmask);
             FormulaeVm = new FormulaeViewModel(StaticDataService.Formulae, Character.FormulaeBitmask);
+            EquipmentListVm = new EquipmentListViewModel(Character, StaticDataService.ItemDefinitions);
         }
 
         public Character Character
@@ -56,6 +58,16 @@ namespace DarklandsSaveGameEditor.ViewModels
             set
             {
                 _formulaeVm = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public EquipmentListViewModel EquipmentListVm
+        {
+            get { return _equipmentListVm; }
+            set
+            {
+                _equipmentListVm = value;
                 NotifyPropertyChanged();
             }
         }

@@ -75,6 +75,7 @@
     <Compile Include="Save\SaveHeader.cs" />
     <Compile Include="Save\SaveParty.cs" />
     <Compile Include="Objects\SkillSet.cs" />
+    <Compile Include="Utils\EnumExtension.cs" />
     <Compile Include="Utils\StringHelper.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -6,35 +6,13 @@
              xmlns:models="clr-namespace:DarklandsUiCommon.Models"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
-
+    
     <UserControl.Resources>
-        <Style TargetType="GroupItem">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type GroupItem}">
-                        <Expander>
-                            <Expander.Header>
-                                <TextBlock FontWeight="Bold">
-                                    <Run Text="{Binding Path=Name, Mode=OneWay}" />
-                                    (<Run Text="{Binding Path=ItemCount, Mode=OneWay}" />)
-                                </TextBlock>
-                            </Expander.Header>
-                            <Expander.Content>
-                                <ItemsPresenter />
-                            </Expander.Content>
-                        </Expander>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <!--<Style TargetType="Expander">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding Name}" Value="KillRaubritter">
-                    <Setter Property="IsExpanded" Value="True"/>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>-->
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../SharedStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </UserControl.Resources>
 
     <ScrollViewer VerticalScrollBarVisibility="Auto" 
@@ -44,30 +22,7 @@
         <DataGrid ItemsSource="{Binding Quests}" CanUserAddRows="False" CanUserDeleteRows="False"
                   AutoGenerateColumns="False" SelectionMode="Single">
             <DataGrid.GroupStyle>
-                <GroupStyle>
-                    <GroupStyle.ContainerStyle>
-                        <Style TargetType="GroupItem">
-
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type GroupItem}">
-                                        <Expander IsExpanded="True">
-                                            <Expander.Header>
-                                                <TextBlock FontWeight="Bold">
-                                                    <Run Text="{Binding Path=Name, Mode=OneWay}" />
-                                                    (<Run Text="{Binding Path=ItemCount, Mode=OneWay}" />)
-                                                </TextBlock>
-                                            </Expander.Header>
-                                            <Expander.Content>
-                                                <ItemsPresenter />
-                                            </Expander.Content>
-                                        </Expander>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </GroupStyle.ContainerStyle>
-                </GroupStyle>
+                <GroupStyle ContainerStyle="{StaticResource GroupWithItemCount}" />
             </DataGrid.GroupStyle>
 
             <DataGrid.RowStyle>
