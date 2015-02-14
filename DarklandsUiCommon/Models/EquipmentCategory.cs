@@ -12,6 +12,6 @@
         Component,
         Potion,
         QuestItem,
-        Relic,
+        Relic
     }
 }

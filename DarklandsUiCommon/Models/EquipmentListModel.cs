@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
 using DarklandsBusinessObjects.Objects;
 
@@ -13,39 +10,7 @@ namespace DarklandsUiCommon.Models
 {
     public class EquipmentListModel : ObservableCollection<EquipmentModel>
     {
-        private class ItemTypeGroup : PropertyGroupDescription
-        {
-            public override object GroupNameFromItem(object item, int level, CultureInfo culture)
-            {
-                var e = item as EquipmentModel;
-                if (e == null) return "Unknown";
-
-                switch (e.Category)
-                {
-                    case EquipmentCategory.MeleeWeapon:
-                        return "Weapons";
-                    case EquipmentCategory.MissileWeapon:
-                    case EquipmentCategory.Ammunition:
-                        return "Ranged Weapons and Ammunition";
-                    case EquipmentCategory.VitalArmor:
-                    case EquipmentCategory.LegArmor:
-                    case EquipmentCategory.Shield:
-                        return "Armor and Shields";
-                    case EquipmentCategory.Component:
-                        return "Alchemic Components";
-                    case EquipmentCategory.Potion:
-                        return "Potions";
-                    case EquipmentCategory.QuestItem:
-                    case EquipmentCategory.Relic:
-                        return "Quest Items and Relics";
-                    default:
-                        return "Miscellaneous";
-                }
-            }
-        }
-
         private static IReadOnlyList<ItemDefinition> _itemDefinitions;
-
         private readonly Character _character;
         private ICollectionView _view;
 
@@ -80,14 +45,11 @@ namespace DarklandsUiCommon.Models
                 if (_view == null)
                 {
                     _view = CollectionViewSource.GetDefaultView(this);
-                    //EquipmentView = CollectionViewSource.GetDefaultView(_equipment) as IEditableCollectionView;
 
                     if (_view != null)
                     {
                         _view.GroupDescriptions.Add(new ItemTypeGroup());
-                        //Quests.SortDescriptions.Add(new SortDescription("DeliverByDate", ListSortDirection.Descending));
                     }
-
                 }
                 return _view;
             }
@@ -104,8 +66,8 @@ namespace DarklandsUiCommon.Models
             }
 
             if (definition.MaskA.HasFlag(ItemMaskA.IsThrown)
-                     || definition.MaskA.HasFlag(ItemMaskA.IsBow)
-                     || definition.MaskD.HasFlag(ItemMaskD.IsMissileWeapon))
+                || definition.MaskA.HasFlag(ItemMaskA.IsBow)
+                || definition.MaskD.HasFlag(ItemMaskD.IsMissileWeapon))
             {
                 return EquipmentCategory.MissileWeapon;
             }
@@ -162,20 +124,35 @@ namespace DarklandsUiCommon.Models
             return EquipmentCategory.Miscellaneous;
         }
 
-        //private static void FlagEquipped(Character character, IEnumerable<EquipmentModel> equipment)
-        //{
-        //    var equipped = from e in equipment
-        //        where e.TypeCode == character.EquippedVitalType && e.Quality == character.EquippedVitalQuality
-        //              || e.TypeCode == character.EquippedLegType && e.Quality == character.EquippedLegQuality
-        //              || e.TypeCode == character.EquippedShieldType && e.Quality == character.EquippedShieldQuality
-        //              || e.TypeCode == character.EquippedMissileType && e.Quality == character.EquippedMissileQuality
-        //              || e.TypeCode == character.EquippedWeaponType && e.Quality == character.EquippedWeaponQuality
-        //        select e;
+        private class ItemTypeGroup : PropertyGroupDescription
+        {
+            public override object GroupNameFromItem(object item, int level, CultureInfo culture)
+            {
+                var e = item as EquipmentModel;
+                if (e == null) return "Unknown";
 
-        //    foreach (var e in equipped)
-        //    {
-        //        e.IsEquipped = true;
-        //    }
-        //}
+                switch (e.Category)
+                {
+                    case EquipmentCategory.MeleeWeapon:
+                        return "Weapons";
+                    case EquipmentCategory.MissileWeapon:
+                    case EquipmentCategory.Ammunition:
+                        return "Ranged Weapons and Ammunition";
+                    case EquipmentCategory.VitalArmor:
+                    case EquipmentCategory.LegArmor:
+                    case EquipmentCategory.Shield:
+                        return "Armor and Shields";
+                    case EquipmentCategory.Component:
+                        return "Alchemic Components";
+                    case EquipmentCategory.Potion:
+                        return "Potions";
+                    case EquipmentCategory.QuestItem:
+                    case EquipmentCategory.Relic:
+                        return "Quest Items and Relics";
+                    default:
+                        return "Miscellaneous";
+                }
+            }
+        }
     }
 }
