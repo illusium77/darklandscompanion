@@ -166,6 +166,12 @@ namespace DarklandsUiCommon.Models
         public static IEnumerable<QuestModel> FromEvents(IEnumerable<Event> events, IEnumerable<Location> locations,
             IEnumerable<ItemDefinition> items)
         {
+            if (!events.Any() || !locations.Any())
+            {
+                // new game, no quests
+                return Enumerable.Empty<QuestModel>();
+            }
+
             var quests = new List<QuestModel>(
                 from e in events
                 where e.IsActiveQuest
