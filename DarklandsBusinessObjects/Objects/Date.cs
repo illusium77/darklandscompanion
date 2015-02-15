@@ -44,6 +44,17 @@ namespace DarklandsBusinessObjects.Objects
             get { return Year == 1499 && Month == 13 && Day == 31; }
         }
 
+        public bool IsValid
+        {
+            get
+            {
+                return
+                    Year >= 1400 && Year <= 1499
+                    && Month > 0 && Month < 14 // when date is set to infinite, month is 13
+                    && Day > 0 && Day <= 31;
+            }
+        }
+
         public int DayDifference(Date other)
         {
             var dateA = new DateTime(Year, Month, Day);

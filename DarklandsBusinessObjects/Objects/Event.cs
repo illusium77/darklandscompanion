@@ -99,7 +99,7 @@ namespace DarklandsBusinessObjects.Objects
             get
             {
                 // logic from dkedit dos savegame editor
-                if (!IsQuest || ExpireDate.Year == CreateDate.Year)
+                if (!IsQuest || !ExpireDate.IsValid || !CreateDate.IsValid || ExpireDate.Year == CreateDate.Year)
                 {
                     return false;
                 }
