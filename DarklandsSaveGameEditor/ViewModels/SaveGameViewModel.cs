@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows;
 using DarklandsBusinessObjects.Save;
+using DarklandsUiCommon.Models;
 using DarklandsUiCommon.ViewModels;
 
 namespace DarklandsSaveGameEditor.ViewModels
@@ -9,7 +10,7 @@ namespace DarklandsSaveGameEditor.ViewModels
     internal class SaveGameViewModel : ModelBase
     {
         private IEnumerable<CharacterTabViewModel> _characterTabVms;
-        private QuestTabVm _questTabVm;
+        private QuestTabViewModel _questTabVm;
         private SaveGame _saveGame;
         private Visibility _visibility;
 
@@ -38,7 +39,7 @@ namespace DarklandsSaveGameEditor.ViewModels
             }
         }
 
-        public QuestTabVm QuestTabVm
+        public QuestTabViewModel QuestTabVm
         {
             get { return _questTabVm; }
             private set
@@ -72,7 +73,7 @@ namespace DarklandsSaveGameEditor.ViewModels
 
                 CharacterTabVms = tabs;
 
-                QuestTabVm = new QuestTabVm(SaveGame.Events);
+                QuestTabVm = new QuestTabViewModel(SaveGame.Events);
             }
 
             Visibility = SaveGame == null ? Visibility.Hidden : Visibility.Visible;

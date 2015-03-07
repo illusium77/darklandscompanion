@@ -1,4 +1,5 @@
 ﻿using DarklandsBusinessObjects.Objects;
+using DarklandsUiCommon.Models;
 
 namespace DarklandsUiCommon.ViewModels
 {

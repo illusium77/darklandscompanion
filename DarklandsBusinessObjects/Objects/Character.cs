@@ -21,19 +21,58 @@ namespace DarklandsBusinessObjects.Objects
 
         public int Id { get; private set; }
 
+        [Range(1, 255, ErrorMessage = "Enter value between 1 and 255.")]
         public int Age
         {
             get { return GetWord(0x12); }
+            set
+            {
+                SetWord(0x12, value);
+                NotifyPropertyChanged();
+            }
         }
 
+        public int Shield
+        {
+            get { return this[0x15]; }
+            set
+            {
+                this[0x15] = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        // 00 = female, 01 = male
+        public int Gender
+        {
+            get { return this[0x17]; }
+            set
+            {
+                this[0x17] = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        [MaxLength(25, ErrorMessage = "Maximum length is 25.")]
         public string FullName
         {
             get { return GetString(0x25, 25); }
+            set
+            {
+                SetString(0x25, value, 25);
+                NotifyPropertyChanged();
+            }
         }
 
+        [MaxLength(11, ErrorMessage = "Maximum length is 11.")]
         public string ShortName
         {
             get { return GetString(0x3e, 11); }
+            set
+            {
+                SetString(0x3e, value, 11);
+                NotifyPropertyChanged();
+            }
         }
 
         public int GearWeight

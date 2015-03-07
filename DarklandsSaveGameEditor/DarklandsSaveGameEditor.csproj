@@ -62,7 +62,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ViewModels\CharacterTabViewModel.cs" />
-    <Compile Include="ViewModels\QuestTabVm.cs" />
+    <Compile Include="ViewModels\QuestTabViewModel.cs" />
     <Compile Include="ViewModels\SaveGameViewModel.cs" />
     <Compile Include="Views\CharacterTab.xaml.cs">
       <DependentUpon>CharacterTab.xaml</DependentUpon>

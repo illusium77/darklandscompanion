@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace DarklandsUiCommon.ViewModels
+namespace DarklandsUiCommon.Models
 {
     public abstract class ModelBase : INotifyPropertyChanged
     {

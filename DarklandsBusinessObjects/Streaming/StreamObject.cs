@@ -96,6 +96,14 @@ namespace DarklandsBusinessObjects.Streaming
             return StringHelper.ConvertToString(_reader.ReadBytes(length));
         }
 
+        public void SetString(int startIndex, string value, int maxLength)
+        {
+            var bytes = StringHelper.ConvertToBytes(value, maxLength);
+
+            DataStream.Seek(BaseOffset + startIndex);
+            _writer.Write(bytes);
+        }
+
         public override string ToString()
         {
             return BitConverter.ToString(DataStream.GetBuffer(), BaseOffset, Length);

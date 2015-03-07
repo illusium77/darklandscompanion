@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text;
 using DarklandsBusinessObjects.Objects;
 using DarklandsServices.Services;
+using DarklandsUiCommon.Models;
 using DarklandsUiCommon.ViewModels;
 
 namespace DarklandsCompanion.ViewModels

@@ -13,7 +13,6 @@
 
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
@@ -21,27 +20,8 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Grid Grid.Row="0" Margin="0,5">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*" />
-                    <ColumnDefinition Width="4*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="3*" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-
-                <Label Grid.Column="0" Content="Full Name" HorizontalAlignment="Right" />
-                <TextBox Grid.Column="1" Text="{Binding Character.FullName, Mode=OneWay}" IsEnabled="False" />
-
-                <Label Grid.Column="2" Content="Age" HorizontalAlignment="Right" />
-                <TextBox Grid.Column="3" Text="{Binding Character.Age, Mode=OneWay}" IsEnabled="False" />
-            </Grid>
-
             <!-- UseLayoutRounding should help with rotated text blurriness -->
-            <TabControl Grid.Row="1" TabStripPlacement="Left" UseLayoutRounding="True">
+            <TabControl TabStripPlacement="Left" UseLayoutRounding="True">
 
                 <TabControl.Resources>
                     <Style TargetType="{x:Type TabItem}">
@@ -59,6 +39,12 @@
                         <Setter Property="Padding" Value="2,6" />
                     </Style>
                 </TabControl.Resources>
+
+                <TabItem Header="Details">
+                    <AdornerDecorator>
+                        <views:CharacterDetailsView DataContext="{Binding DetailsVm}" />
+                    </AdornerDecorator>
+                </TabItem>
 
                 <TabItem Header="Stats">
                     <AdornerDecorator>

@@ -30,6 +30,34 @@ namespace DarklandsBusinessObjects.Utils
             return Encoding.UTF7.GetString(trimmed).Trim();
         }
 
+        public static byte[] ConvertToBytes(string text, int length)
+        {
+            var bytes = new byte[length];
+            var chars = text.ToCharArray().Take(length).ToArray();
+
+            for (var i = 0; i < chars.Length; i++)
+            {
+                if (chars[i] == 0xf6)
+                {
+                    bytes[i] = 0x7b; // ö
+                }
+                else if (chars[i] == 0xfc)
+                {
+                    bytes[i] = 0x7c; // ü
+                }
+                else if (chars[i] == 0xe4)
+                {
+                    bytes[i] = 0x1f; // ä
+                }
+                else
+                {
+                    bytes[i] = (byte)chars[i];
+                }
+            }
+
+            return bytes;
+        }
+
         public static string[] GetNullDelimitedStrings(byte[] bytes, int numberOfStrings, ref int startIndex)
         {
             var strings = new List<string>(numberOfStrings);

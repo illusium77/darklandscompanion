@@ -76,6 +76,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="ViewModels\CharacterDetailsViewModel.cs" />
+    <Compile Include="Models\ModelBase.cs" />
     <Compile Include="ViewServices\ErrorMonitor.cs" />
     <Compile Include="ViewModels\FormulaeViewModel.cs" />
     <Compile Include="ViewModels\EquipmentListViewModel.cs" />
@@ -83,9 +85,11 @@
     <Compile Include="ViewModels\SaintViewModel.cs" />
     <Compile Include="ViewModels\StatViewModel.cs" />
     <Compile Include="ViewModels\SelectFolderDialogModel.cs" />
-    <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\Character\AttributeView.xaml.cs">
       <DependentUpon>AttributeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Character\CharacterDetailsView.xaml.cs">
+      <DependentUpon>CharacterDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Character\FormulaeView.xaml.cs">
       <DependentUpon>FormulaeView.xaml</DependentUpon>
@@ -129,6 +133,10 @@
     <Page Include="Views\Character\AttributeView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Character\CharacterDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Character\FormulaeView.xaml">
       <SubType>Designer</SubType>

@@ -5,6 +5,7 @@ using System.Windows.Input;
 using DarklandsBusinessObjects.Save;
 using DarklandsServices.Services;
 using DarklandsUiCommon.Commands;
+using DarklandsUiCommon.Models;
 using DarklandsUiCommon.ViewModels;
 using DarklandsUiCommon.ViewServices;
 using Microsoft.Win32;

@@ -1,5 +1,6 @@
 ﻿using DarklandsBusinessObjects.Objects;
 using DarklandsServices.Services;
+using DarklandsUiCommon.Models;
 using DarklandsUiCommon.ViewModels;
 
 namespace DarklandsCompanion.ViewModels

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Input;
 using DarklandsUiCommon.Commands;
+using DarklandsUiCommon.Models;
 
 namespace DarklandsUiCommon.ViewModels
 {

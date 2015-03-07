@@ -38,6 +38,7 @@ namespace DarklandsBusinessObjects.Save
 
         public void Save(string fileName = null)
         {
+            _saveDataStream.Flush();
             using (var file = File.OpenWrite(fileName ?? FileName))
             {
                 _saveDataStream.WriteTo(file);

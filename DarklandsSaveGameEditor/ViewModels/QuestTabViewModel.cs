@@ -6,12 +6,12 @@ using DarklandsUiCommon.ViewModels;
 
 namespace DarklandsSaveGameEditor.ViewModels
 {
-    public class QuestTabVm : ModelBase
+    public class QuestTabViewModel : ModelBase
     {
         private string _header;
         private QuestListViewModel _questVm;
 
-        public QuestTabVm(SaveEvents saveEvents)
+        public QuestTabViewModel(SaveEvents saveEvents)
         {
             var quests = QuestModel.FromEvents(
                 saveEvents.Events, saveEvents.Locations, StaticDataService.ItemDefinitions).ToList();
