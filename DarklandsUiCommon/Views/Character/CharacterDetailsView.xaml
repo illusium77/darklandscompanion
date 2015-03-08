@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:views="clr-namespace:DarklandsUiCommon.Views.Character"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 
@@ -47,8 +48,15 @@
              Style="{StaticResource ErrorTextBox}" />
 
     <Label Grid.Row="3" Grid.Column="1" Content="Shield" />
-    <ComboBox Grid.Row="3" Grid.Column="2" ItemsSource="{Binding Shields}" DisplayMemberPath="Value" SelectedItem="{Binding SelectedShield}" />
+    <ComboBox Grid.Row="3" Grid.Column="2" ItemsSource="{Binding Shields}" DisplayMemberPath="Value" 
+              SelectedItem="{Binding SelectedShield}" />
 
-    <Label Grid.Row="4" Grid.Column="1" Content="Gender" />
-    <CheckBox Grid.Row="4" Grid.Column="2" IsChecked="{Binding IsFemale}" Content="Female" VerticalAlignment="Center"/>
+    <Label Grid.Row="4" Grid.Column="1" Content="Image" />
+    <ComboBox Grid.Row="4" Grid.Column="2" ItemsSource="{Binding PlayerImages}" DisplayMemberPath="Value" 
+              SelectedItem="{Binding SelectedPlayerImage}" />
+
+    <Label Grid.Row="5" Grid.Column="1" Content="Gender" />
+    <CheckBox Grid.Row="5" Grid.Column="2" IsChecked="{Binding IsFemale}" Content="Female" VerticalAlignment="Center"/>
+
+    <views:CharacterColorView Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2" DataContext="{Binding Colors}"/>
 </Grid>

@@ -1,0 +1,33 @@
+﻿<StackPanel x:Class="DarklandsUiCommon.Views.Character.RgbView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:conv="clr-namespace:DarklandsUiCommon.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="30" d:DesignWidth="300" Orientation="Horizontal">
+
+    <StackPanel.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../SharedStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <conv:RgbConverter x:Key="RgbConverter" />
+        </ResourceDictionary>
+    </StackPanel.Resources>
+
+    <Slider MinWidth="75" Value="{Binding Red}" Minimum="0" Maximum="63" ToolTip="Red" />
+    <Slider MinWidth="75" Value="{Binding Green}" Minimum="0" Maximum="63" ToolTip="Green"  />
+    <Slider MinWidth="75" Value="{Binding Blue}" Minimum="0" Maximum="63" ToolTip="Blue" />
+    
+    <Ellipse Height="20" Width="20" MinWidth="20" Stroke="DarkGray" >
+        <Ellipse.Fill>
+            <MultiBinding Converter="{StaticResource RgbConverter}">
+                <Binding Path="Red" />
+                <Binding Path="Green" />
+                <Binding Path="Blue" />
+            </MultiBinding>
+        </Ellipse.Fill>
+    </Ellipse>
+</StackPanel>

@@ -56,6 +56,7 @@
     <Compile Include="Commands\BaseCommand.cs" />
     <Compile Include="Commands\UiCommand.cs" />
     <Compile Include="Contracts\IValidableObject.cs" />
+    <Compile Include="Converters\RgbConverter.cs" />
     <Compile Include="Models\EquipmentCategory.cs" />
     <Compile Include="Models\EquipmentListModel.cs" />
     <Compile Include="Models\EquipmentModel.cs" />
@@ -88,6 +89,9 @@
     <Compile Include="Views\Character\AttributeView.xaml.cs">
       <DependentUpon>AttributeView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Character\CharacterColorView.xaml.cs">
+      <DependentUpon>CharacterColorView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Character\CharacterDetailsView.xaml.cs">
       <DependentUpon>CharacterDetailsView.xaml</DependentUpon>
     </Compile>
@@ -96,6 +100,9 @@
     </Compile>
     <Compile Include="Views\Character\EquipmentListView.xaml.cs">
       <DependentUpon>EquipmentListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Character\RgbView.xaml.cs">
+      <DependentUpon>RgbView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Character\SaintView.xaml.cs">
       <DependentUpon>SaintView.xaml</DependentUpon>
@@ -134,6 +141,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\Character\CharacterColorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Character\CharacterDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -143,6 +154,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Character\EquipmentListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Character\RgbView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

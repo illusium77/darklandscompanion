@@ -69,7 +69,7 @@ namespace DarklandsSaveGameEditor.ViewModels
             {
                 var tabs = new List<CharacterTabViewModel>(
                     from c in SaveGame.Party.Characters
-                    select new CharacterTabViewModel(c));
+                    select new CharacterTabViewModel(c, SaveGame.Party));
 
                 CharacterTabVms = tabs;
 

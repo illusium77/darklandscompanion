@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
 using DarklandsBusinessObjects.Objects;
 using DarklandsBusinessObjects.Streaming;
 
@@ -12,7 +14,8 @@ namespace DarklandsBusinessObjects.Save
         public const int SaveCharacterSize = 0x22a; // in save file
         private IReadOnlyList<Character> _characters;
         // Indexes into the arrays of character data for each of the five party slots.
-        private IReadOnlyList<int> _partyCharacterIds;
+        private List<int> _partyCharacterIds;
+        private IReadOnlyDictionary<int, CharacterColors> _characterColors;
 
         public SaveParty(ByteStream data, int offset)
             : base(data, offset, 0) // size is unknown initially
@@ -50,7 +53,7 @@ namespace DarklandsBusinessObjects.Save
                     _partyCharacterIds = list;
                 }
 
-                return _partyCharacterIds;
+                return _partyCharacterIds.ToList();
             }
         }
 
@@ -84,6 +87,49 @@ namespace DarklandsBusinessObjects.Save
             };
 
             return character;
+        }
+
+        public IReadOnlyDictionary<int, CharacterColors> Colors
+        {
+            get
+            {
+                if (_characterColors != null) return _characterColors;
+
+                var colors = new Dictionary<int, CharacterColors>();
+                for (var i = 0; i < NumberOfCharacters; i++)
+                {
+                    colors.Add(PartyCharacterIds[i],
+                        new CharacterColors(DataStream, 0x111 + i*CharacterColors.CharacterColorsSize));
+                }
+                _characterColors = colors;
+
+                return _characterColors;
+            }
+        }
+
+        public CharacterColors GetCharacterColors(int charId)
+        {
+            return Colors.ContainsKey(charId) ? Colors[charId] : null;
+        }
+
+        public string GetCharacterImage(int charId)
+        {
+            if (PartyCharacterIds.Contains(charId))
+            {
+                var index = _partyCharacterIds.FindIndex(i => i == charId);
+                return GetString(0x0e + index * 4, 4); // 0xfd - 0xef = 0x0e, 4 = length of the image string
+            }
+
+            return string.Empty;
+        }
+
+        public void SetCharacterImage(int charId, string image)
+        {
+            if (PartyCharacterIds.Contains(charId))
+            {
+                var index = _partyCharacterIds.FindIndex(i => i == charId);
+                SetString(0x0e + index * 4, image, 4); // 0xfd - 0xef = 0x0e, 4 = length of the image string
+            }
         }
 
         public override string ToString()

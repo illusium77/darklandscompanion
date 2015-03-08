@@ -42,12 +42,14 @@
   <ItemGroup>
     <Compile Include="Objects\AttributeSet.cs" />
     <Compile Include="Objects\Bearing.cs" />
+    <Compile Include="Objects\CharacterColors.cs" />
     <Compile Include="Objects\FormulaeBitmask.cs" />
     <Compile Include="Objects\FormulaQuality.cs" />
     <Compile Include="Objects\FormulaRiskFactor.cs" />
     <Compile Include="Objects\Item.cs" />
     <Compile Include="Objects\ItemList.cs" />
     <Compile Include="Objects\QuestGiver.cs" />
+    <Compile Include="Objects\Rgb.cs" />
     <Compile Include="Objects\SaintBitmask.cs" />
     <Compile Include="Objects\SaintBuff.cs" />
     <Compile Include="Objects\ScreenType.cs" />

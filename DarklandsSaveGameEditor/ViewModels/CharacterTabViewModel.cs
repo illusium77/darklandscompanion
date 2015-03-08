@@ -1,4 +1,5 @@
 ﻿using DarklandsBusinessObjects.Objects;
+using DarklandsBusinessObjects.Save;
 using DarklandsServices.Services;
 using DarklandsUiCommon.Models;
 using DarklandsUiCommon.ViewModels;
@@ -14,11 +15,11 @@ namespace DarklandsSaveGameEditor.ViewModels
         private SaintViewModel _saintVm;
         private StatViewModel _statVm;
 
-        public CharacterTabViewModel(Character character)
+        public CharacterTabViewModel(Character character, SaveParty party)
         {
             Character = character;
 
-            DetailsVm = new CharacterDetailsViewModel(Character);
+            DetailsVm = new CharacterDetailsViewModel(Character, party);
             StatVm = new StatViewModel(Character);
             SaintVm = new SaintViewModel(StaticDataService.Saints, Character.SaintBitmask);
             FormulaeVm = new FormulaeViewModel(StaticDataService.Formulae, Character.FormulaeBitmask);
