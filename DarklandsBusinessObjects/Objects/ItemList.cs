@@ -38,6 +38,14 @@ namespace DarklandsBusinessObjects.Objects
             get { return Items.Count(i => !i.IsEmpty); }
         }
 
+        public void Clear()
+        {
+            for (var offset = BaseOffset; offset < BaseOffset + ItemListSize; offset++)
+            {
+                this[offset] = 0;
+            }
+        }
+
         public override string ToString()
         {
             return "['#" + Count

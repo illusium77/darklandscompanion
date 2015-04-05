@@ -19,7 +19,7 @@ namespace DarklandsBusinessObjects.Save
                 Header = new SaveHeader(_saveDataStream, 0x00);
                 Party = new SaveParty(_saveDataStream, 0xef);
                 Events = new SaveEvents(_saveDataStream,
-                    0x189 + Party.NumberOfCharacters*SaveParty.SaveCharacterSize);
+                    0x189 + Party.NumberOfDefinedCharacters*SaveParty.SaveCharacterSize);
             }
         }
 

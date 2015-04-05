@@ -78,6 +78,19 @@ namespace DarklandsBusinessObjects.Save
             }
         }
 
+        public int MaxCacheSlot
+        {
+            get
+            {
+                return this[0x04 + NumberOfEvents * Event.EventSize + NumberOfLocations * Location.LocationSize];
+            }
+        }
+
+        public int NumCaches
+        {
+            get { return this[0x04 + NumberOfEvents * Event.EventSize + NumberOfLocations * Location.LocationSize + 1]; }
+        }
+
         public override string ToString()
         {
             return "['" + NumberOfEvents

@@ -163,6 +163,11 @@ namespace DarklandsBusinessObjects.Objects
         public int NumberOfItems
         {
             get { return GetWord(0x7e); }
+            set
+            {
+                SetWord(0x7e, value);
+                NotifyPropertyChanged();
+            }
         }
 
         public AttributeSet CurrentAttributes
