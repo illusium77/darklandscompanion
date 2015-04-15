@@ -48,9 +48,16 @@ namespace DarklandsBusinessObjects.Objects
             var dx = other.X - X;
             var dy = (other.Y - Y)*-1; // on map, y is inverted
 
-            var bearing = (Math.Atan2(dy, dx)*(180/Math.PI) + 360)%360;
+            var angle = (Math.Atan2(dy, dx)*(180/Math.PI) + 360)%360;
+            var bearing = Math.Round(angle / 45);
 
-            return (Bearing) (Math.Round(bearing/45));
+            if (bearing > 7)
+            {
+                // overflow from SE to E
+                bearing = 0;
+            }
+
+            return (Bearing)(bearing);
         }
 
         public override string ToString()
