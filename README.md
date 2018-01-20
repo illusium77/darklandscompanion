@@ -1,5 +1,5 @@
 # Project Description
-This application's purpose is to make Darklands game experience a bit more easier for today's gamers.
+This application's purpose is to make Darklands game experience a bit more easier for today's gamers. Project was recently migrated from http://darklandscompanion.codeplex.com/
 
 # Where is it?
 Download latest release as zip-file (Darklands Editor - v0.8.zip), extract and launch application.
