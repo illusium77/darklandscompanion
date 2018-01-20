@@ -1,6 +1,10 @@
 # Project Description
 This application's purpose is to make Darklands game experience a bit more easier for today's gamers.
-FAQ
+
+# Where is it?
+Download latest release as zip-file (Darklands Editor - v0.8.zip), extract and launch application.
+
+# FAQ
 Q: What is this project about?
 A: Read "features" chapter below
 
@@ -8,7 +12,7 @@ Q: What is Darklands
 A: Ancient but awesome RPG from Microprose with German medieval theme. Wikipedia
 
 Q: Where to get it?
-A: Here: Steam and Gog
+A: Steam and Gog
 
 Q: Does this tool work when I run game with Dosbox?
 A: It was designed to work with Dosbox (actually it probably won't work without it).
